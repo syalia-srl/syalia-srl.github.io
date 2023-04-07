@@ -1,20 +1,202 @@
----
-layout: default
----
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="home">
+<head>
+    <title>SYALIA - AI, Data Science & Business Analytics</title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
-  <h1>Posts</h1>
+<body class="text-gray-700 bg-white" style="font-family: 'Source Sans Pro', sans-serif">
+    <nav>
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a class="font-bold text-2xl lg:text-4xl" href="#">
+                <img src="img/logo.jpg" alt="" class="rounded-full w-16 h-16 inline"> SYALIA S.R.L.
+            </a>
+            <div class="block lg:hidden">
+                <button
+                    class="flex items-center px-3 py-2 border rounded text-gray-500 border-gray-600 hover:text-gray-800 hover:border-teal-500 appearance-none focus:outline-none">
+                    <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <title>Menu</title>
+                        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+                    </svg>
+                </button>
+            </div>
+            <div class="hidden lg:block">
+                <ul class="inline-flex">
+                    <li><a class="px-4 font-bold" href="/">Home</a></li>
+                    <li><a class="px-4 hover:text-gray-800" href="#about">About us</a></li>
+                    <li><a class="px-4 hover:text-gray-800" href="#services">Services</a></li>
+                    <li><a class="px-4 hover:text-gray-800" href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-  <ul class="posts">
-    {% for post in site.posts %}
-      <li>
-        <span class="post-date">{{ post.date | date: "%b %-d, %Y" }}</span>
-        <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-      </li>
-    {% endfor %}
-  </ul>
+    <div id="about" class="py-20 bg-gradient-to-r from-blue-400 to-blue-900">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold mb-2 text-white">
+                We are SYALIA
+            </h2>
+            <h3 class="text-2xl mb-8 text-gray-200">
+                A Cuban startup focusing on research and development of products and services
+                powered by Artificial Intelligence, Machine Learning, Data Science, Business Analytics, and more!
+            </h3>
 
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+            <button class="bg-white font-bold rounded-full py-4 px-8 shadow-lg uppercase tracking-wider">
+                <a href="#contact">
+                    Contact us
+                </a>
+            </button>
+        </div>
+    </div>
 
-</div>
+    <section id="services" class="container mx-auto px-6 p-10">
+        <h2 class="text-4xl font-bold text-center text-gray-800 mb-8">
+            Our services
+        </h2>
+
+        <div class="flex items-center flex-wrap mb-20">
+            <div class="w-full md:w-1/2">
+                <h4 class="text-3xl text-gray-800 font-bold mb-3">Integrate AI & ML in your portfolio</h4>
+                <p class="text-gray-600 mb-8">Do you want to integrate AI & Machine Learning into your products? We can
+                    develop custom solutions based on state-of-the-art technology for you. Fine-tune pre-trained models
+                    o create models from scratch based on your data, for vision, text, audio, and virtually anything.
+                    You can deploy our models on-premise in your own infrastructure, or we can host them for you.</p>
+            </div>
+            <div class="w-full md:w-1/2 px-20">
+                <img src="assets/ai.svg" alt="Development" />
+            </div>
+        </div>
+
+        <div class="flex items-center flex-wrap mb-20">
+            <div class="w-full md:w-1/2 px-20">
+                <img src="assets/platform.svg" alt="Development" />
+            </div>
+            <div class="w-full md:w-1/2">
+                <h4 class="text-3xl text-gray-800 font-bold mb-3">Use our Business Intelligence platform</h4>
+                <p class="text-gray-600 mb-8">
+                    Subscribe to our custom BI platform, connect your data sources, and get access
+                    to smart tools for product recommendations, customer prediction, churn analysis, market insights,
+                    and more.
+                </p>
+                <button
+                    class="bg-blue-800 text-white font-bold rounded-full py-4 px-8 shadow-lg uppercase tracking-wider">
+                    <a href="mailto:contact@syalia.com?subject=Interested in the BI platform">
+                        Interested in an offer?
+                    </a>
+            </button>
+            </div>
+        </div>
+
+        <div class="flex items-center flex-wrap mb-20">
+            <div class="w-full md:w-1/2">
+                <h4 class="text-3xl text-gray-800 font-bold mb-3">Organize & understand your own data</h4>
+                <p class="text-gray-600 mb-8">
+                    Get the most out of your own data.
+                    We can help you build an organization-wide data lake for your own business,
+                    and build custom dashboards, analytic tools, and reports, to make your business data transparent
+                    and help you make better decisions.
+                </p>
+            </div>
+            <div class="w-full md:w-1/2 px-20">
+                <img src="assets/data.svg" alt="Consultancy" />
+            </div>
+        </div>
+
+        <div class="flex items-center flex-wrap mb-20">
+            <div class="w-full md:w-1/2 px-20">
+                <img src="assets/report.svg" alt="Syncing" />
+            </div>
+            <div class="w-full md:w-1/2">
+                <h4 class="text-3xl text-gray-800 font-bold mb-3">Stay up-to-date in the latest AI trends</h4>
+                <p class="text-gray-600 mb-8">
+                    Surf above the hype, filter out the noise, and stay up-to-date with the latest trends in the AI
+                    industry.
+                    We can craft custom reports for your business domain and work with your team to get them up to speed
+                    with the best practices, standards, and tools used throughout your industry.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="bg-blue-900">
+        <div class="container mx-auto px-6 text-center py-20">
+            <h2 class="mb-6 text-4xl font-bold text-center text-white">
+                Contact us!
+            </h2>
+            <h3 class="my-4 text-2xl text-white">
+                Get access to domain experts in AI, Machine Learning, and Data Science, and improve your business today!
+            </h3>
+            <button
+                class="bg-white font-bold rounded-full mt-6 py-4 px-8 shadow-lg uppercase tracking-wider">
+                <a href="mailto:contact@syalia.com">
+                    Contact us
+                </a>
+            </button>
+        </div>
+    </section>
+
+    <footer class="bg-gray-100">
+        <div class="container mx-auto px-6 pt-10 pb-6">
+          <div class="flex flex-wrap">
+            <div class="w-full md:w-1/4 text-center md:text-left">
+              <h5 class="uppercase mb-6 font-bold">Links</h5>
+              <ul class="mb-4">
+                <li class="mt-2">
+                  <a href="#" class="hover:underline text-gray-600 hover:text-orange-500">FAQ</a>
+                </li>
+                <li class="mt-2">
+                  <a href="#" class="hover:underline text-gray-600 hover:text-orange-500">Help</a>
+                </li>
+                <li class="mt-2">
+                  <a href="#" class="hover:underline text-gray-600 hover:text-orange-500">Support</a>
+                </li>
+              </ul>
+            </div>
+            <div class="w-full md:w-1/4 text-center md:text-left">
+              <h5 class="uppercase mb-6 font-bold">Legal</h5>
+              <ul class="mb-4">
+                <li class="mt-2">
+                  <a href="#" class="hover:underline text-gray-600 hover:text-orange-500">Terms</a>
+                </li>
+                <li class="mt-2">
+                  <a href="#" class="hover:underline text-gray-600 hover:text-orange-500">Privacy</a>
+                </li>
+              </ul>
+            </div>
+            <div class="w-full md:w-1/4 text-center md:text-left">
+              <h5 class="uppercase mb-6 font-bold">Social</h5>
+              <ul class="mb-4">
+                <li class="mt-2">
+                  <a href="#" class="hover:underline text-gray-600 hover:text-orange-500">Facebook</a>
+                </li>
+                <li class="mt-2">
+                  <a href="#" class="hover:underline text-gray-600 hover:text-orange-500">Linkedin</a>
+                </li>
+                <li class="mt-2">
+                  <a href="#" class="hover:underline text-gray-600 hover:text-orange-500">Twitter</a>
+                </li>
+              </ul>
+            </div>
+            <div class="w-full md:w-1/4 text-center md:text-left">
+              <h5 class="uppercase mb-6 font-bold">Company</h5>
+              <ul class="mb-4">
+                <li class="mt-2">
+                  <a href="#" class="hover:underline text-gray-600 hover:text-orange-500">Official Blog</a>
+                </li>
+                <li class="mt-2">
+                  <a href="#" class="hover:underline text-gray-600 hover:text-orange-500">About Us</a>
+                </li>
+                <li class="mt-2">
+                  <a href="#" class="hover:underline text-gray-600 hover:text-orange-500">Contact</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </footer>
+</body>
+
+</html>
