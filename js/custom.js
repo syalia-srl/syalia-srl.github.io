@@ -43,5 +43,13 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
+
+    $('.mb-1>a').click(function () {
+        for (var j = 0; j < menu.length; j++) {
+            menu[j].classList.toggle('hidden');
+        }
+    });
 });
+
+
 
