@@ -1,192 +1,298 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="scroll-smooth" lang="en">
 
 <head>
+    <meta charset="utf-8">
     <title>SYALIA - AI, Data Science & Business Analytics</title>
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://releases.jquery.com/git/jquery-git.min.js"></script>
 </head>
 
 <body class="text-gray-700 bg-white" style="font-family: 'Source Sans Pro', sans-serif">
-    <nav>
+
+
+
+    <nav class="sticky top-0 bg-gradient-to-r from-[#343440] to-[#5281a3]">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a class="font-bold text-2xl lg:text-4xl" href="#">
-                <img src="/img/logo.jpg" alt="" class="rounded-full w-16 h-16 inline"> SYALIA S.R.L.
+            <a class="font-bold" href="#">
+                <img class="h-12" src="img/logo-title.png" alt="" class="inline">
             </a>
-            <div class="block lg:hidden">
-                <button
-                    class="flex items-center px-3 py-2 border rounded text-gray-500 border-gray-600 hover:text-gray-800 hover:border-teal-500 appearance-none focus:outline-none">
+            <div class="block lg:hidden xl:hidden">
+                <button id="menu-button"
+                    class="navbar-burger flex items-center px-3 py-2 border rounded text-white border-gray-600 hover:text-gray-800 hover:border-[#65b1e2] appearance-none focus:outline-none">
                     <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <title>Menu</title>
                         <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
                     </svg>
+                    <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                        aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
                 </button>
             </div>
-            <div class="hidden lg:block">
-                <ul class="inline-flex">
-                    <li><a class="px-4 font-bold" href="/">Home</a></li>
-                    <li><a class="px-4 hover:text-gray-800" href="#about">About us</a></li>
-                    <li><a class="px-4 hover:text-gray-800" href="#services">Services</a></li>
-                    <li><a class="px-4 hover:text-gray-800" href="#contact">Contact</a></li>
-                    <li><a class="px-4 hover:text-gray-800" href="/es">Español</a></li>
+            <div class="hidden lg:block xl:block" id="menu">
+                <ul class="inline-flex text-white text-2xl">
+                    <li><a class="px-4 font-bold hover:font-bold" href="#">Home</a></li>
+                    <li><a class="px-4 hover:font-bold" href="#services">Services</a></li>
+                    <li><a class="px-4 hover:font-bold" href="#team">Team</a></li>
+                    <li><a class="px-4 hover:font-bold" href="#contact">Contact</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div id="about" class="py-20 bg-gradient-to-r from-blue-400 to-blue-900">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold mb-2 text-white">
-                We are SYALIA
-            </h2>
-            <h3 class="text-2xl mb-8 text-gray-200">
-                A Cuban startup focusing on research and development of products and services
-                powered by Artificial Intelligence, Machine Learning, Data Science, Business Analytics, and more!
-            </h3>
-
-            <button class="bg-white font-bold rounded-full py-4 px-8 shadow-lg uppercase tracking-wider">
-                <a href="#contact">
-                    Contact us
+    <div class="navbar-menu relative z-50 hidden">
+        <div class="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>
+        <nav
+            class="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-4 px-6 bg-[#343440] border-r overflow-y-auto">
+            <div class="flex items-center mb-8">
+                <a class="mr-auto text-3xl font-bold leading-none" href="#">
+                    <img class="h-12" src="img/logo-title.png" alt="" class="inline">
                 </a>
-            </button>
-        </div>
-    </div>
-
-    <section id="services" class="container mx-auto px-6 p-10">
-        <h2 class="text-4xl font-bold text-center text-gray-800 mb-8">
-            Our services
-        </h2>
-
-        <div class="flex items-center flex-wrap mb-20">
-            <div class="w-full md:w-1/2">
-                <h4 class="text-3xl text-gray-800 font-bold mb-3">Integrate AI & ML in your portfolio</h4>
-                <p class="text-gray-600 mb-8">Do you want to integrate AI & Machine Learning into your products? We can
-                    develop custom solutions based on state-of-the-art technology for you. Fine-tune pre-trained models
-                    o create models from scratch based on your data, for vision, text, audio, and virtually anything.
-                    You can deploy our models on-premise in your own infrastructure, or we can host them for you.</p>
-            </div>
-            <div class="w-full md:w-1/2 px-20">
-                <img src="/assets/ai.svg" alt="Development" />
-            </div>
-        </div>
-
-        <div class="flex items-center flex-wrap mb-20">
-            <div class="w-full md:w-1/2 px-20">
-                <img src="/assets/platform.svg" alt="Development" />
-            </div>
-            <div class="w-full md:w-1/2">
-                <h4 class="text-3xl text-gray-800 font-bold mb-3">Use our Business Intelligence platform</h4>
-                <p class="text-gray-600 mb-8">
-                    Subscribe to our custom BI platform, connect your data sources, and get access
-                    to smart tools for product recommendations, customer prediction, churn analysis, market insights,
-                    and more.
-                </p>
-                <button
-                    class="bg-blue-800 text-white font-bold rounded-full py-4 px-8 shadow-lg uppercase tracking-wider">
-                    <a href="mailto:contact@syalia.com?subject=Interested in the BI platform">
-                        Interested in an offer?
-                    </a>
+                <button class="navbar-close">
+                    <svg class="h-6 w-6 text-gray-400 cursor-pointer hover:text-gray-500"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
                 </button>
             </div>
-        </div>
+            <div>
+                <ul>
+                    <li class="mb-1">
+                        <a class="block p-4 text-xl font-semibold text-gray-400 hover:bg-[#5281a3] hover:text-white rounded"
+                            href="#">Home</a>
+                    </li>
+                    <li class="mb-1">
+                        <a class="block p-4 text-xl font-semibold text-gray-400 hover:bg-[#5281a3] hover:text-white rounded"
+                            href="#services">Services</a>
+                    </li>
+                    <li class="mb-1">
+                        <a class="block p-4 text-xl font-semibold text-gray-400 hover:bg-[#5281a3] hover:text-white rounded"
+                            href="#team">Team</a>
+                    </li>
+                    <li class="mb-1">
+                        <a class="block p-4 text-xl font-semibold text-gray-400 hover:bg-[#5281a3] hover:text-white rounded"
+                            href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
 
-        <div class="flex items-center flex-wrap mb-20">
-            <div class="w-full md:w-1/2">
-                <h4 class="text-3xl text-gray-800 font-bold mb-3">Organize & understand your own data</h4>
-                <p class="text-gray-600 mb-8">
-                    Get the most out of your own data.
-                    We can help you build an organization-wide data lake for your own business,
-                    and build custom dashboards, analytic tools, and reports, to make your business data transparent
-                    and help you make better decisions.
-                </p>
-            </div>
-            <div class="w-full md:w-1/2 px-20">
-                <img src="/assets/data.svg" alt="Consultancy" />
-            </div>
-        </div>
+    <section id="about">
+        <div class="py-20 bg-gradient-to-r from-[#343440] to-[#5281a3]">
+            <div class="container mx-auto px-6 py-10">
+                <h2 class="text-4xl font-bold mb-2 text-white">
+                    We are SYALIA
+                </h2>
+                <h3 class="text-2xl mb-8 text-gray-200">
+                    A Cuban startup focusing on research and development of products and services
+                    powered by Artificial Intelligence, Machine Learning, Data Science, Business Analytics, and more!
+                </h3>
 
-        <div class="flex items-center flex-wrap mb-20">
-            <div class="w-full md:w-1/2 px-20">
-                <img src="/assets/report.svg" alt="Syncing" />
-            </div>
-            <div class="w-full md:w-1/2">
-                <h4 class="text-3xl text-gray-800 font-bold mb-3">Stay up-to-date in the latest AI trends</h4>
-                <p class="text-gray-600 mb-8">
-                    Surf above the hype, filter out the noise, and stay up-to-date with the latest trends in the AI
-                    industry.
-                    We can craft custom reports for your business domain and work with your team to get them up to speed
-                    with the best practices, standards, and tools used throughout your industry.
-                </p>
+                <a href="#contact">
+                    <button
+                        class="bg-white hover:bg-[#65b1e2] hover:text-white font-bold rounded-full py-4 px-8 shadow-lg uppercase tracking-wider">
+                        Contact us
+                    </button>
+                </a>
             </div>
         </div>
     </section>
 
-    <section id="team" class="bg-200">
-        <div class="container mx-auto px-6 text-center py-20">
+    <section id="services">
+        <div class="container mx-auto px-6 pt-20 pb-10">
+            <h2 class="text-4xl font-bold text-center text-gray-800 mb-8">
+                Our services
+            </h2>
+
+            <div class="flex items-center flex-wrap mb-20">
+                <div class="w-full md:w-1/2">
+                    <h4 class="text-center text-3xl text-gray-800 font-bold mb-3">Integrate AI & ML in your portfolio
+                    </h4>
+                    <p class="text-xl text-gray-600 mb-8">Do you want to integrate AI & Machine Learning into your
+                        products? We
+                        can
+                        develop custom solutions based on state-of-the-art technology for you. Fine-tune pre-trained
+                        models
+                        o create models from scratch based on your data, for vision, text, audio, and virtually
+                        anything.
+                        You can deploy our models on-premise in your own infrastructure, or we can host them for you.
+                    </p>
+                </div>
+                <div class="w-full md:w-1/2 md:px-20 lg:px-20 xl:px-20">
+                    <img src="assets/ai.svg" alt="Development" />
+                </div>
+            </div>
+
+            <div class="flex items-center flex-wrap mb-20">
+                <div class="hidden md:block sm:hidden xl:block lg:block w-full md:w-1/2 px-20">
+                    <img src="assets/platform.svg" alt="Development" />
+                </div>
+                <div class="w-full md:w-1/2">
+                    <h4 class="text-center text-3xl text-gray-800 font-bold mb-3">Use our Business Intelligence platform
+                    </h4>
+                    <p class="text-xl text-gray-600 mb-8">
+                        Try our custom BI platform, connect your data sources, and get access
+                        to smart tools for product recommendations, customer prediction, churn analysis, market
+                        insights,
+                        and more.
+                    </p>
+                    <div class="text-center sm:mb-4">
+                        <a href="mailto:contact@syalia.com?subject=Interested in the BI platform">
+                            <button
+                                class="bg-[#65b1e2] hover:bg-[#5281a3] text-white font-bold rounded-full py-4 px-8 shadow-lg uppercase tracking-wider">
+                                Interested in an offer?
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <div class="md:hidden sm:block lg:hidden xl:hidden w-full pt-5 md:w-1/2 md:px-20 lg:px-20 xl:px-20">
+                    <img src="assets/platform.svg" alt="Development" />
+                </div>
+            </div>
+
+            <div class="flex items-center flex-wrap mb-20">
+                <div class="w-full md:w-1/2">
+                    <h4 class="text-center text-3xl text-gray-800 font-bold mb-3">Organize & understand your own data
+                    </h4>
+                    <p class="text-xl text-gray-600 mb-8">
+                        Get the most out of your own data.
+                        We can help you build an organization-wide data lake for your own business,
+                        and build custom dashboards, analytic tools, and reports, to make your business data transparent
+                        and help you make better decisions.
+                    </p>
+                </div>
+                <div class="w-full md:w-1/2 md:px-20 lg:px-20 xl:px-20">
+                    <img src="assets/data.svg" alt="Consultancy" />
+                </div>
+            </div>
+
+            <div class="flex items-center flex-wrap mb-20">
+                <div class="hidden md:block sm:hidden xl:block lg:block w-full md:w-1/2 px-20">
+                    <img src="assets/report.svg" alt="Syncing" />
+                </div>
+                <div class="w-full md:w-1/2">
+                    <h4 class="text-center text-3xl text-gray-800 font-bold mb-3">Stay up-to-date in the latest AI
+                        trends</h4>
+                    <p class="text-xl text-gray-600 mb-8">
+                        Surf above the hype, filter out the noise, and stay up-to-date with the latest trends in the AI
+                        industry.
+                        We can craft custom reports for your business domain and work with your team to get them up to
+                        speed
+                        with the best practices, standards, and tools used throughout your industry.
+                    </p>
+                </div>
+                <div class=" md:hidden sm:block lg:hidden xl:hidden w-full md:w-1/2 md:px-20 lg:px-20 xl:px-20">
+                    <img src="assets/report.svg" alt="Syncing" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="trusting">
+        <div class="bg-gray-200 w-full py-20">
+            <div class="mx-auto px-6">
+                <h2 class="text-center text-lg font-semibold leading-8 text-gray-900">Trusted by</h2>
+                <div
+                    class="mx-auto  grid md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4  sm:grid-cols-1 gap-2 flex flex-wrap items-center">
+                    <div class="w-full">
+                        <img class="max-h-24 py-4 w-full object-contain " src="img/clients/dofleini-logo.svg"
+                            alt="Dofleini">
+                    </div>
+                    <div class="w-full">
+                        <img class="max-h-24 py-4 w-full object-contain " src="img/clients/logo-deepdata.png"
+                            alt="Tuple">
+                    </div>
+                    <div class="w-full">
+                        <img class="max-h-32 py-4 w-full object-contain " src="img/clients/logo-postdataclub.png"
+                            alt="Postdata.club">
+                    </div>
+                    <div class="w-full">
+                        <img class="max-h-24 py-4 w-full object-contain " src="img/clients/logo-tecnomatica.png"
+                            alt="Tecnomatica">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="team">
+        <div class="container mx-auto px-6 text-left py-20 bg-200">
             <h2 class="text-4xl font-bold text-center text-gray-800 mb-8">
                 Who are we?
             </h2>
 
-            <h3 class="text-2xl mb-10">We are a team of PhDs in Computer Science with a vast experience researching and
-                developing AI and Machine Learning solutions.
-                <br>
-                We work with elite Computer Science graduates, PhD students, and other professionals that excel at their
-                work.
+            <h3 class="text-2xl mb-8">We are a team of PhDs in Computer Science with a vast experience researching and
+                developing AI and Machine Learning solutions. We work with elite Computer Science graduates, PhD
+                students, and other professionals that excel at their work.
             </h3>
 
             <div class="flex items-center text-center flex-wrap mb-20">
                 <div class="w-full md:w-1/3 px-10">
+                    <img src="/img/team/1.jpg" class="mb-5 rounded-full inline" alt="">
+
                     <h3 class="text-2xl font-bold text-gray-800">
-                        Yudivian Almeida Cruz, Ph.D.
+                        Yudivián Almeida Cruz, Ph.D.
                     </h3>
-                    <h3 class="text-2xl text-gray-700 mb-5">
-                        Chief Executive Officer
+                    <h3 class="text-xl text-gray-700 mb-5">
+                        Cofounder - Chief Executive Officer
                     </h3>
 
-                    <img src="/img/team/1.jpg" class="rounded-full inline" alt="">
+
                 </div>
                 <div class="w-full  md:w-1/3 px-10">
+                    <img src="/img/team/2.jpg" class="mb-5 rounded-full inline" alt="">
+
                     <h3 class="text-2xl font-bold text-gray-800">
                         Suilan Estévez Velarde, Ph.D.
                     </h3>
-                    <h3 class="text-2xl text-gray-700 mb-5">
-                        Chief Operations Officer
+                    <h3 class="text-xl text-gray-700 mb-5">
+                        Cofounder - Chief Operations Officer
                     </h3>
-                    <img src="/img/team/2.jpg" class="rounded-full inline" alt="">
+
                 </div>
                 <div class="w-full  md:w-1/3 px-10">
+                    <img src="/img/team/3.jpg" class="mb-5 rounded-full inline" alt="">
+
                     <h3 class="text-2xl font-bold text-gray-800">
                         Alejandro Piad Morffis, Ph.D.
                     </h3>
-                    <h3 class="text-2xl text-gray-700 mb-5">
-                        Chief Technical Officer
+                    <h3 class="text-xl text-gray-700 mb-5">
+                        Cofounder - Chief Technical Officer
                     </h3>
-                    <img src="/img/team/3.jpg" class="rounded-full inline" alt="">
+
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="contact" class="bg-blue-900">
-        <div class="container mx-auto px-6 text-center py-20">
-            <h2 class="mb-6 text-4xl font-bold text-center text-white">
-                Contact us!
-            </h2>
-            <h3 class="my-4 text-2xl text-white">
-                Get access to domain experts in AI, Machine Learning, and Data Science, and improve your business today!
-            </h3>
-            <button class="bg-white font-bold rounded-full mt-6 py-4 px-8 shadow-lg uppercase tracking-wider">
+    <section id="contact">
+        <div class="text-center py-20 bg-[#5281a3] w-full">
+            <div class="container mx-auto px-6">
+                <h2 class="mb-6 text-4xl font-bold text-center text-white">
+                    Contact us!
+                </h2>
+                <h3 class="my-4 text-2xl text-white">
+                    Get access to domain experts in AI, Machine Learning, and Data Science, and improve your business
+                    today!
+                </h3>
                 <a href="mailto:contact@syalia.com">
-                    Contact us
+                    <button
+                        class="bg-white hover:bg-[#65b1e2] hover:text-white font-bold rounded-full mt-6 py-4 px-8 shadow-lg uppercase tracking-wider">
+                        Contact us
+                    </button>
                 </a>
-            </button>
+            </div>
         </div>
     </section>
 
-    <footer class="bg-gray-100">
+    <footer class="bg-[#343440]">
         <div class="container mx-auto px-6 pt-10 pb-6">
-            <div class="flex flex-wrap">
+            <!-- <div class="flex flex-wrap">
                 <div class="w-full md:w-1/4 text-center md:text-left">
                     <h5 class="uppercase mb-6 font-bold">Links</h5>
                     <ul class="mb-4">
@@ -240,9 +346,20 @@
                         </li>
                     </ul>
                 </div>
+            </div> -->
+            <div class="flex items-center flex-wrap">
+                <div class="w-full text-center">
+                    <a class="font-bold" href="#">
+                        <img class="h-16 inline" src="img/logo-blue-only-icon.png" alt="">
+                    </a>
+                    <h2 class="text-xl mt-2 mb-2 text-gray-400">
+                        Copyright © 2023 SYALIA S.R.L.
+                    </h2>
+                </div>
             </div>
         </div>
     </footer>
 </body>
+<script src="js/custom.js"></script>
 
 </html>
