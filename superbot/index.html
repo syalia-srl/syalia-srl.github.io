@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class=""> <!-- Added class for dark mode hook -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,17 +18,26 @@
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
         /* Base font */
         body {
             font-family: 'Inter', sans-serif;
         }
+
         /* Style for the language toggle */
-        .toggle-checkbox:checked + .toggle-label {
-            background-color: #34D399; /* emerald-400 */
+        .toggle-checkbox:checked+.toggle-label {
+            background-color: #34D399;
+            /* emerald-400 */
         }
-        .toggle-checkbox:checked + .toggle-label::after {
-            transform: translateX(1rem); /* 16px - Changed from 100% for symmetry */
+
+        .toggle-checkbox:checked+.toggle-label::after {
+            transform: translateX(1rem);
+            /* 16px - Changed from 100% for symmetry */
         }
+
         .toggle-label::after {
             content: '';
             position: absolute;
@@ -50,20 +60,42 @@
         }
     </script>
 </head>
+
 <body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 antialiased">
 
     <!-- Header / Navigation -->
     <nav class="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     <img class="h-10 w-auto rounded-full" src="/img/logo.jpg" alt="Superbot by Syalia, S.R.L.">
                 </div>
 
-                <!-- Toggles Wrapper -->
+                <div class="hidden md:flex md:space-x-8 ml-10">
+                    <a href="#features" class="font-medium text-gray-600 dark:text-gray-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors" data-lang="en">Features</a>
+                    <a href="#features" class="font-medium text-gray-600 dark:text-gray-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors" data-lang="es" style="display: none;">Funciones</a>
+
+                    <a href="#use-cases" class="font-medium text-gray-600 dark:text-gray-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors" data-lang="en">Use Cases</a>
+                    <a href="#use-cases" class="font-medium text-gray-600 dark:text-gray-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors" data-lang="es" style="display: none;">Casos de Uso</a>
+
+                    <a href="#models" class="font-medium text-gray-600 dark:text-gray-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors" data-lang="en">Models</a>
+                    <a href="#models" class="font-medium text-gray-600 dark:text-gray-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors" data-lang="es" style="display: none;">Modelos</a>
+
+                    <a href="#security" class="font-medium text-gray-600 dark:text-gray-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors" data-lang="en">Security</a>
+                    <a href="#security" class="font-medium text-gray-600 dark:text-gray-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors" data-lang="es" style="display: none;">Seguridad</a>
+
+                    <a href="#faq" class="font-medium text-gray-600 dark:text-gray-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors" data-lang="en">FAQ</a>
+                    <a href="#faq" class="font-medium text-gray-600 dark:text-gray-300 hover:text-emerald-500 dark:hover:text-emerald-4odlmer-400 transition-colors" data-lang="es" style="display: none;">Preguntas</a>
+                </div>
+
                 <div class="flex items-center space-x-4">
-                    <!-- Language Toggle -->
+                    <a href="mailto:contact@syalia.com" target="_blank" class="hidden md:inline-flex items-center bg-emerald-500 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700 transition duration-300 text-sm" data-lang="en">
+                        Request a Demo
+                    </a>
+                    <a href="mailto:contact@syalia.com" target="_blank" class="hidden md:inline-flex items-center bg-emerald-500 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700 transition duration-300 text-sm" data-lang="es" style="display: none;">
+                        Solicitar Demo
+                    </a>
+
                     <div class="flex items-center space-x-2">
                         <span class="font-medium text-sm text-gray-700 dark:text-gray-300">EN</span>
                         <div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
@@ -73,10 +105,39 @@
                         <span class="font-medium text-sm text-gray-700 dark:text-gray-300">ES</span>
                     </div>
 
-                    <!-- Dark Mode Toggle -->
                     <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 rounded-full p-1">
                         <span class="material-icons" id="theme-icon">light_mode</span>
                     </button>
+
+                    <button id="mobile-menu-button" class="md:hidden text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 rounded-full p-1">
+                        <span class="material-icons" id="mobile-menu-icon">menu</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="mobile-menu" class="hidden md:hidden">
+                <div class="py-4 space-y-3 border-t border-gray-200 dark:border-gray-700">
+                    <a href="#features" class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" data-lang="en">Features</a>
+                    <a href="#features" class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" data-lang="es" style="display: none;">Funciones</a>
+
+                    <a href="#use-cases" class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" data-lang="en">Use Cases</a>
+                    <a href="#use-cases" class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" data-lang="es" style="display: none;">Casos de Uso</a>
+
+                    <a href="#models" class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" data-lang="en">Models</a>
+                    <a href="#models" class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" data-lang="es" style="display: none;">Modelos</a>
+
+                    <a href="#security" class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" data-lang="en">Security</a>
+                    <a href="#security" class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" data-lang="es" style="display: none;">Seguridad</a>
+
+                    <a href="#faq" class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" data-lang="en">FAQ</a>
+                    <a href="#faq" class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" data-lang="es" style="display: none;">Preguntas</a>
+
+                    <a href="mailto:contact@syalia.com" target="_blank" class="block w-full text-center bg-emerald-500 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700 transition duration-300" data-lang="en">
+                        Request a Demo
+                    </a>
+                    <a href="mailto:contact@syalia.com" target="_blank" class="block w-full text-center bg-emerald-500 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700 transition duration-300" data-lang="es" style="display: none;">
+                        Solicitar Demo
+                    </a>
                 </div>
             </div>
         </div>
@@ -93,11 +154,13 @@
                     Secure, all-in-one AI assistant for enterprise productivity.
                 </p>
                 <div class="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
-                    <a href="#features" class="inline-flex items-center justify-center bg-emerald-500 text-white font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700 transition duration-300 w-full sm:w-auto">
+                    <a href="#features"
+                        class="inline-flex items-center justify-center bg-emerald-500 text-white font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700 transition duration-300 w-full sm:w-auto">
                         <span class="material-icons mr-2">explore</span>
                         <span>Discover Features</span>
                     </a>
-                    <a href="mailto:contact@syalia.com" class="inline-flex items-center justify-center bg-gray-200 text-gray-800 font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600 transition duration-300 w-full sm:w-auto">
+                    <a href="mailto:contact@syalia.com"
+                        class="inline-flex items-center justify-center bg-gray-200 text-gray-800 font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600 transition duration-300 w-full sm:w-auto">
                         <span class="material-icons mr-2">ondemand_video</span>
                         <span>Request a Demo</span>
                     </a>
@@ -111,11 +174,13 @@
                     IA segura, todo-en-uno para la productividad empresarial.
                 </p>
                 <div class="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
-                    <a href="#features" class="inline-flex items-center justify-center bg-emerald-500 text-white font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700 transition duration-300 w-full sm:w-auto">
+                    <a href="#features"
+                        class="inline-flex items-center justify-center bg-emerald-500 text-white font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700 transition duration-300 w-full sm:w-auto">
                         <span class="material-icons mr-2">explore</span>
                         <span>Descubre las Funciones</span>
                     </a>
-                    <a href="mailto:contact@syalia.com" class="inline-flex items-center justify-center bg-gray-200 text-gray-800 font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600 transition duration-300 w-full sm:w-auto">
+                    <a href="mailto:contact@syalia.com"
+                        class="inline-flex items-center justify-center bg-gray-200 text-gray-800 font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600 transition duration-300 w-full sm:w-auto">
                         <span class="material-icons mr-2">ondemand_video</span>
                         <span>Solicitar una Demo</span>
                     </a>
@@ -123,7 +188,8 @@
             </div>
 
             <div class="mt-12 sm:mt-16">
-                <img class="rounded-xl shadow-2xl ring-1 ring-gray-900/10 dark:ring-white/10 mx-auto" src="/img/superbot.png" alt="Superbot application screenshot">
+                <img class="rounded-xl shadow-2xl ring-1 ring-gray-900/10 dark:ring-white/10 mx-auto"
+                    src="/img/superbot.png" alt="Superbot application screenshot">
             </div>
         </div>
     </header>
@@ -150,87 +216,269 @@
 
             <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-gray-50 dark:hover:bg-gray-700">
+                <div
+                    class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-gray-50 dark:hover:bg-gray-700">
                     <div class="flex-shrink-0">
-                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white">
                             <span class="material-icons">auto_awesome</span>
                         </div>
                     </div>
                     <div class="mt-4">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">General Purpose Assistant</h3>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Asistente de Propósito General</h3>
-                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Your go-to AI for answering questions, drafting emails, and summarizing text.</p>
-                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Tu IA de referencia para responder preguntas, redactar correos y resumir textos.</p>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">General Purpose
+                            Assistant</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es"
+                            style="display: none;">Asistente de Propósito General</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Your go-to AI for
+                            answering questions, drafting emails, and summarizing text.</p>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es"
+                            style="display: none;">Tu IA de referencia para responder preguntas, redactar correos y
+                            resumir textos.</p>
                     </div>
                 </div>
 
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-gray-50 dark:hover:bg-gray-700">
+                <div
+                    class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-gray-50 dark:hover:bg-gray-700">
                     <div class="flex-shrink-0">
-                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white">
                             <span class="material-icons">article</span>
                         </div>
                     </div>
                     <div class="mt-4">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Integrated Knowledge Base</h3>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Base de Conocimiento Integrada</h3>
-                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Securely connect your private documents and data to get answers based on your information.</p>
-                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Conecta de forma segura tus documentos y datos privados para obtener respuestas basadas en tu información.</p>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Integrated
+                            Knowledge Base</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es"
+                            style="display: none;">Base de Conocimiento Integrada</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Securely connect your
+                            private documents and data to get answers based on your information.</p>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es"
+                            style="display: none;">Conecta de forma segura tus documentos y datos privados para obtener
+                            respuestas basadas en tu información.</p>
                     </div>
                 </div>
 
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-gray-50 dark:hover:bg-gray-700">
+                <div
+                    class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-gray-50 dark:hover:bg-gray-700">
                     <div class="flex-shrink-0">
-                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white">
                             <span class="material-icons">link</span>
                         </div>
                     </div>
                     <div class="mt-4">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Connect via MCP</h3>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Conecta vía MCP</h3>
-                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Link to external tools and resources using the Model Context Protocol (MCP).</p>
-                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Enlaza con herramientas y recursos externos usando el Protocolo de Contexto de Modelo (MCP).</p>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Connect via MCP
+                        </h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es"
+                            style="display: none;">Conecta vía MCP</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Link to external tools
+                            and resources using the Model Context Protocol (MCP).</p>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es"
+                            style="display: none;">Enlaza con herramientas y recursos externos usando el Protocolo de
+                            Contexto de Modelo (MCP).</p>
                     </div>
                 </div>
 
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-gray-50 dark:hover:bg-gray-700">
+                <div
+                    class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-gray-50 dark:hover:bg-gray-700">
                     <div class="flex-shrink-0">
-                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white">
                             <span class="material-icons">smart_toy</span>
                         </div>
                     </div>
                     <div class="mt-4">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Custom Agents</h3>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Agentes Personalizados</h3>
-                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Create and share specialized agents for specific tasks using simple prompts.</p>
-                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Crea y comparte agentes especializados para tareas específicas usando prompts simples.</p>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Custom Agents
+                        </h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es"
+                            style="display: none;">Agentes Personalizados</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Create and share
+                            specialized agents for specific tasks using simple prompts.</p>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es"
+                            style="display: none;">Crea y comparte agentes especializados para tareas específicas usando
+                            prompts simples.</p>
                     </div>
                 </div>
 
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-gray-50 dark:hover:bg-gray-700">
+                <div
+                    class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-gray-50 dark:hover:bg-gray-700">
                     <div class="flex-shrink-0">
-                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white">
                             <span class="material-icons">calendar_month</span>
                         </div>
                     </div>
                     <div class="mt-4">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Schedule Ongoing Tasks</h3>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Programa Tareas Recurrentes</h3>
-                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Automate your workflows by scheduling agents to run tasks on a recurring basis.</p>
-                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Automatiza tus flujos de trabajo programando agentes para ejecutar tareas de forma recurrente.</p>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Schedule Ongoing
+                            Tasks</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es"
+                            style="display: none;">Programa Tareas Recurrentes</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Automate your
+                            workflows by scheduling agents to run tasks on a recurring basis.</p>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es"
+                            style="display: none;">Automatiza tus flujos de trabajo programando agentes para ejecutar
+                            tareas de forma recurrente.</p>
                     </div>
                 </div>
 
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-gray-50 dark:hover:bg-gray-700">
+                <div
+                    class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-gray-50 dark:hover:bg-gray-700">
                     <div class="flex-shrink-0">
-                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white">
                             <span class="material-icons">file_present</span>
                         </div>
                     </div>
                     <div class="mt-4">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Read & Generate Documents</h3>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Lee y Genera Documentos</h3>
-                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Works with any format: Word, PowerPoint, PDF, Excel, XML, and more.</p>
-                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Trabaja con cualquier formato: Word, PowerPoint, PDF, Excel, XML y más.</p>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Read & Generate
+                            Documents</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es"
+                            style="display: none;">Lee y Genera Documentos</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Works with any format:
+                            Word, PowerPoint, PDF, Excel, XML, and more.</p>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es"
+                            style="display: none;">Trabaja con cualquier formato: Word, PowerPoint, PDF, Excel, XML y
+                            más.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <section id="use-cases" class="py-16 sm:py-24 bg-white dark:bg-gray-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div data-lang="en" class="text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
+                    Built for Every Role
+                </h2>
+                <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
+                    Superbot enhances productivity across your entire organization.
+                </p>
+            </div>
+            <div data-lang="es" style="display: none;" class="text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
+                    Creado para Cada Rol
+                </h2>
+                <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
+                    Superbot mejora la productividad en toda tu organización.
+                </p>
+            </div>
+
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+                <div
+                    class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-white dark:hover:bg-gray-800">
+                    <div class="flex-shrink-0">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white">
+                            <span class="material-icons">data_object</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">For Developers
+                        </h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es"
+                            style="display: none;">Para Desarrolladores</h3>
+
+                        <ul class="mt-2 text-base text-gray-600 dark:text-gray-300 space-y-2 list-disc list-inside text-left"
+                            data-lang="en">
+                            <li>Generate boilerplate code in seconds.</li>
+                            <li>Draft documentation and code comments.</li>
+                            <li>Debug errors and refactor functions.</li>
+                        </ul>
+                        <ul class="mt-2 text-base text-gray-600 dark:text-gray-300 space-y-2 list-disc list-inside text-left"
+                            data-lang="es" style="display: none;">
+                            <li>Genera código boilerplate en segundos.</li>
+                            <li>Redacta documentación y comentarios.</li>
+                            <li>Depura errores y refactoriza funciones.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-white dark:hover:bg-gray-800">
+                    <div class="flex-shrink-0">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white">
+                            <span class="material-icons">campaign</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">For Marketing
+                        </h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es"
+                            style="display: none;">Para Marketing</h3>
+
+                        <ul class="mt-2 text-base text-gray-600 dark:text-gray-300 space-y-2 list-disc list-inside text-left"
+                            data-lang="en">
+                            <li>Draft ad copy and blog posts.</li>
+                            <li>Summarize market research reports.</li>
+                            <li>Personalize email campaigns at scale.</li>
+                        </ul>
+                        <ul class="mt-2 text-base text-gray-600 dark:text-gray-300 space-y-2 list-disc list-inside text-left"
+                            data-lang="es" style="display: none;">
+                            <li>Redacta copias de anuncios y blogs.</li>
+                            <li>Resume reportes de mercado.</li>
+                            <li>Personaliza campañas de email a escala.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-white dark:hover:bg-gray-800">
+                    <div class="flex-shrink-0">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white">
+                            <span class="material-icons">gavel</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">For Legal</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es"
+                            style="display: none;">Para Legal</h3>
+
+                        <ul class="mt-2 text-base text-gray-600 dark:text-gray-300 space-y-2 list-disc list-inside text-left"
+                            data-lang="en">
+                            <li>Analyze contracts and summarize key clauses.</li>
+                            <li>Query precedents from internal documents.</li>
+                            <li>Check communications for compliance.</li>
+                        </ul>
+                        <ul class="mt-2 text-base text-gray-600 dark:text-gray-300 space-y-2 list-disc list-inside text-left"
+                            data-lang="es" style="display: none;">
+                            <li>Analiza contratos y resume cláusulas.</li>
+                            <li>Consulta precedentes en documentos.</li>
+                            <li>Verifica el cumplimiento en comunicaciones.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-white dark:hover:bg-gray-800">
+                    <div class="flex-shrink-0">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white">
+                            <span class="material-icons">support_agent</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">For Support</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es"
+                            style="display: none;">Para Soporte</h3>
+
+                        <ul class="mt-2 text-base text-gray-600 dark:text-gray-300 space-y-2 list-disc list-inside text-left"
+                            data-lang="en">
+                            <li>Get instant answers from knowledge bases.</li>
+                            <li>Summarize long customer tickets or chats.</li>
+                            <li>Draft polite and helpful customer replies.</li>
+                        </ul>
+                        <ul class="mt-2 text-base text-gray-600 dark:text-gray-300 space-y-2 list-disc list-inside text-left"
+                            data-lang="es" style="display: none;">
+                            <li>Obtén respuestas de bases de datos.</li>
+                            <li>Resume largos tickets de clientes o chats.</li>
+                            <li>Redacta respuestas amables a clientes.</li>
+                        </ul>
                     </div>
                 </div>
 
@@ -269,14 +517,19 @@
                     <div>
                         <div class="flex items-center">
                             <span class="material-icons text-emerald-500 dark:text-emerald-400 text-3xl">dns</span>
-                            <h3 class="ml-3 text-xl font-semibold text-gray-900 dark:text-white" data-lang="en">Local Inference Engines</h3>
-                            <h3 class="ml-3 text-xl font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Motores de Inferencia Local</h3>
+                            <h3 class="ml-3 text-xl font-semibold text-gray-900 dark:text-white" data-lang="en">Local
+                                Inference Engines</h3>
+                            <h3 class="ml-3 text-xl font-semibold text-gray-900 dark:text-white" data-lang="es"
+                                style="display: none;">Motores de Inferencia Local</h3>
                         </div>
                         <p class_name="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">
-                            Fully compatible with local engines like <strong>vLLM, LM Studio, Ollama</strong>, and any other self-hosted solution.
+                            Fully compatible with local engines like <strong>vLLM, LM Studio, Ollama</strong>, and any
+                            other self-hosted solution.
                         </p>
-                        <p class_name="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">
-                            Totalmente compatible con motores locales como <strong>vLLM, LM Studio, Ollama</strong> y cualquier otra solución autoalojada.
+                        <p class_name="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es"
+                            style="display: none;">
+                            Totalmente compatible con motores locales como <strong>vLLM, LM Studio, Ollama</strong> y
+                            cualquier otra solución autoalojada.
                         </p>
                     </div>
 
@@ -284,30 +537,39 @@
                     <div>
                         <div class="flex items-center">
                             <span class="material-icons text-emerald-500 dark:text-emerald-400 text-3xl">api</span>
-                            <h3 class="ml-3 text-xl font-semibold text-gray-900 dark:text-white" data-lang="en">Any API Vendor</h3>
-                            <h3 class="ml-3 text-xl font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Cualquier Proveedor de API</h3>
+                            <h3 class="ml-3 text-xl font-semibold text-gray-900 dark:text-white" data-lang="en">Any API
+                                Vendor</h3>
+                            <h3 class="ml-3 text-xl font-semibold text-gray-900 dark:text-white" data-lang="es"
+                                style="display: none;">Cualquier Proveedor de API</h3>
                         </div>
                         <p class_name="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">
                             Connect to any external LLM provider via API. You are not locked into any single vendor.
                         </p>
-                        <p class_name="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">
-                            Conéctate a cualquier proveedor externo de LLM a través de API. No estás atado a un solo proveedor.
+                        <p class_name="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es"
+                            style="display: none;">
+                            Conéctate a cualquier proveedor externo de LLM a través de API. No estás atado a un solo
+                            proveedor.
                         </p>
                     </div>
                 </div>
 
                 <!-- Right Column: SYALIA Option -->
                 <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg dark:shadow-2xl text-center">
-                    <div class="flex items-center justify-center h-16 w-16 rounded-full bg-emerald-100 dark:bg-emerald-900 text-emerald-600 dark:text-emerald-400 mx-auto">
+                    <div
+                        class="flex items-center justify-center h-16 w-16 rounded-full bg-emerald-100 dark:bg-emerald-900 text-emerald-600 dark:text-emerald-400 mx-auto">
                         <span class="material-icons text-4xl">vpn_key</span>
                     </div>
-                    <h3 class="mt-6 text-2xl font-semibold text-gray-900 dark:text-white" data-lang="en">Managed Tokens by SYALIA</h3>
-                    <h3 class="mt-6 text-2xl font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Tokens Gestionados por SYALIA</h3>
+                    <h3 class="mt-6 text-2xl font-semibold text-gray-900 dark:text-white" data-lang="en">Managed Tokens
+                        by SYALIA</h3>
+                    <h3 class="mt-6 text-2xl font-semibold text-gray-900 dark:text-white" data-lang="es"
+                        style="display: none;">Tokens Gestionados por SYALIA</h3>
                     <p class="mt-4 text-base text-gray-600 dark:text-gray-300" data-lang="en">
-                        Don't want to manage your own models or APIs? SYALIA can provide you with tokens for seamless, high-performance access.
+                        Don't want to manage your own models or APIs? SYALIA can provide you with tokens for seamless,
+                        high-performance access.
                     </p>
                     <p class="mt-4 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">
-                        ¿No quieres gestionar tus propios modelos o APIs? SYALIA puede proporcionarte tokens para un acceso fluido y de alto rendimiento.
+                        ¿No quieres gestionar tus propios modelos o APIs? SYALIA puede proporcionarte tokens para un
+                        acceso fluido y de alto rendimiento.
                     </p>
                 </div>
             </div>
@@ -337,45 +599,66 @@
 
             <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
 
-                <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg shadow-lg dark:shadow-2xl text-center transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-white dark:hover:bg-gray-800">
+                <div
+                    class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg shadow-lg dark:shadow-2xl text-center transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-white dark:hover:bg-gray-800">
                     <div class="flex-shrink-0">
-                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white mx-auto">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white mx-auto">
                             <span class="material-icons">computer</span>
                         </div>
                     </div>
                     <div class="mt-4">
-                        <h3 class_name="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Local Computer</h3>
-                        <h3 class_name="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Computadora Local</h3>
-                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Perfect for individual use and maximum privacy. Your data never leaves your machine.</p>
-                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Perfecto para uso individual y máxima privacidad. Tus datos nunca salen de tu máquina.</p>
+                        <h3 class_name="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Local
+                            Computer</h3>
+                        <h3 class_name="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es"
+                            style="display: none;">Computadora Local</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Perfect for individual
+                            use and maximum privacy. Your data never leaves your machine.</p>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es"
+                            style="display: none;">Perfecto para uso individual y máxima privacidad. Tus datos nunca
+                            salen de tu máquina.</p>
                     </div>
                 </div>
 
-                <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg shadow-lg dark:shadow-2xl text-center transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-white dark:hover:bg-gray-800">
+                <div
+                    class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg shadow-lg dark:shadow-2xl text-center transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-white dark:hover:bg-gray-800">
                     <div class="flex-shrink-0">
-                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white mx-auto">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white mx-auto">
                             <span class="material-icons">corporate_fare</span>
                         </div>
                     </div>
                     <div class="mt-4">
-                        <h3 class_name="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Enterprise Network</h3>
-                        <h3 class_name="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Red Empresarial</h3>
-                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Deploy on-premise within your organization's firewall for secure team collaboration.</p>
-                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Despliega on-premise dentro del firewall de tu organización para una colaboración segura.</p>
+                        <h3 class_name="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Enterprise
+                            Network</h3>
+                        <h3 class_name="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es"
+                            style="display: none;">Red Empresarial</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Deploy on-premise
+                            within your organization's firewall for secure team collaboration.</p>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es"
+                            style="display: none;">Despliega on-premise dentro del firewall de tu organización para una
+                            colaboración segura.</p>
                     </div>
                 </div>
 
-                <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg shadow-lg dark:shadow-2xl text-center transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-white dark:hover:bg-gray-800">
+                <div
+                    class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg shadow-lg dark:shadow-2xl text-center transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-white dark:hover:bg-gray-800">
                     <div class="flex-shrink-0">
-                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white mx-auto">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white mx-auto">
                             <span class="material-icons">cloud_queue</span>
                         </div>
                     </div>
                     <div class="mt-4">
-                        <h3 class_name="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">SYALIA's Cloud</h3>
-                        <h3 class_name="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Nube de SYALIA</h3>
-                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">A fully managed, hassle-free solution hosted by us, ensuring robust security and uptime.</p>
-                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Una solución totalmente gestionada y sin complicaciones, alojada por nosotros.</p>
+                        <h3 class_name="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">SYALIA's
+                            Cloud</h3>
+                        <h3 class_name="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es"
+                            style="display: none;">Nube de SYALIA</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">A fully managed,
+                            hassle-free solution hosted by us, ensuring robust security and uptime.</p>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es"
+                            style="display: none;">Una solución totalmente gestionada y sin complicaciones, alojada por
+                            nosotros.</p>
                     </div>
                 </div>
 
@@ -395,7 +678,8 @@
                         Get in touch to see how Superbot can transform your enterprise.
                     </p>
                     <br>
-                    <a href="mailto:contact@syalia.com" target="_blank" class="inline-flex items-center justify-center bg-gray-200 text-gray-800 font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600 transition duration-300 w-full sm:w-auto">
+                    <a href="mailto:contact@syalia.com" target="_blank"
+                        class="inline-flex items-center justify-center bg-gray-200 text-gray-800 font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600 transition duration-300 w-full sm:w-auto">
                         <span class="material-icons mr-2">ondemand_video</span>
                         <span>Request a Demo</span>
                     </a>
@@ -409,10 +693,121 @@
                         Ponte en contacto para ver cómo Superbot puede transformar tu empresa.
                     </p>
                     <br>
-                    <a href="mailto:contact@syalia.com" target="_blank" class="inline-flex items-center justify-center bg-gray-200 text-gray-800 font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600 transition duration-300 w-full sm:w-auto">
+                    <a href="mailto:contact@syalia.com" target="_blank"
+                        class="inline-flex items-center justify-center bg-gray-200 text-gray-800 font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600 transition duration-300 w-full sm:w-auto">
                         <span class="material-icons mr-2">ondemand_video</span>
                         <span>Solicitar una Demo</span>
                     </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="py-16 sm:py-24 bg-white dark:bg-gray-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div data-lang="en" class="text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
+                    Frequently Asked Questions
+                </h2>
+                <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
+                    Have questions? We have answers.
+                </p>
+            </div>
+            <div data-lang="es" style="display: none;" class="text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
+                    Preguntas Frecuentes
+                </h2>
+                <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
+                    ¿Tienes preguntas? Tenemos respuestas.
+                </p>
+            </div>
+
+            <div class="mt-16 max-w-3xl mx-auto space-y-4">
+
+                <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                    <button class="faq-trigger flex justify-between items-center w-full p-6 text-left"
+                        aria-expanded="false">
+                        <span class="font-semibold text-lg text-gray-900 dark:text-white" data-lang="en">How does
+                            Superbot ensure my data is secure?</span>
+                        <span class="font-semibold text-lg text-gray-900 dark:text-white" data-lang="es"
+                            style="display: none;">¿Cómo garantiza Superbot la seguridad de mis datos?</span>
+                        <span
+                            class="material-icons text-gray-600 dark:text-gray-400 transform transition-transform duration-300">expand_more</span>
+                    </button>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                        <div class="p-6 pt-0">
+                            <p class="text-base text-gray-600 dark:text-gray-300" data-lang="en">
+                                Security is our top priority. Superbot offers multiple deployment options, including on
+                                your <strong>local computer</strong> or within your <strong>enterprise network
+                                    (on-premise)</strong>. In these scenarios, your data never leaves your firewall. For
+                                our cloud solution, we use industry-standard encryption and security protocols.
+                            </p>
+                            <p class="text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">
+                                La seguridad es nuestra máxima prioridad. Superbot ofrece múltiples opciones de
+                                despliegue, incluyendo en tu <strong>computadora local</strong> o dentro de tu
+                                <strong>red empresarial (on-premise)</strong>. En estos escenarios, tus datos nunca
+                                salen de tu firewall. Para nuestra solución en la nube, utilizamos encriptación y
+                                protocolos de seguridad estándar de la industria.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                    <button class="faq-trigger flex justify-between items-center w-full p-6 text-left"
+                        aria-expanded="false">
+                        <span class="font-semibold text-lg text-gray-900 dark:text-white" data-lang="en">Am I locked
+                            into a specific AI model provider?</span>
+                        <span class="font-semibold text-lg text-gray-900 dark:text-white" data-lang="es"
+                            style="display: none;">¿Estoy atado a un proveedor de modelos de IA específico?</span>
+                        <span
+                            class="material-icons text-gray-600 dark:text-gray-400 transform transition-transform duration-300">expand_more</span>
+                    </button>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                        <div class="p-6 pt-0">
+                            <p class="text-base text-gray-600 dark:text-gray-300" data-lang="en">
+                                No. We believe in total flexibility. You can connect Superbot to <strong>any API
+                                    vendor</strong> (like OpenAI, Anthropic, Google) or use <strong>local inference
+                                    engines</strong> like vLLM, LM Studio, and Ollama. You can also use our managed
+                                tokens if you prefer a hassle-free option.
+                            </p>
+                            <p class="text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">
+                                No. Creemos en la flexibilidad total. Puedes conectar Superbot a <strong>cualquier
+                                    proveedor de API</strong> (como OpenAI, Anthropic, Google) o usar <strong>motores de
+                                    inferencia locales</strong> como vLLM, LM Studio y Ollama. También puedes usar
+                                nuestros tokens gestionados si prefieres una opción sin complicaciones.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                    <button class="faq-trigger flex justify-between items-center w-full p-6 text-left"
+                        aria-expanded="false">
+                        <span class="font-semibold text-lg text-gray-900 dark:text-white" data-lang="en">What kind of
+                            documents can Superbot read?</span>
+                        <span class="font-semibold text-lg text-gray-900 dark:text-white" data-lang="es"
+                            style="display: none;">¿Qué tipo de documentos puede leer Superbot?</span>
+                        <span
+                            class="material-icons text-gray-600 dark:text-gray-400 transform transition-transform duration-300">expand_more</span>
+                    </button>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                        <div class="p-6 pt-0">
+                            <p class="text-base text-gray-600 dark:text-gray-300" data-lang="en">
+                                Superbot is designed to work with virtually any document format your enterprise uses.
+                                This includes, but is not limited to, <strong>Word, PowerPoint, PDF, Excel, and
+                                    XML</strong>. You can connect your knowledge base, and Superbot will be able to get
+                                answers from all your existing information.
+                            </p>
+                            <p class="text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">
+                                Superbot está diseñado para funcionar con prácticamente cualquier formato de documento
+                                que utilice tu empresa. Esto incluye, entre otros, <strong>Word, PowerPoint, PDF, Excel
+                                    y XML</strong>. Puedes conectar tu base de conocimiento y Superbot podrá obtener
+                                respuestas de toda tu información existente.
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -485,8 +880,58 @@
                     updateThemeIcon(newTheme);
                 });
             }
+
+            // --- FAQ Accordion ---
+            const faqTriggers = document.querySelectorAll('.faq-trigger');
+
+            faqTriggers.forEach(trigger => {
+                trigger.addEventListener('click', () => {
+                    const content = trigger.nextElementSibling; // The .faq-content div
+                    const icon = trigger.querySelector('.material-icons');
+                    const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+
+                    // Toggle icon rotation
+                    icon.classList.toggle('rotate-180');
+
+                    // Toggle ARIA attribute
+                    trigger.setAttribute('aria-expanded', !isExpanded);
+
+                    // Toggle content visibility
+                    if (content.style.maxHeight) {
+                        // It's open, so close it
+                        content.style.maxHeight = null;
+                    } else {
+                        // It's closed, so open it
+                        // Set max-height to the content's scrollHeight
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
+            });
+
+            // --- Mobile Menu Toggle ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
+
+            if (mobileMenuButton && mobileMenu && mobileMenuIcon) {
+                mobileMenuButton.addEventListener('click', () => {
+                    const isHidden = mobileMenu.classList.toggle('hidden');
+                    // Toggle icon
+                    mobileMenuIcon.textContent = isHidden ? 'menu' : 'close';
+                });
+
+                // Add click listener to all mobile menu links to close the menu
+                mobileMenuLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenuIcon.textContent = 'menu';
+                    });
+                });
+            }
+
         });
     </script>
-
 </body>
+
 </html>
