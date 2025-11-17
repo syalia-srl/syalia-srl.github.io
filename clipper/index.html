@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clipper - Image Semantic Search</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind Custom Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        // Custom blue colors based on the Clipper logo
+                        clipperBlue: {
+                            50: '#eef6ff',
+                            100: '#dbeafe',
+                            200: '#bfdfff',
+                            300: '#93c5fd', // Lighter blue
+                            400: '#60a5fa',
+                            500: '#3b82f6', // Bright mid-blue
+                            600: '#2d3b8f', // Dark blue (from logo)
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                            950: '#172554',
+                        },
+                        // Custom teal/green colors based on the Clipper logo
+                        clipperTeal: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            200: '#99f6e4',
+                            300: '#5eead4', // Light teal (from logo)
+                            400: '#2dd4bf',
+                            500: '#14b8a6', // Primary teal
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Base font */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Style for the language toggle */
+        .toggle-checkbox:checked+.toggle-label {
+            background-color: #14b8a6;
+            /* clipperTeal-500 */
+        }
+
+        .toggle-checkbox:checked+.toggle-label::after {
+            transform: translateX(1rem);
+            /* 16px */
+        }
+
+        .toggle-label::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            /* 20px */
+            height: 20px;
+            /* 20px */
+            border-radius: 9999px;
+            background-color: white;
+            transition: transform 0.2s ease-in-out;
+        }
+    </style>
+    <!-- Theme switching script to prevent FOUC -->
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 antialiased">
+
+    <!-- Header / Navigation -->
+    <nav class="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#">
+                        <img class="h-10 w-auto" src="../img/logo-blue-only-icon.png"
+                            alt="Clipper Image Semantic Search">
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex md:space-x-8 ml-10">
+                    <a href="#features"
+                        class="font-medium text-gray-600 dark:text-gray-300 hover:text-clipperBlue-600 dark:hover:text-clipperBlue-400 transition-colors" data-lang="en">Features</a>
+                    <a href="#use-cases"
+                        class="font-medium text-gray-600 dark:text-gray-300 hover:text-clipperBlue-600 dark:hover:text-clipperBlue-400 transition-colors" data-lang="en">Use
+                        Cases</a>
+                    <a href="#tech"
+                        class="font-medium text-gray-600 dark:text-gray-300 hover:text-clipperBlue-600 dark:hover:text-clipperBlue-400 transition-colors" data-lang="en">Technology</a>
+                    <a href="#security"
+                        class="font-medium text-gray-600 dark:text-gray-300 hover:text-clipperBlue-600 dark:hover:text-clipperBlue-400 transition-colors" data-lang="en">Security</a>
+                    <a href="#faq"
+                        class="font-medium text-gray-600 dark:text-gray-300 hover:text-clipperBlue-600 dark:hover:text-clipperBlue-400 transition-colors" data-lang="en">FAQ</a>
+                    <!-- Spanish Nav -->
+                    <a href="#features"
+                        class="font-medium text-gray-600 dark:text-gray-300 hover:text-clipperBlue-600 dark:hover:text-clipperBlue-400 transition-colors" data-lang="es" style="display: none;">Funciones</a>
+                    <a href="#use-cases"
+                        class="font-medium text-gray-600 dark:text-gray-300 hover:text-clipperBlue-600 dark:hover:text-clipperBlue-400 transition-colors" data-lang="es" style="display: none;">Casos de Uso</a>
+                    <a href="#tech"
+                        class="font-medium text-gray-600 dark:text-gray-300 hover:text-clipperBlue-600 dark:hover:text-clipperBlue-400 transition-colors" data-lang="es" style="display: none;">Tecnología</a>
+                    <a href="#security"
+                        class="font-medium text-gray-600 dark:text-gray-300 hover:text-clipperBlue-600 dark:hover:text-clipperBlue-400 transition-colors" data-lang="es" style="display: none;">Seguridad</a>
+                    <a href="#faq"
+                        class="font-medium text-gray-600 dark:text-gray-300 hover:text-clipperBlue-600 dark:hover:text-clipperBlue-400 transition-colors" data-lang="es" style="display: none;">Preguntas</a>
+                </div>
+
+                <!-- Right-side controls -->
+                <div class="flex items-center space-x-4">
+                    <a href="mailto:contact@example.com" target="_blank"
+                        class="hidden md:inline-flex items-center bg-clipperBlue-600 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-clipperBlue-700 dark:bg-clipperBlue-600 dark:hover:bg-clipperBlue-700 transition duration-300 text-sm" data-lang="en">
+                        Request a Demo
+                    </a>
+                    <a href="mailto:contact@example.com" target="_blank"
+                        class="hidden md:inline-flex items-center bg-clipperBlue-600 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-clipperBlue-700 dark:bg-clipperBlue-600 dark:hover:bg-clipperBlue-700 transition duration-300 text-sm" data-lang="es" style="display: none;">
+                        Solicitar Demo
+                    </a>
+
+                    <!-- Language Toggle -->
+                    <div class="flex items-center space-x-2">
+                        <span class="font-medium text-sm text-gray-700 dark:text-gray-300">EN</span>
+                        <div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+                            <input type="checkbox" name="language-toggle" id="language-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer opacity-0"/>
+                            <label for="language-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 dark:bg-gray-600 cursor-pointer w-10 relative after:w-5 after:h-5"></label>
+                        </div>
+                        <span class="font-medium text-sm text-gray-700 dark:text-gray-300">ES</span>
+                    </div>
+
+                    <button id="theme-toggle"
+                        class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 rounded-full p-1">
+                        <span class="material-icons" id="theme-icon">light_mode</span>
+                    </button>
+
+                    <button id="mobile-menu-button"
+                        class="md:hidden text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 rounded-full p-1">
+                        <span class="material-icons" id="mobile-menu-icon">menu</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu (collapsible) -->
+            <div id="mobile-menu" class="hidden md:hidden">
+                <div class="py-4 space-y-3 border-t border-gray-200 dark:border-gray-700">
+                    <a href="#features"
+                        class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" data-lang="en">Features</a>
+                    <a href="#use-cases"
+                        class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" data-lang="en">Use
+                        Cases</a>
+                    <a href="#tech"
+                        class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" data-lang="en">Technology</a>
+                    <a href="#security"
+                        class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" data-lang="en">Security</a>
+                    <a href="#faq"
+                        class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" data-lang="en">FAQ</a>
+                    <!-- Spanish Mobile Nav -->
+                    <a href="#features"
+                        class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" data-lang="es" style="display: none;">Funciones</a>
+                    <a href="#use-cases"
+                        class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" data-lang="es" style="display: none;">Casos de Uso</a>
+                    <a href="#tech"
+                        class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" data-lang="es" style="display: none;">Tecnología</a>
+                    <a href="#security"
+                        class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" data-lang="es" style="display: none;">Seguridad</a>
+                    <a href="#faq"
+                        class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" data-lang="es" style="display: none;">Preguntas</a>
+                    
+                    <a href="mailto:contact@example.com" target="_blank"
+                        class="block w-full text-center bg-clipperBlue-600 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-clipperBlue-700 dark:bg-clipperBlue-600 dark:hover:bg-clipperBlue-700 transition duration-300" data-lang="en">
+                        Request a Demo
+                    </a>
+                    <a href="mailto:contact@example.com" target="_blank"
+                        class="block w-full text-center bg-clipperBlue-600 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-clipperBlue-700 dark:bg-clipperBlue-600 dark:hover:bg-clipperBlue-700 transition duration-300" data-lang="es" style="display: none;">
+                        Solicitar Demo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-white dark:bg-gray-800 pt-16 pb-12 sm:pt-24 sm:pb-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div>
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 dark:text-white leading-tight" data-lang="en">
+                    Discover <span class="text-clipperBlue-600 dark:text-clipperBlue-400">Clipper</span>
+                </h1>
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 dark:text-white leading-tight" data-lang="es" style="display: none;">
+                    Descubre <span class="text-clipperBlue-600 dark:text-clipperBlue-400">Clipper</span>
+                </h1>
+                <p class="mt-4 text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto" data-lang="en">
+                    Intelligent, Multimodal Image Search for Your Visual Datasets.
+                </p>
+                <p class="mt-4 text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto" data-lang="es" style="display: none;">
+                    Búsqueda de Imágenes Inteligente y Multimodal para tus Conjuntos de Datos Visuales.
+                </p>
+                <div class="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
+                    <a href="#features"
+                        class="inline-flex items-center justify-center bg-clipperTeal-500 text-white font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-clipperTeal-600 dark:bg-clipperTeal-600 dark:hover:bg-clipperTeal-700 transition duration-300 w-full sm:w-auto" data-lang="en">
+                        <span class="material-icons mr-2">explore</span>
+                        <span>Discover Features</span>
+                    </a>
+                    <a href="#features"
+                        class="inline-flex items-center justify-center bg-clipperTeal-500 text-white font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-clipperTeal-600 dark:bg-clipperTeal-600 dark:hover:bg-clipperTeal-700 transition duration-300 w-full sm:w-auto" data-lang="es" style="display: none;">
+                        <span class="material-icons mr-2">explore</span>
+                        <span>Descubre Funciones</span>
+                    </a>
+                    
+                    <a href="mailto:contact@example.com"
+                        class="inline-flex items-center justify-center bg-gray-200 text-gray-800 font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600 transition duration-300 w-full sm:w-auto" data-lang="en">
+                        <span class="material-icons mr-2">ondemand_video</span>
+                        <span>Request a Demo</span>
+                    </a>
+                    <a href="mailto:contact@example.com"
+                        class="inline-flex items-center justify-center bg-gray-200 text-gray-800 font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600 transition duration-300 w-full sm:w-auto" data-lang="es" style="display: none;">
+                        <span class="material-icons mr-2">ondemand_video</span>
+                        <span>Solicitar Demo</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="mt-12 sm:mt-16">
+                <!-- App screenshot placeholder -->
+                <div class="bg-gray-100 dark:bg-gray-700 rounded-xl shadow-2xl ring-1 ring-gray-900/10 dark:ring-white/10 mx-auto max-w-4xl p-12 flex items-center justify-center">
+                     <img class="h-72" src="logo.png" alt="Clipper application logo">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 sm:py-24 bg-gray-50 dark:bg-gray-900">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white" data-lang="en">
+                    Powerful Features, Simplified
+                </h2>
+                <p class="mt-4 text-lg text-gray-600 dark:text-gray-300" data-lang="en">
+                    Find the images you need, faster.
+                </p>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white" data-lang="es" style="display: none;">
+                    Funciones Potentes, Simplificadas
+                </h2>
+                <p class="mt-4 text-lg text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">
+                    Encuentra las imágenes que necesitas, más rápido.
+                </p>
+            </div>
+
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div
+                    class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-gray-50 dark:hover:bg-gray-700">
+                    <div class="flex-shrink-0">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-clipperBlue-600 dark:bg-clipperBlue-600 text-white">
+                            <span class="material-icons">search</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Multimodal Search</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Search using text, images, or both.
+                            Clipper intelligently combines your queries to find the most relevant results.</p>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Búsqueda Multimodal</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Busca usando texto, imágenes, o ambos.
+                            Clipper combina inteligentemente tus consultas para encontrar los resultados más relevantes.</p>
+                    </div>
+                </div>
+                <!-- Feature 2 -->
+                <div
+                    class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-gray-50 dark:hover:bg-gray-700">
+                    <div class="flex-shrink-0">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-clipperBlue-600 dark:bg-clipperBlue-600 text-white">
+                            <span class="material-icons">psychology</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Semantic Understanding</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Powered by the SigLIP-2 model,
+                            Clipper understands the *meaning* and *context* of your search, not just keywords.</p>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Comprensión Semántica</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Potenciado por el modelo SigLIP-2,
+                            Clipper entiende el *significado* y *contexto* de tu búsqueda, no solo palabras clave.</p>
+                    </div>
+                </div>
+                <!-- Feature 3 -->
+                <div
+                    class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-gray-50 dark:hover:bg-gray-700">
+                    <div class="flex-shrink-0">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-clipperBlue-600 dark:bg-clipperBlue-600 text-white">
+                            <span class="material-icons">bolt</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">High-Speed Vector Search</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Built on BeaverDB, Clipper delivers
+                            search results from millions of images in milliseconds, enabling real-time visual search.
+                        </p>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Búsqueda Vectorial de Alta Velocidad</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Construido sobre BeaverDB, Clipper entrega
+                            resultados de millones de imágenes en milisegundos, permitiendo una búsqueda visual en tiempo real.
+                        </p>
+                    </div>
+                </div>
+                <!-- Feature 4 -->
+                <div
+                    class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-gray-50 dark:hover:bg-gray-700">
+                    <div class="flex-shrink-0">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-clipperTeal-500 dark:bg-clipperTeal-600 text-white">
+                            <span class="material-icons">merge_type</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Advanced Fused Search</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Optionally fuse text and image
+                            queries into a single, averaged vector for a new class of powerful semantic search.</p>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Búsqueda Fusionada Avanzada</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Opcionalmente fusiona consultas de texto e imagen
+                            en un único vector promediado para una nueva clase de búsqueda semántica potente.</p>
+                    </div>
+                </div>
+                <!-- Feature 5 -->
+                <div
+                    class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-gray-50 dark:hover:bg-gray-700">
+                    <div class="flex-shrink-0">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-clipperTeal-500 dark:bg-clipperTeal-600 text-white">
+                            <span class="material-icons">sort</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Advanced Re-Ranking</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">When searching by multiple inputs,
+                            Clipper uses Reciprocal Rank Fusion (RRF) to intelligently merge and rank all result lists.
+                        </p>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Re-clasificación Avanzada</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Al buscar con múltiples entradas,
+                            Clipper usa Reciprocal Rank Fusion (RRF) para fusionar y clasificar inteligentemente todas las listas de resultados.
+                        </p>
+                    </div>
+                </div>
+                <!-- Feature 6 -->
+                <div
+                    class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-gray-50 dark:hover:bg-gray-700">
+                    <div class="flex-shrink-0">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-clipperTeal-500 dark:bg-clipperTeal-600 text-white">
+                            <span class="material-icons">dns</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Self-Managed Backend</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">The Streamlit app automatically
+                            manages its own backend services (SigLIP & Beaver), simplifying setup and deployment.</p>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Backend Autogestionado</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">La aplicación Streamlit gestiona automáticamente
+                            sus propios servicios de backend (SigLIP & Beaver), simplificando la configuración y el despliegue.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section id="use-cases" class="py-16 sm:py-24 bg-white dark:bg-gray-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white" data-lang="en">
+                    Perfect for Any Visual Dataset
+                </h2>
+                <p class="mt-4 text-lg text-gray-600 dark:text-gray-300" data-lang="en">
+                    From stock photos to technical diagrams, Clipper finds what you're looking for.
+                </p>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white" data-lang="es" style="display: none;">
+                    Perfecto para Cualquier Conjunto de Datos Visuales
+                </h2>
+                <p class="mt-4 text-lg text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">
+                    Desde fotos de stock hasta diagramas técnicos, Clipper encuentra lo que buscas.
+                </p>
+            </div>
+
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Use Case 1 -->
+                <div
+                    class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-white dark:hover:bg-gray-800">
+                    <div class="flex-shrink-0">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-clipperBlue-600 dark:bg-clipperBlue-600 text-white">
+                            <span class="material-icons">shopping_bag</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">For E-Commerce</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Para E-Commerce</h3>
+                        <ul
+                            class="mt-2 text-base text-gray-600 dark:text-gray-300 space-y-2 list-disc list-inside text-left" data-lang="en">
+                            <li>Find products by visual similarity.</li>
+                            <li>Allow users to search with photos.</li>
+                            <li>Discover all items from a collection.</li>
+                        </ul>
+                        <ul
+                            class="mt-2 text-base text-gray-600 dark:text-gray-300 space-y-2 list-disc list-inside text-left" data-lang="es" style="display: none;">
+                            <li>Encuentra productos por similitud visual.</li>
+                            <li>Permite a los usuarios buscar con fotos.</li>
+                            <li>Descubre todos los artículos de una colección.</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Use Case 2 -->
+                <div
+                    class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-white dark:hover:bg-gray-800">
+                    <div class="flex-shrink-0">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-clipperTeal-500 dark:bg-clipperTeal-600 text-white">
+                            <span class="material-icons">camera_alt</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">For Asset Management</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Para Gestión de Activos</h3>
+                        <ul
+                            class="mt-2 text-base text-gray-600 dark:text-gray-300 space-y-2 list-disc list-inside text-left" data-lang="en">
+                            <li>Search massive stock photo libraries.</li>
+                            <li>Find brand-approved images by concept.</li>
+                            <li>Discover all images from a photoshoot.</li>
+                        </ul>
+                        <ul
+                            class="mt-2 text-base text-gray-600 dark:text-gray-300 space-y-2 list-disc list-inside text-left" data-lang="es" style="display: none;">
+                            <li>Busca en enormes bibliotecas de fotos de stock.</li>
+                            <li>Encuentra imágenes aprobadas por la marca por concepto.</li>
+                            <li>Descubre todas las imágenes de una sesión de fotos.</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Use Case 3 -->
+                <div
+                    class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-white dark:hover:bg-gray-800">
+                    <div class="flex-shrink-0">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-clipperBlue-600 dark:bg-clipperBlue-600 text-white">
+                            <span class="material-icons">palette</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">For Design & Creative</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Para Diseño y Creativos</h3>
+                        <ul
+                            class="mt-2 text-base text-gray-600 dark:text-gray-300 space-y-2 list-disc list-inside text-left" data-lang="en">
+                            <li>Find inspiration based on a mood board.</li>
+                            <li>Discover existing art with a similar style.</li>
+                            <li>Locate logos or assets by description.</li>
+                        </ul>
+                        <ul
+                            class="mt-2 text-base text-gray-600 dark:text-gray-300 space-y-2 list-disc list-inside text-left" data-lang="es" style="display: none;">
+                            <li>Encuentra inspiración basada en un mood board.</li>
+                            <li>Descubre arte existente con un estilo similar.</li>
+                            <li>Localiza logos o activos por descripción.</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Use Case 4 -->
+                <div
+                    class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-white dark:hover:bg-gray-800">
+                    <div class="flex-shrink-0">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-clipperTeal-500 dark:bg-clipperTeal-600 text-white">
+                            <span class="material-icons">biotech</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">For Technical & Scientific</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Para Ámbito Técnico y Científico</h3>
+                        <ul
+                            class="mt-2 text-base text-gray-600 dark:text-gray-300 space-y-2 list-disc list-inside text-left" data-lang="en">
+                            <li>Search databases of medical images.</li>
+                            <li>Find technical diagrams by sketch.</li>
+                            <li>Identify parts or components from a photo.</li>
+                        </ul>
+                        <ul
+                            class="mt-2 text-base text-gray-600 dark:text-gray-300 space-y-2 list-disc list-inside text-left" data-lang="es" style="display: none;">
+                            <li>Busca en bases de datos de imágenes médicas.</li>
+                            <li>Encuentra diagramas técnicos por boceto.</li>
+                            <li>Identifica partes o componentes de una foto.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Technology Section -->
+    <section id="tech" class="py-16 sm:py-24 bg-gray-50 dark:bg-gray-900">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white" data-lang="en">
+                    The Technology Behind Clipper
+                </h2>
+                <p class="mt-4 text-lg text-gray-600 dark:text-gray-300" data-lang="en">
+                    Best-in-class open-source components.
+                </p>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white" data-lang="es" style="display: none;">
+                    La Tecnología Detrás de Clipper
+                </h2>
+                <p class="mt-4 text-lg text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">
+                    Componentes de código abierto de primera clase.
+                </p>
+            </div>
+
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Left Column: Tech explanations -->
+                <div class="space-y-8">
+                    <!-- SigLIP -->
+                    <div>
+                        <div class="flex items-center">
+                            <span class="material-icons text-clipperBlue-600 dark:text-clipperBlue-400 text-3xl">auto_awesome</span>
+                            <h3 class="ml-3 text-xl font-semibold text-gray-900 dark:text-white" data-lang="en">SigLIP-2 Embeddings
+                            </h3>
+                            <h3 class="ml-3 text-xl font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Embeddings SigLIP-2
+                            </h3>
+                        </div>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">
+                            We use Google's state-of-the-art <strong>SigLIP-2</strong> model to convert all images and
+                            text queries into rich vector embeddings.
+                        </p>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">
+                            Usamos el modelo de última generación <strong>SigLIP-2</strong> de Google para convertir todas las imágenes y
+                            consultas de texto en ricos embeddings vectoriales.
+                        </p>
+                    </div>
+                    <!-- BeaverDB -->
+                    <div>
+                        <div class="flex items-center">
+                            <span class="material-icons text-clipperTeal-500 dark:text-clipperTeal-400 text-3xl">storage</span>
+                            <h3 class="ml-3 text-xl font-semibold text-gray-900 dark:text-white" data-lang="en">BeaverDB Vector Store
+                            </h3>
+                            <h3 class="ml-3 text-xl font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Base de Vectores BeaverDB
+                            </h3>
+                        </div>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">
+                            <strong>BeaverDB</strong> is a high-performance, disk-based vector database that stores and
+                            searches millions of embeddings with incredible speed.
+                        </p>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">
+                            <strong>BeaverDB</strong> es una base de datos vectorial de alto rendimiento basada en disco que almacena y
+                            busca millones de embeddings con una velocidad increíble.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right Column: Streamlit -->
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg dark:shadow-2xl text-center">
+                    <div
+                        class="flex items-center justify-center h-16 w-16 rounded-full bg-clipperBlue-100 dark:bg-clipperBlue-900/50 text-clipperBlue-600 dark:text-clipperBlue-400 mx-auto">
+                        <span class="material-icons text-4xl">desktop_windows</span>
+                    </div>
+                    <h3 class="mt-6 text-2xl font-semibold text-gray-900 dark:text-white" data-lang="en">Managed by Streamlit</h3>
+                    <h3 class="mt-6 text-2xl font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Gestionado por Streamlit</h3>
+                    <p class="mt-4 text-base text-gray-600 dark:text-gray-300" data-lang="en">
+                        The entire experience is wrapped in a simple, interactive <strong>Streamlit</strong> app. It
+                        even manages starting and stopping the backend embedding and database servers for you.
+                    </p>
+                    <p class="mt-4 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">
+                        Toda la experiencia está envuelta en una aplicación <strong>Streamlit</strong> simple e interactiva.
+                        Incluso gestiona el inicio y la detención de los servidores de backend de embedding y base de datos por ti.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Security & Deployment Section -->
+    <section id="security" class="py-16 sm:py-24 bg-white dark:bg-gray-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white" data-lang="en">
+                    Your Data, Your Control
+                </h2>
+                <p class="mt-4 text-lg text-gray-600 dark:text-gray-300" data-lang="en">
+                    Run Clipper where you need it most.
+                </p>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white" data-lang="es" style="display: none;">
+                    Tus Datos, Tu Control
+                </h2>
+                <p class="mt-4 text-lg text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">
+                    Ejecuta Clipper donde más lo necesitas.
+                </p>
+            </div>
+
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Deployment 1 -->
+                <div
+                    class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg shadow-lg dark:shadow-2xl text-center transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-white dark:hover:bg-gray-800">
+                    <div class="flex-shrink-0">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-clipperBlue-600 dark:bg-clipperBlue-600 text-white mx-auto">
+                            <span class="material-icons">computer</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Local Computer</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Computadora Local</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Perfect for individual use and
+                            maximum privacy. Your data and models never leave your machine.</p>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Perfecto para uso individual y
+                            máxima privacidad. Tus datos y modelos nunca salen de tu máquina.</p>
+                    </div>
+                </div>
+                <!-- Deployment 2 -->
+                <div
+                    class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg shadow-lg dark:shadow-2xl text-center transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-white dark:hover:bg-gray-800">
+                    <div class="flex-shrink-0">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-clipperBlue-600 dark:bg-clipperBlue-600 text-white mx-auto">
+                            <span class="material-icons">corporate_fare</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Enterprise Network</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Red Empresarial</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Deploy on-premise within your
+                            organization's firewall for secure team collaboration.</p>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Despliega on-premise dentro del
+                            firewall de tu organización para una colaboración segura en equipo.</p>
+                    </div>
+                </div>
+                <!-- Deployment 3 -->
+                <div
+                    class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg shadow-lg dark:shadow-2xl text-center transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:bg-white dark:hover:bg-gray-800">
+                    <div class="flex-shrink-0">
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-md bg-clipperBlue-600 dark:bg-clipperBlue-600 text-white mx-auto">
+                            <span class="material-icons">cloud_queue</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Your Private Cloud</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Tu Nube Privada</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Host on your own cloud infrastructure (AWS, GCP, Azure) for scalable, secure, and fully-controlled access.</p>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Alójalo en tu propia infraestructura de nube (AWS, GCP, Azure) para un acceso escalable, seguro y totalmente controlado.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="cta" class="py-16 sm:py-24 bg-gray-50 dark:bg-gray-900">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white" data-lang="en">
+                        Ready to bring semantic search to your images?
+                    </h2>
+                    <p class="mt-4 text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto" data-lang="en">
+                        Get in touch to see how Clipper can transform your visual datasets.
+                    </p>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white" data-lang="es" style="display: none;">
+                        ¿Listo para llevar la búsqueda semántica a tus imágenes?
+                    </h2>
+                    <p class="mt-4 text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto" data-lang="es" style="display: none;">
+                        Ponte en contacto para ver cómo Clipper puede transformar tus conjuntos de datos visuales.
+                    </p>
+                    <br>
+                    <a href="mailto:contact@example.com" target="_blank"
+                        class="inline-flex items-center justify-center bg-gray-200 text-gray-800 font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600 transition duration-300 w-full sm:w-auto" data-lang="en">
+                        <span class="material-icons mr-2">ondemand_video</span>
+                        <span>Request a Demo</span>
+                    </a>
+                    <a href="mailto:contact@example.com" target="_blank"
+                        class="inline-flex items-center justify-center bg-gray-200 text-gray-800 font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600 transition duration-300 w-full sm:w-auto" data-lang="es" style="display: none;">
+                        <span class="material-icons mr-2">ondemand_video</span>
+                        <span>Solicitar Demo</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-16 sm:py-24 bg-white dark:bg-gray-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white" data-lang="en">
+                    Frequently Asked Questions
+                </h2>
+                <p class="mt-4 text-lg text-gray-600 dark:text-gray-300" data-lang="en">
+                    Have questions? We have answers.
+                </p>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white" data-lang="es" style="display: none;">
+                    Preguntas Frecuentes
+                </h2>
+                <p class="mt-4 text-lg text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">
+                    ¿Tienes preguntas? Tenemos respuestas.
+                </p>
+            </div>
+
+            <div class="mt-16 max-w-3xl mx-auto space-y-4">
+                <!-- FAQ 1 -->
+                <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                    <button class="faq-trigger flex justify-between items-center w-full p-6 text-left"
+                        aria-expanded="false">
+                        <span class="font-semibold text-lg text-gray-900 dark:text-white" data-lang="en">How does
+                            Clipper ensure my data is secure?</span>
+                        <span class="font-semibold text-lg text-gray-900 dark:text-white" data-lang="es" style="display: none;">¿Cómo garantiza Clipper la seguridad de mis datos?</span>
+                        <span
+                            class="material-icons text-gray-600 dark:text-gray-400 transform transition-transform duration-300">expand_more</span>
+                    </button>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                        <div class="p-6 pt-0">
+                            <p class="text-base text-gray-600 dark:text-gray-300" data-lang="en">
+                                Security is our top priority. Clipper is designed to run on your <strong>local
+                                    computer</strong> or within your <strong>enterprise network
+                                    (on-premise)</strong>. In these scenarios, your data never leaves your firewall.
+                            </p>
+                            <p class="text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">
+                                La seguridad es nuestra máxima prioridad. Clipper está diseñado para ejecutarse en tu <strong>computadora
+                                    local</strong> o dentro de tu <strong>red empresarial
+                                    (on-premise)</strong>. En estos escenarios, tus datos nunca salen de tu firewall.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- FAQ 2 -->
+                <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                    <button class="faq-trigger flex justify-between items-center w-full p-6 text-left"
+                        aria-expanded="false">
+                        <span class="font-semibold text-lg text-gray-900 dark:text-white" data-lang="en">Can I use different AI
+                            models?</span>
+                        <span class="font-semibold text-lg text-gray-900 dark:text-white" data-lang="es" style="display: none;">¿Puedo usar diferentes modelos de IA?</span>
+                        <span
+                            class="material-icons text-gray-600 dark:text-gray-400 transform transition-transform duration-300">expand_more</span>
+                    </button>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                        <div class="p-6 pt-0">
+                            <p class="text-base text-gray-600 dark:text-gray-300" data-lang="en">
+                                This version of Clipper is optimized for <strong>SigLIP-2</strong> for embeddings and
+                                <strong>BeaverDB</strong> for search. These were chosen for their top-tier performance
+                                and efficiency. Future versions may support other models.
+                            </p>
+                            <p class="text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">
+                                Esta versión de Clipper está optimizada para <strong>SigLIP-2</strong> para embeddings y
+                                <strong>BeaverDB</strong> para la búsqueda. Fueron elegidos por su rendimiento
+                                y eficiencia de primer nivel. Versiones futuras podrían soportar otros modelos.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- FAQ 3 -->
+                <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                    <button class="faq-trigger flex justify-between items-center w-full p-6 text-left"
+                        aria-expanded="false">
+                        <span class="font-semibold text-lg text-gray-900 dark:text-white" data-lang="en">What kind of
+                            images can Clipper search?</span>
+                        <span class="font-semibold text-lg text-gray-900 dark:text-white" data-lang="es" style="display: none;">¿Qué tipo de
+                            imágenes puede buscar Clipper?</span>
+                        <span
+                            class="material-icons text-gray-600 dark:text-gray-400 transform transition-transform duration-300">expand_more</span>
+                    </button>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                        <div class="p-6 pt-0">
+                            <p class="text-base text-gray-600 dark:text-gray-300" data-lang="en">
+                                Clipper works with all standard image formats, including, but not limited to,
+                                <strong>JPG, PNG, WebP, GIF, and BMP</strong>. It indexes the *visual content* of the
+                                images, allowing you to search by concepts, objects, and style.
+                            </p>
+                            <p class="text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">
+                                Clipper funciona con todos los formatos de imagen estándar, incluyendo, pero no limitado a,
+                                <strong>JPG, PNG, WebP, GIF y BMP</strong>. Indexa el *contenido visual* de las
+                                imágenes, permitiéndote buscar por conceptos, objetos y estilo.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <p class="text-center text-base text-gray-500 dark:text-gray-400" data-lang="en">
+                &copy; 2025 Clipper Search. All rights reserved.
+            </p>
+            <p class="text-center text-base text-gray-500 dark:text-gray-400" data-lang="es" style="display: none;">
+                &copy; 2025 Clipper Search. Todos los derechos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Toggles -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Language Toggle ---
+            const langToggle = document.getElementById('language-toggle');
+            const enElements = document.querySelectorAll('[data-lang="en"]');
+            const esElements = document.querySelectorAll('[data-lang="es"]');
+
+            function updateLanguage() {
+                if (langToggle.checked) {
+                    // Switch to Spanish
+                    document.documentElement.lang = 'es';
+                    enElements.forEach(el => el.style.display = 'none');
+                    esElements.forEach(el => el.style.display = '');
+                } else {
+                    // Switch to English
+                    document.documentElement.lang = 'en';
+                    enElements.forEach(el => el.style.display = '');
+                    esElements.forEach(el => el.style.display = 'none');
+                }
+            }
+            // Set initial language state (English)
+            updateLanguage();
+            // Add language event listener
+            langToggle.addEventListener('change', updateLanguage);
+
+            // --- Theme Toggle ---
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+
+            function updateThemeIcon(theme) {
+                if (themeIcon) {
+                    themeIcon.textContent = theme === 'dark' ? 'dark_mode' : 'light_mode';
+                }
+            }
+
+            // Set initial icon state
+            const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+            updateThemeIcon(currentTheme);
+
+            // Add click listener for the theme toggle
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    const isDark = document.documentElement.classList.toggle('dark');
+                    const newTheme = isDark ? 'dark' : 'light';
+                    localStorage.theme = newTheme;
+                    updateThemeIcon(newTheme);
+                });
+            }
+
+            // --- FAQ Accordion ---
+            const faqTriggers = document.querySelectorAll('.faq-trigger');
+
+            faqTriggers.forEach(trigger => {
+                trigger.addEventListener('click', () => {
+                    const content = trigger.nextElementSibling;
+                    const icon = trigger.querySelector('.material-icons');
+                    const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+
+                    icon.classList.toggle('rotate-180');
+                    trigger.setAttribute('aria-expanded', !isExpanded);
+
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
+            });
+
+            // --- Mobile Menu Toggle ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
+
+            if (mobileMenuButton && mobileMenu && mobileMenuIcon) {
+                mobileMenuButton.addEventListener('click', () => {
+                    const isHidden = mobileMenu.classList.toggle('hidden');
+                    mobileMenuIcon.textContent = isHidden ? 'menu' : 'close';
+                });
+
+                mobileMenuLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenuIcon.textContent = 'menu';
+                    });
+                });
+            }
+
+        });
+    </script>
+</body>
+
+</html>
