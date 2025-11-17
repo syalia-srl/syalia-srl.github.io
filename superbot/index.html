@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en" class=""> <!-- Added class for dark mode hook -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superbot - Your Intelligent Assistant</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind for class-based dark mode -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
+    <!-- Google Font (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* Base font */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Style for the language toggle */
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #34D399; /* emerald-400 */
+        }
+        .toggle-checkbox:checked + .toggle-label::after {
+            transform: translateX(1rem); /* 16px - Changed from 100% for symmetry */
+        }
+        .toggle-label::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            border-radius: 9999px;
+            background-color: white;
+            transition: transform 0.2s ease-in-out;
+        }
+    </style>
+    <!-- Theme switching script to prevent FOUC (Flash of Unstyled Content) -->
+    <script>
+        // On page load, check stored theme and apply it
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 antialiased">
+
+    <!-- Header / Navigation -->
+    <nav class="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <img class="h-10 w-auto" src="logo.png" alt="Superbot by Syalia, S.R.L.">
+                </div>
+                
+                <!-- Toggles Wrapper -->
+                <div class="flex items-center space-x-4">
+                    <!-- Language Toggle -->
+                    <div class="flex items-center space-x-2">
+                        <span class="font-medium text-sm text-gray-700 dark:text-gray-300">EN</span>
+                        <div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+                            <input type="checkbox" name="language-toggle" id="language-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer opacity-0"/>
+                            <label for="language-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 dark:bg-gray-600 cursor-pointer w-10 relative after:w-5 after:h-5"></label>
+                        </div>
+                        <span class="font-medium text-sm text-gray-700 dark:text-gray-300">ES</span>
+                    </div>
+
+                    <!-- Dark Mode Toggle -->
+                    <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 rounded-full p-1">
+                        <span class="material-icons" id="theme-icon">light_mode</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-white dark:bg-gray-800 pt-16 pb-12 sm:pt-24 sm:pb-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <!-- English Content -->
+            <div data-lang="en">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
+                    Meet <span class="text-emerald-500 dark:text-emerald-400">Superbot</span>
+                </h1>
+                <p class="mt-4 text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                    Your secure, all-in-one AI assistant for enterprise productivity.
+                </p>
+                <a href="#features" class="mt-8 inline-block bg-emerald-500 text-white font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700 transition duration-300">
+                    Discover Features
+                </a>
+            </div>
+            <!-- Spanish Content -->
+            <div data-lang="es" style="display: none;">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
+                    Conoce a <span class="text-emerald-500 dark:text-emerald-400">Superbot</span>
+                </h1>
+                <p class="mt-4 text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                    Tu asistente de IA seguro y todo en uno para la productividad empresarial.
+                </p>
+                <a href="#features" class="mt-8 inline-block bg-emerald-500 text-white font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700 transition duration-300">
+                    Descubre las Funciones
+                </a>
+            </div>
+
+            <!-- Screenshot -->
+            <div class="mt-12 sm:mt-16">
+                <img class="rounded-xl shadow-2xl ring-1 ring-gray-900/10 dark:ring-white/10 mx-auto" src="image_6401ac.png" alt="Superbot application screenshot">
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 sm:py-24 bg-gray-50 dark:bg-gray-900">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- English Title -->
+            <div data-lang="en" class="text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
+                    Powerful Features, Simplified
+                </h2>
+                <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
+                    Everything your team needs to work smarter.
+                </p>
+            </div>
+            <!-- Spanish Title -->
+            <div data-lang="es" style="display: none;" class="text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
+                    Funciones Potentes, Simplificadas
+                </h2>
+                <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
+                    Todo lo que tu equipo necesita para trabajar de forma más inteligente.
+                </p>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Feature 1 -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white">
+                            <!-- SVG replaced with Material Icon -->
+                            <span class="material-icons">auto_awesome</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">General Purpose Assistant</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Asistente de Propósito General</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Your go-to AI for answering questions, drafting emails, and summarizing text.</p>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Tu IA de referencia para responder preguntas, redactar correos y resumir textos.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white">
+                            <!-- SVG replaced with Material Icon -->
+                            <span class="material-icons">article</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Integrated Knowledge Base</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Base de Conocimiento Integrada</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Securely connect your private documents and data to get answers based on your information.</p>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Conecta de forma segura tus documentos y datos privados para obtener respuestas basadas en tu información.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white">
+                            <!-- SVG replaced with Material Icon -->
+                            <span class="material-icons">link</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Connect via MCP</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Conecta vía MCP</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Link to external tools and resources using the Model Context Protocol (MCP).</p>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Enlaza con herramientas y recursos externos usando el Protocolo de Contexto de Modelo (MCP).</p>
+                    </div>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white">
+                            <!-- SVG replaced with Material Icon -->
+                            <span class="material-icons">smart_toy</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Custom Agents</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Agentes Personalizados</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Create and share specialized agents for specific tasks using simple prompts.</p>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Crea y comparte agentes especializados para tareas específicas usando prompts simples.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white">
+                            <!-- SVG replaced with Material Icon -->
+                            <span class="material-icons">calendar_month</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Schedule Ongoing Tasks</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Programa Tareas Recurrentes</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Automate your workflows by scheduling agents to run tasks on a recurring basis.</p>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Automatiza tus flujos de trabajo programando agentes para ejecutar tareas de forma recurrente.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:shadow-2xl">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white">
+                            <!-- SVG replaced with Material Icon -->
+                            <span class="material-icons">file_present</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Read & Generate Documents</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Lee y Genera Documentos</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Works with any format: Word, PowerPoint, PDF, Excel, XML, and more.</p>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Trabaja con cualquier formato: Word, PowerPoint, PDF, Excel, XML y más.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Security & Deployment Section -->
+    <section id="security" class="py-16 sm:py-24 bg-white dark:bg-gray-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- English Title -->
+            <div data-lang="en" class="text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
+                    Your Data, Your Control
+                </h2>
+                <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
+                    Run Superbot where you need it most.
+                </p>
+            </div>
+            <!-- Spanish Title -->
+            <div data-lang="es" style="display: none;" class="text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
+                    Tus Datos, Tu Control
+                </h2>
+                <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
+                    Ejecuta Superbot donde más lo necesitas.
+                </p>
+            </div>
+
+            <!-- Deployment Options Grid -->
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Option 1: Local Computer -->
+                <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg shadow-lg dark:shadow-2xl text-center">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white mx-auto">
+                            <span class="material-icons">computer</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class_name="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Local Computer</h3>
+                        <h3 class_name="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Computadora Local</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Perfect for individual use and maximum privacy. Your data never leaves your machine.</p>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Perfecto para uso individual y máxima privacidad. Tus datos nunca salen de tu máquina.</p>
+                    </div>
+                </div>
+
+                <!-- Option 2: Enterprise Network -->
+                <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg shadow-lg dark:shadow-2xl text-center">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white mx-auto">
+                            <span class="material-icons">corporate_fare</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class_name="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">Enterprise Network</h3>
+                        <h3 class_name="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Red Empresarial</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">Deploy on-premise within your organization's firewall for secure team collaboration.</p>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Despliega on-premise dentro del firewall de tu organización para una colaboración segura.</p>
+                    </div>
+                </div>
+
+                <!-- Option 3: SYALIA's Cloud -->
+                <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg shadow-lg dark:shadow-2xl text-center">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-emerald-500 dark:bg-emerald-600 text-white mx-auto">
+                            <span class="material-icons">cloud_queue</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class_name="text-lg font-semibold text-gray-900 dark:text-white" data-lang="en">SYALIA's Cloud</h3>
+                        <h3 class_name="text-lg font-semibold text-gray-900 dark:text-white" data-lang="es" style="display: none;">Nube de SYALIA</h3>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="en">A fully managed, hassle-free solution hosted by us, ensuring robust security and uptime.</p>
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Una solución totalmente gestionada y sin complicaciones, alojada por nosotros.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <p class="text-center text-base text-gray-500 dark:text-gray-400" data-lang="en">
+                &copy; 2025 SYALIA, SRL. All rights reserved.
+            </p>
+            <p class="text-center text-base text-gray-500 dark:text-gray-400" data-lang="es" style="display: none;">
+                &copy; 2025 SYALIA, SRL. Todos los derechos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Toggles -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Language Toggle ---
+            const langToggle = document.getElementById('language-toggle');
+            const enElements = document.querySelectorAll('[data-lang="en"]');
+            const esElements = document.querySelectorAll('[data-lang="es"]');
+
+            function updateLanguage() {
+                if (langToggle.checked) {
+                    // Switch to Spanish
+                    document.documentElement.lang = 'es';
+                    enElements.forEach(el => el.style.display = 'none');
+                    esElements.forEach(el => el.style.display = '');
+                } else {
+                    // Switch to English
+                    document.documentElement.lang = 'en';
+                    enElements.forEach(el => el.style.display = '');
+                    esElements.forEach(el => el.style.display = 'none');
+                }
+            }
+            // Set initial language state (English)
+            updateLanguage();
+            // Add language event listener
+            langToggle.addEventListener('change', updateLanguage);
+
+            // --- Theme Toggle ---
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            
+            function updateThemeIcon(theme) {
+                if (themeIcon) {
+                    themeIcon.textContent = theme === 'dark' ? 'dark_mode' : 'light_mode';
+                }
+            }
+
+            // Set initial icon state
+            const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+            updateThemeIcon(currentTheme);
+
+            // Add click listener for the theme toggle
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    // toggle the theme
+                    const isDark = document.documentElement.classList.toggle('dark');
+                    const newTheme = isDark ? 'dark' : 'light';
+                    
+                    // save preference
+                    localStorage.theme = newTheme;
+                    
+                    // update icon
+                    updateThemeIcon(newTheme);
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
