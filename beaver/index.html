@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beaver - Simple, Local, Persistent Database</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12',
+                            950: '#431407',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; }
+        .toggle-checkbox:checked+.toggle-label { background-color: #f97316; }
+        .toggle-checkbox:checked+.toggle-label::after { transform: translateX(1rem); }
+        .toggle-label::after {
+            content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px;
+            border-radius: 9999px; background-color: white; transition: transform 0.2s ease-in-out;
+        }
+    </style>
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+
+<body class="bg-white text-gray-800 dark:bg-gray-900 dark:text-gray-100 antialiased">
+
+    <!-- Navigation -->
+    <nav class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="https://syalia.com">
+                        <img class="h-10 w-auto rounded-full" src="../img/logo-blue-only-icon.png" alt="Syalia">
+                    </a>
+                    <span class="ml-3 font-bold text-xl hidden sm:block">Beaver</span>
+                </div>
+
+                <div class="hidden md:flex md:space-x-8 ml-10">
+                    <a href="#philosophy" class="font-medium text-gray-600 dark:text-gray-300 hover:text-brand-600 transition-colors" data-lang="en">Philosophy</a>
+                    <a href="#features" class="font-medium text-gray-600 dark:text-gray-300 hover:text-brand-600 transition-colors" data-lang="en">Features</a>
+                    <a href="#quickstart" class="font-medium text-gray-600 dark:text-gray-300 hover:text-brand-600 transition-colors" data-lang="en">Quickstart</a>
+                    <a href="#faq" class="font-medium text-gray-600 dark:text-gray-300 hover:text-brand-600 transition-colors" data-lang="en">FAQ</a>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <span class="font-medium text-xs text-gray-500">EN</span>
+                        <div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+                            <input type="checkbox" name="language-toggle" id="language-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer opacity-0"/>
+                            <label for="language-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 dark:bg-gray-600 cursor-pointer w-10 relative after:w-5 after:h-5"></label>
+                        </div>
+                        <span class="font-medium text-xs text-gray-500">ES</span>
+                    </div>
+
+                    <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 rounded-full p-1">
+                        <span class="material-icons" id="theme-icon">light_mode</span>
+                    </button>
+
+                    <button id="mobile-menu-button" class="md:hidden text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 rounded-full p-1">
+                        <span class="material-icons" id="mobile-menu-icon">menu</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="relative bg-gradient-to-br from-brand-700 to-brand-500 text-white overflow-hidden">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 relative z-10">
+            <div class="max-w-3xl">
+                <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6">
+                    <span data-lang="en">Minimalist Persistence for Modern Python Apps</span>
+                </h1>
+                <p class="text-xl sm:text-2xl text-orange-100 mb-10 leading-relaxed">
+                    <span data-lang="en">Beaver is a simple, local, and embedded database designed to manage complex data types without a server. Built on top of SQLite.</span>
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="https://github.com/syalia-srl/beaver" target="_blank" class="bg-white text-brand-700 hover:bg-orange-50 font-bold px-8 py-4 rounded-full shadow-xl transition transform hover:-translate-y-1">
+                        <span data-lang="en">View on GitHub</span>
+                    </a>
+                    <code class="bg-brand-800/30 text-white px-6 py-4 rounded-full border border-white/20 backdrop-blur-sm">pip install beaver-db</code>
+                </div>
+            </div>
+        </div>
+        <div class="absolute top-0 right-0 -mt-20 -mr-20 text-white opacity-10 pointer-events-none">
+            <span class="material-icons" style="font-size: 400px;">storage</span>
+        </div>
+    </header>
+
+    <!-- Philosophy -->
+    <section id="philosophy" class="py-24 bg-white dark:bg-gray-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold" data-lang="en">Design Philosophy</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-brand-500 rounded-lg flex items-center justify-center text-white mb-4 mx-auto">
+                        <span class="material-icons">inventory_2</span>
+                    </div>
+                    <h4 class="font-bold mb-2">Minimalist</h4>
+                    <p class="text-sm text-gray-500">Lightweight core with zero server overhead.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-brand-500 rounded-lg flex items-center justify-center text-white mb-4 mx-auto">
+                        <span class="material-icons">lock</span>
+                    </div>
+                    <h4 class="font-bold mb-2">Safe</h4>
+                    <p class="text-sm text-gray-500">Robust inter-process locking by default.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-brand-500 rounded-lg flex items-center justify-center text-white mb-4 mx-auto">
+                        <span class="material-icons">home</span>
+                    </div>
+                    <h4 class="font-bold mb-2">Local-First</h4>
+                    <p class="text-sm text-gray-500">Single, portable SQLite file backend.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-brand-500 rounded-lg flex items-center justify-center text-white mb-4 mx-auto">
+                        <span class="material-icons">terminal</span>
+                    </div>
+                    <h4 class="font-bold mb-2">Pythonic</h4>
+                    <p class="text-sm text-gray-500">Standard data structures & Pydantic.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="py-24 bg-gray-50 dark:bg-gray-900">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center mb-16" data-lang="en">Everything You Need</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-sm border border-transparent hover:border-brand-500 transition-all">
+                    <h4 class="font-bold mb-4 flex items-center gap-2"><span class="material-icons text-brand-500">book</span> Collections</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Store rich documents with vector embeddings and Pydantic metadata.</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-sm border border-transparent hover:border-brand-500 transition-all">
+                    <h4 class="font-bold mb-4 flex items-center gap-2"><span class="material-icons text-brand-500">search</span> Vector Search</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Fast linear vector search using an in-memory numpy-based index.</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-sm border border-transparent hover:border-brand-500 transition-all">
+                    <h4 class="font-bold mb-4 flex items-center gap-2"><span class="material-icons text-brand-500">hub</span> Knowledge Graph</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Create directed, labeled relationships and traverse them easily.</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-sm border border-transparent hover:border-brand-500 transition-all">
+                    <h4 class="font-bold mb-4 flex items-center gap-2"><span class="material-icons text-brand-500">rss_feed</span> Pub/Sub</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Thread and process-safe publish-subscribe system for real-time messaging.</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-sm border border-transparent hover:border-brand-500 transition-all">
+                    <h4 class="font-bold mb-4 flex items-center gap-2"><span class="material-icons text-brand-500">history</span> Logs</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Time-indexed, structured logs for monitoring and historical queries.</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-sm border border-transparent hover:border-brand-500 transition-all">
+                    <h4 class="font-bold mb-4 flex items-center gap-2"><span class="material-icons text-brand-500">dns</span> REST API</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Serve your database instantly over HTTP with `beaver serve`.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quickstart -->
+    <section id="quickstart" class="py-24 bg-white dark:bg-gray-800">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center mb-16" data-lang="en">Quickstart</h2>
+            <div class="bg-gray-900 rounded-2xl p-8 overflow-x-auto">
+                <pre class="text-emerald-400 font-mono text-sm">
+from beaver import BeaverDB
+
+db = BeaverDB("data.db")
+
+# Use a namespaced dictionary
+config = db.dict("app_config")
+config["theme"] = "dark"
+
+# Use a persistent list
+tasks = db.list("daily_tasks")
+tasks.push("Deploy feature")
+
+# Full-text search in collections
+articles = db.collection("articles")
+articles.index(id="1", body="SQLite is powerful")
+results = articles.match(query="database")
+                </pre>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-gray-400 py-12 text-center">
+        <p>&copy; 2026 SYALIA S.R.L. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const langToggle = document.getElementById('language-toggle');
+            const enElements = document.querySelectorAll('[data-lang="en"]');
+            const esElements = document.querySelectorAll('[data-lang="es"]');
+            function updateLanguage() {
+                const isSpanish = langToggle.checked;
+                enElements.forEach(el => el.style.display = isSpanish ? 'none' : '');
+                esElements.forEach(el => el.style.display = isSpanish ? '' : 'none');
+            }
+            langToggle.addEventListener('change', updateLanguage);
+            updateLanguage();
+
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            themeToggle.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.toggle('dark');
+                localStorage.theme = isDark ? 'dark' : 'light';
+                themeIcon.textContent = isDark ? 'dark_mode' : 'light_mode';
+            });
+        });
+    </script>
+</body>
+</html>

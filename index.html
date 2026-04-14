@@ -1,13 +1,484 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="">
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SYALIA</title>
-    <meta http-equiv="refresh" content="0; url=/en" />
-</head>
-<body>
+    <title>SYALIA - AI, Data Science & Business Analytics</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind for class-based dark mode and custom colors -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        syaliaBlue: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#5281a3', // Original Syalia medium blue
+                            700: '#343440', // Original Syalia dark blue/gray
+                            800: '#075985',
+                            900: '#0c4a6e',
+                            950: '#082f49',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Font (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
 
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Style for the language toggle */
+        .toggle-checkbox:checked+.toggle-label {
+            background-color: #5281a3;
+        }
+
+        .toggle-checkbox:checked+.toggle-label::after {
+            transform: translateX(1rem);
+        }
+
+        .toggle-label::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            border-radius: 9999px;
+            background-color: white;
+            transition: transform 0.2s ease-in-out;
+        }
+    </style>
+    <!-- Theme switching script to prevent FOUC -->
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+
+<body class="bg-white text-gray-800 dark:bg-gray-900 dark:text-gray-100 antialiased">
+
+    <!-- Header / Navigation -->
+    <nav class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#">
+                        <img class="h-10 w-auto" src="/img/logo-title.png" alt="SYALIA">
+                    </a>
+                </div>
+
+                <!-- Desktop Nav -->
+                <div class="hidden md:flex md:space-x-8 ml-10">
+                    <a href="#services" class="font-medium text-gray-600 dark:text-gray-300 hover:text-syaliaBlue-600 transition-colors" data-lang="en">Services</a>
+                    <a href="#services" class="font-medium text-gray-600 dark:text-gray-300 hover:text-syaliaBlue-600 transition-colors" data-lang="es" style="display: none;">Servicios</a>
+
+                    <a href="#products" class="font-medium text-gray-600 dark:text-gray-300 hover:text-syaliaBlue-600 transition-colors" data-lang="en">Products</a>
+                    <a href="#products" class="font-medium text-gray-600 dark:text-gray-300 hover:text-syaliaBlue-600 transition-colors" data-lang="es" style="display: none;">Productos</a>
+
+                    <a href="#team" class="font-medium text-gray-600 dark:text-gray-300 hover:text-syaliaBlue-600 transition-colors" data-lang="en">Team</a>
+                    <a href="#team" class="font-medium text-gray-600 dark:text-gray-300 hover:text-syaliaBlue-600 transition-colors" data-lang="es" style="display: none;">Equipo</a>
+
+                    <a href="https://blog.syalia.com" class="font-medium text-gray-600 dark:text-gray-300 hover:text-syaliaBlue-600 transition-colors">Blog</a>
+                    
+                    <a href="#contact" class="font-medium text-gray-600 dark:text-gray-300 hover:text-syaliaBlue-600 transition-colors" data-lang="en">Contact</a>
+                    <a href="#contact" class="font-medium text-gray-600 dark:text-gray-300 hover:text-syaliaBlue-600 transition-colors" data-lang="es" style="display: none;">Contacto</a>
+                </div>
+
+                <!-- Controls -->
+                <div class="flex items-center space-x-4">
+                    <!-- Language -->
+                    <div class="flex items-center space-x-2">
+                        <span class="font-medium text-xs text-gray-500">EN</span>
+                        <div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+                            <input type="checkbox" name="language-toggle" id="language-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer opacity-0"/>
+                            <label for="language-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 dark:bg-gray-600 cursor-pointer w-10 relative after:w-5 after:h-5"></label>
+                        </div>
+                        <span class="font-medium text-xs text-gray-500">ES</span>
+                    </div>
+
+                    <!-- Theme -->
+                    <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 rounded-full p-1">
+                        <span class="material-icons" id="theme-icon">light_mode</span>
+                    </button>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-button" class="md:hidden text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 rounded-full p-1">
+                        <span class="material-icons" id="mobile-menu-icon">menu</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden">
+                <div class="py-4 space-y-3 border-t border-gray-100 dark:border-gray-700">
+                    <a href="#services" class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700" data-lang="en">Services</a>
+                    <a href="#services" class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700" data-lang="es" style="display: none;">Servicios</a>
+
+                    <a href="#products" class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700" data-lang="en">Products</a>
+                    <a href="#products" class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700" data-lang="es" style="display: none;">Productos</a>
+
+                    <a href="#team" class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700" data-lang="en">Team</a>
+                    <a href="#team" class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700" data-lang="es" style="display: none;">Equipo</a>
+
+                    <a href="#contact" class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700" data-lang="en">Contact</a>
+                    <a href="#contact" class="mobile-menu-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700" data-lang="es" style="display: none;">Contacto</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative bg-gradient-to-br from-syaliaBlue-700 to-syaliaBlue-600 text-white overflow-hidden">
+        <div class="absolute inset-0 opacity-20 pointer-events-none">
+            <div class="absolute top-0 left-0 w-64 h-64 bg-white rounded-full mix-blend-overlay blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+            <div class="absolute bottom-0 right-0 w-96 h-96 bg-syaliaBlue-300 rounded-full mix-blend-overlay blur-3xl translate-x-1/2 translate-y-1/2"></div>
+        </div>
+        
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 relative z-10">
+            <div class="max-w-3xl">
+                <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6">
+                    <span data-lang="en">We are SYALIA</span>
+                    <span data-lang="es" style="display: none;">Somos SYALIA</span>
+                </h1>
+                <p class="text-xl sm:text-2xl text-blue-100 mb-10 leading-relaxed">
+                    <span data-lang="en">A Cuban startup focusing on research and development of products and services powered by Artificial Intelligence, Machine Learning, Data Science, and Business Analytics.</span>
+                    <span data-lang="es" style="display: none;">Un startup cubano dedicado a la investigación y el desarrollo de productos y servicios basados en Inteligencia Artificial, Aprendizaje Automático, Ciencia de Datos y Analítica de Negocios.</span>
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#contact" class="bg-white text-syaliaBlue-700 hover:bg-blue-50 font-bold px-8 py-4 rounded-full shadow-xl transition transform hover:-translate-y-1">
+                        <span data-lang="en">Contact us</span>
+                        <span data-lang="es" style="display: none;">Contáctanos</span>
+                    </a>
+                    <a href="#products" class="bg-syaliaBlue-800/30 text-white border border-white/20 hover:bg-syaliaBlue-800/50 font-bold px-8 py-4 rounded-full backdrop-blur-sm transition">
+                        <span data-lang="en">View Our Products</span>
+                        <span data-lang="es" style="display: none;">Ver Nuestros Productos</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Products Section (HIGHLIGHT) -->
+    <section id="products" class="py-24 sm:py-32 bg-gray-50 dark:bg-gray-900 overflow-hidden">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                    <span data-lang="en">Our AI Product Ecosystem</span>
+                    <span data-lang="es" style="display: none;">Nuestro Ecosistema de Productos IA</span>
+                </h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300" data-lang="en">Specialized solutions for your most challenging data needs.</p>
+                <p class="text-xl text-gray-600 dark:text-gray-300" data-lang="es" style="display: none;">Soluciones especializadas para tus necesidades de datos más exigentes.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Superbot -->
+                <div class="group relative bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 dark:border-gray-700 flex flex-col">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <span class="material-icons text-6xl text-emerald-500">smart_toy</span>
+                    </div>
+                    <div class="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center text-white mb-6 shadow-lg shadow-emerald-500/20">
+                        <span class="material-icons text-2xl">chat_bubble</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Superbot</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-6 flex-grow" data-lang="en">Next-gen enterprise AI assistants. Multilingual, context-aware, and fully integrable.</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-6 flex-grow" data-lang="es" style="display: none;">Asistentes de IA para empresas. Multilingüe, consciente del contexto y totalmente integrable.</p>
+                    <a href="/superbot" class="inline-flex items-center text-emerald-600 font-bold hover:underline mt-auto">
+                        <span data-lang="en">Learn more</span>
+                        <span data-lang="es" style="display: none;">Saber más</span>
+                        <span class="material-icons ml-1 text-sm">arrow_forward</span>
+                    </a>
+                </div>
+
+                <!-- Clipper -->
+                <div class="group relative bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 dark:border-gray-700 flex flex-col">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <span class="material-icons text-6xl text-teal-500">image_search</span>
+                    </div>
+                    <div class="w-12 h-12 bg-teal-500 rounded-xl flex items-center justify-center text-white mb-6 shadow-lg shadow-teal-500/20">
+                        <span class="material-icons text-2xl">search</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Clipper</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-6 flex-grow" data-lang="en">Semantic image search. Find visual assets using natural language descriptions instead of tags.</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-6 flex-grow" data-lang="es" style="display: none;">Búsqueda semántica de imágenes. Encuentra activos visuales usando lenguaje natural.</p>
+                    <a href="/clipper" class="inline-flex items-center text-teal-600 font-bold hover:underline mt-auto">
+                        <span data-lang="en">Learn more</span>
+                        <span data-lang="es" style="display: none;">Saber más</span>
+                        <span class="material-icons ml-1 text-sm">arrow_forward</span>
+                    </a>
+                </div>
+
+                <!-- VoxPopuli -->
+                <div class="group relative bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 dark:border-gray-700 flex flex-col">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <span class="material-icons text-6xl text-violet-600">insights</span>
+                    </div>
+                    <div class="w-12 h-12 bg-violet-600 rounded-xl flex items-center justify-center text-white mb-6 shadow-lg shadow-violet-600/20">
+                        <span class="material-icons text-2xl">record_voice_over</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">VoxPopuli</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-6 flex-grow" data-lang="en">Qualitative feedback to quantitative insights. AI-assisted survey design and analysis.</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-6 flex-grow" data-lang="es" style="display: none;">Insights cuantitativos desde feedback cualitativo. Diseño y análisis asistido por IA.</p>
+                    <a href="/voxpopuli" class="inline-flex items-center text-violet-600 font-bold hover:underline mt-auto">
+                        <span data-lang="en">Learn more</span>
+                        <span data-lang="es" style="display: none;">Saber más</span>
+                        <span class="material-icons ml-1 text-sm">arrow_forward</span>
+                    </a>
+                </div>
+
+                <!-- Beaver -->
+                <div class="group relative bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 dark:border-gray-700 flex flex-col">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <span class="material-icons text-6xl text-orange-600">storage</span>
+                    </div>
+                    <div class="w-12 h-12 bg-orange-600 rounded-xl flex items-center justify-center text-white mb-6 shadow-lg shadow-orange-600/20">
+                        <span class="material-icons text-2xl">dns</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Beaver</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-6 flex-grow" data-lang="en">Local, embedded database for modern data types. Built on SQLite for speed and reliability.</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-6 flex-grow" data-lang="es" style="display: none;">Base de datos local embebida para tipos de datos modernos. Basada en SQLite para rapidez y confiabilidad.</p>
+                    <a href="/beaver" class="inline-flex items-center text-orange-600 font-bold hover:underline mt-auto">
+                        <span data-lang="en">Learn more</span>
+                        <span data-lang="es" style="display: none;">Saber más</span>
+                        <span class="material-icons ml-1 text-sm">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 bg-white dark:bg-gray-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center mb-16">
+                <span data-lang="en">Our Services</span>
+                <span data-lang="es" style="display: none;">Nuestros Servicios</span>
+            </h2>
+
+            <div class="space-y-24">
+                <!-- Service 1 -->
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="md:w-1/2">
+                        <h3 class="text-3xl font-bold mb-6">
+                            <span data-lang="en">Integrate AI & ML in your portfolio</span>
+                            <span data-lang="es" style="display: none;">Integra IA & ML en tu portafolio</span>
+                        </h3>
+                        <p class="text-lg text-gray-600 dark:text-gray-300 mb-6">
+                            <span data-lang="en">We develop custom solutions based on state-of-the-art technology. Fine-tune pre-trained models or create models from scratch based on your data, for vision, text, audio, and more.</span>
+                            <span data-lang="es" style="display: none;">Desarrollamos soluciones personalizadas basadas en tecnología de punta. Ajustamos modelos preentrenados o creamos modelos desde cero basados en tus datos.</span>
+                        </p>
+                    </div>
+                    <div class="md:w-1/2 bg-syaliaBlue-50 dark:bg-syaliaBlue-900/20 p-8 rounded-3xl">
+                        <img src="/assets/ai.svg" alt="AI Integration" class="w-full h-auto">
+                    </div>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="flex flex-col md:flex-row-reverse items-center gap-12">
+                    <div class="md:w-1/2">
+                        <h3 class="text-3xl font-bold mb-6">
+                            <span data-lang="en">Business Intelligence Platform</span>
+                            <span data-lang="es" style="display: none;">Plataforma de BI</span>
+                        </h3>
+                        <p class="text-lg text-gray-600 dark:text-gray-300 mb-6">
+                            <span data-lang="en">Connect your data sources and get access to smart tools for product recommendations, customer prediction, churn analysis, market insights, and more.</span>
+                            <span data-lang="es" style="display: none;">Conecta tus fuentes de datos y obtén acceso a herramientas inteligentes para recomendaciones, predicción de clientes, análisis de rotación e insights.</span>
+                        </p>
+                    </div>
+                    <div class="md:w-1/2 bg-syaliaBlue-50 dark:bg-syaliaBlue-900/20 p-8 rounded-3xl">
+                        <img src="/assets/platform.svg" alt="BI Platform" class="w-full h-auto">
+                    </div>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="md:w-1/2">
+                        <h3 class="text-3xl font-bold mb-6">
+                            <span data-lang="en">Organize & understand your data</span>
+                            <span data-lang="es" style="display: none;">Organiza y entiende tus datos</span>
+                        </h3>
+                        <p class="text-lg text-gray-600 dark:text-gray-300 mb-6">
+                            <span data-lang="en">We help you build organization-wide data lakes, custom dashboards, and analytic tools to make your business data transparent and help you make better decisions.</span>
+                            <span data-lang="es" style="display: none;">Te ayudamos a crear lagos de datos, paneles personalizados y herramientas analíticas para que tus datos sean transparentes y te ayuden a decidir mejor.</span>
+                        </p>
+                    </div>
+                    <div class="md:w-1/2 bg-syaliaBlue-50 dark:bg-syaliaBlue-900/20 p-8 rounded-3xl">
+                        <img src="/assets/data.svg" alt="Data Lake" class="w-full h-auto">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trusted By -->
+    <section class="py-16 bg-gray-100 dark:bg-gray-900/50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h3 class="text-center text-sm font-bold uppercase tracking-widest text-gray-500 mb-10">
+                <span data-lang="en">Trusted by</span>
+                <span data-lang="es" style="display: none;">Confían en nosotros</span>
+            </h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition duration-500">
+                <img src="/img/clients/logo-fundacion.png" alt="Client 1" class="h-12 mx-auto object-contain">
+                <img src="/img/clients/logo-deepdata.png" alt="Client 2" class="h-12 mx-auto object-contain">
+                <img src="/img/clients/logo-tecnomatica.png" alt="Client 3" class="h-12 mx-auto object-contain">
+                <img src="/img/clients/logo-gplsi.png" alt="Client 4" class="h-12 mx-auto object-contain">
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="py-24 bg-white dark:bg-gray-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center mb-16">
+                <span data-lang="en">Our Leadership Team</span>
+                <span data-lang="es" style="display: none;">Nuestro Equipo Directivo</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <!-- Team 1 -->
+                <div class="text-center">
+                    <img src="/img/team/1.jpg" alt="CEO" class="w-48 h-48 rounded-full mx-auto mb-6 object-cover ring-4 ring-syaliaBlue-100 dark:ring-syaliaBlue-900">
+                    <h3 class="text-xl font-bold">Yudivián Almeida Cruz, Ph.D.</h3>
+                    <p class="text-syaliaBlue-600 font-medium mb-4">Cofounder - CEO</p>
+                </div>
+                <!-- Team 2 -->
+                <div class="text-center">
+                    <img src="/img/team/2.jpg" alt="COO" class="w-48 h-48 rounded-full mx-auto mb-6 object-cover ring-4 ring-syaliaBlue-100 dark:ring-syaliaBlue-900">
+                    <h3 class="text-xl font-bold">Suilan Estévez Velarde, Ph.D.</h3>
+                    <p class="text-syaliaBlue-600 font-medium mb-4">Cofounder - COO</p>
+                </div>
+                <!-- Team 3 -->
+                <div class="text-center">
+                    <img src="/img/team/3.jpg" alt="CTO" class="w-48 h-48 rounded-full mx-auto mb-6 object-cover ring-4 ring-syaliaBlue-100 dark:ring-syaliaBlue-900">
+                    <h3 class="text-xl font-bold">Alejandro Piad Morffis, Ph.D.</h3>
+                    <p class="text-syaliaBlue-600 font-medium mb-4">Cofounder - CTO</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-syaliaBlue-700 text-white relative overflow-hidden">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <h2 class="text-3xl sm:text-5xl font-bold mb-8">
+                <span data-lang="en">Ready to transform your business with AI?</span>
+                <span data-lang="es" style="display: none;">¿Listo para transformar tu negocio con IA?</span>
+            </h2>
+            <p class="text-xl text-blue-100 mb-10">
+                <span data-lang="en">Get access to domain experts and improve your business today.</span>
+                <span data-lang="es" style="display: none;">Accede a expertos en el dominio y mejora tu negocio hoy mismo.</span>
+            </p>
+            <a href="mailto:contact@syalia.com" class="inline-block bg-white text-syaliaBlue-700 hover:bg-blue-50 font-extrabold px-12 py-5 rounded-full shadow-2xl transition transform hover:scale-105">
+                <span data-lang="en">Contact us today!</span>
+                <span data-lang="es" style="display: none;">¡Contáctanos hoy!</span>
+            </a>
+        </div>
+        <!-- Decorative bg -->
+        <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+            <span class="material-icons absolute -bottom-20 -left-20" style="font-size: 300px;">hub</span>
+            <span class="material-icons absolute -top-20 -right-20" style="font-size: 300px;">analytics</span>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12 border-t border-gray-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="flex items-center">
+                    <img src="/img/logo-blue-only-icon.png" alt="Syalia" class="h-8 mr-4 opacity-50">
+                    <span class="text-lg font-bold text-white">SYALIA</span>
+                </div>
+                <div class="text-sm">
+                    &copy; 2026 SYALIA S.R.L. <span data-lang="en">All rights reserved.</span><span data-lang="es" style="display: none;">Todos los derechos reservados.</span>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="https://blog.syalia.com" class="hover:text-white transition">Blog</a>
+                    <a href="mailto:contact@syalia.com" class="hover:text-white transition">Email</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Language Toggle
+            const langToggle = document.getElementById('language-toggle');
+            const enElements = document.querySelectorAll('[data-lang="en"]');
+            const esElements = document.querySelectorAll('[data-lang="es"]');
+
+            function updateLanguage() {
+                const isSpanish = langToggle.checked;
+                document.documentElement.lang = isSpanish ? 'es' : 'en';
+                enElements.forEach(el => el.style.display = isSpanish ? 'none' : '');
+                esElements.forEach(el => el.style.display = isSpanish ? '' : 'none');
+                localStorage.lang = isSpanish ? 'es' : 'en';
+            }
+
+            if (localStorage.lang === 'es') {
+                langToggle.checked = true;
+            }
+            updateLanguage();
+            langToggle.addEventListener('change', updateLanguage);
+
+            // Theme Toggle
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            function updateThemeIcon(theme) {
+                if (themeIcon) themeIcon.textContent = theme === 'dark' ? 'dark_mode' : 'light_mode';
+            }
+            const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+            updateThemeIcon(currentTheme);
+
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    const isDark = document.documentElement.classList.toggle('dark');
+                    const newTheme = isDark ? 'dark' : 'light';
+                    localStorage.theme = newTheme;
+                    updateThemeIcon(newTheme);
+                });
+            }
+
+            // Mobile Menu
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
+
+            if (mobileMenuButton && mobileMenu && mobileMenuIcon) {
+                mobileMenuButton.addEventListener('click', () => {
+                    const isHidden = mobileMenu.classList.toggle('hidden');
+                    mobileMenuIcon.textContent = isHidden ? 'menu' : 'close';
+                });
+                mobileMenuLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenuIcon.textContent = 'menu';
+                    });
+                });
+            }
+        });
+    </script>
 </body>
+
 </html>
