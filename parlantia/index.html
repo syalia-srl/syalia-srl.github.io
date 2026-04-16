@@ -1,362 +1,1006 @@
 <!DOCTYPE html>
 <html lang="es" data-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parlantia | High-Fidelity Audio Ecosystem</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <title>Parlantia | Para los que quieren escuchar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --db: #1F1A5A; --or: #FF951C; --cr: #F1EFE7; --wt: #FFFFFF;
-            --bg: var(--cr); --tx: var(--db); --accent: var(--or);
-            --glass: rgba(255, 255, 255, 0.8);
-            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            --or: #FF951C;
+            /* Naranja Syalia */
+            --db: #1F1A5A;
+            /* Dark Blue */
+            --cr: #F1EFE7;
+            /* Cream */
+            --white: #FFFFFF;
+            --radius: 24px;
+            --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
+        [data-theme="light"] {
+            --bg: var(--cr);
+            --text: var(--db);
+            --surface: var(--white);
+            --glass: rgba(31, 26, 90, 0.05);
+            --border: rgba(31, 26, 90, 0.1);
+        }
+
         [data-theme="dark"] {
-            --bg: #0D0B26; --tx: var(--cr); --glass: rgba(31, 26, 90, 0.8); --wt: #1F1A5A;
+            --bg: #0C0B14;
+            --text: var(--cr);
+            --surface: #161522;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 149, 28, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--tx);
-            margin: 0; transition: var(--transition); line-height: 1.4;
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.4;
+            transition: background 0.3s ease;
         }
 
-        /* --- UI FRAMEWORK --- */
-        .navbar {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 30px 5%; position: fixed; width: 90%; top: 0; z-index: 1000;
+        /* NAVEGACIÓN CON ENLACES */
+        nav {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            padding: 1.2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
         }
-        .logo-text { font-weight: 900; font-size: 1.8rem; letter-spacing: -2px; }
-        .logo-text span { color: var(--or); }
 
-        .ui-controls { display: flex; gap: 10px; }
-        .btn-action {
-            background: var(--tx); color: var(--bg); border: none; padding: 12px 24px;
-            border-radius: 0; font-weight: 700; cursor: pointer; text-transform: uppercase;
-            font-size: 0.7rem; letter-spacing: 1px; transition: var(--transition);
+        .logo {
+            font-weight: 900;
+            font-size: 1.4rem;
+            letter-spacing: -1px;
+            text-transform: uppercase;
         }
-        .btn-action:hover { background: var(--or); color: var(--db); }
 
-        /* --- HERO: TYPOGRAPHIC IMPACT --- */
+        .logo span {
+            color: var(--or);
+        }
+
+        .logo-img {
+            height: 70px; /* Altura para la barra superior (ajusta según necesites) */
+            width: auto;
+            display: block;
+        }
+        
+        .f-logo-img {
+            height: 70px; /* Altura para el footer (ajusta según necesites) */
+            width: auto;
+            display: block;
+        }
+
+        /* Lógica para el Modo Claro (Muestra el logo Light, oculta el Dark) */
+        [data-theme="light"] .logo-dark { display: none; }
+        [data-theme="light"] .logo-light { display: block; }
+
+        /* Lógica para el Modo Oscuro (Muestra el logo Dark, oculta el Light) */
+        [data-theme="dark"] .logo-light { display: none; }
+        [data-theme="dark"] .logo-dark { display: block; }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text);
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--or);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-ui {
+            background: var(--text);
+            color: var(--bg);
+            border: none;
+            padding: 8px 16px;
+            font-weight: 800;
+            font-size: 0.7rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            border-radius: 50px;
+            transition: var(--transition);
+        }
+
+        .btn-ui:hover {
+            background: var(--or);
+            color: #000;
+        }
+
+        /* SECCIONES Y CONTENEDOR */
+        section {
+            padding: 8rem 5%;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 3rem;
+            letter-spacing: -1px;
+        }
+
+        /* HERO */
         .hero {
-            height: 100vh; display: flex; flex-direction: column; justify-content: flex-end;
-            padding: 0 5% 100px 5%; box-sizing: border-box;
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
-        .hero h1 { 
-            font-size: clamp(4rem, 15vw, 12rem); font-weight: 900; line-height: 0.85; 
-            margin: 0; letter-spacing: -0.05em; text-transform: uppercase;
+
+        .hero h1 {
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 900;
+            letter-spacing: -4px;
+            line-height: 0.9;
+            margin-bottom: 2rem;
         }
-        .hero .sub { max-width: 800px; margin-top: 40px; font-size: 1.4rem; font-weight: 300; }
 
-        /* --- SECTION LAYOUT --- */
-        section { padding: 150px 5%; border-top: 1px solid rgba(31, 26, 90, 0.1); }
-        .label { color: var(--or); font-weight: 700; text-transform: uppercase; font-size: 0.9rem; margin-bottom: 20px; display: block; }
-        .section-header { font-size: 4rem; font-weight: 900; margin-bottom: 60px; line-height: 1; }
-
-        /* --- BENTO GRID: CONTENTS --- */
-        .bento { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
-        .bento-item { 
-            grid-column: span 4; background: var(--wt); padding: 50px; 
-            border: 1px solid rgba(31, 26, 90, 0.05); transition: var(--transition);
+        .hero h1 span {
+            color: var(--or);
         }
-        .bento-item:hover { border-color: var(--or); transform: translateY(-10px); }
-        .bento-item h3 { font-size: 1.8rem; margin: 0 0 20px 0; font-weight: 700; }
-        .bento-item p { font-size: 1rem; opacity: 0.8; font-weight: 400; }
 
-        /* --- MARTÍ COLLECTION: THE CORE --- */
-        .marti-section { background: var(--db); color: var(--cr); }
-        .download-list { margin-bottom: 80px; }
-        .download-row {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 30px 0; border-bottom: 1px solid rgba(241, 239, 231, 0.1);
+        .hero p {
+            font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+            max-width: 850px;
+            font-weight: 600;
+            color: var(--text);
+            opacity: 0.9;
+        }
+
+        /* CATÁLOGO */
+        .cat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .cat-card {
+            padding: 2.5rem;
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .cat-card:hover {
+            border-color: var(--or);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .cat-card h3 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            color: var(--or);
+        }
+
+        .cat-card p {
+            font-weight: 600;
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+
+        /* COLECCIÓN MARTÍ */
+        .marti-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 60px;
+            align-items: flex-start;
+        }
+
+        .marti-left {
+            flex: 1 1 350px;
+        }
+
+        .marti-left h2 {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 900;
+            line-height: 0.9;
+            letter-spacing: -3px;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+
+        .marti-left p {
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-left: 6px solid var(--or);
+            padding-left: 1.5rem;
+        }
+
+        .marti-right {
+            flex: 1.5 1 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .dl-group {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .dl-label {
+            display: block;
+            font-weight: 900;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+            opacity: 0.6;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .grid-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        /* BOTONES DE DESCARGA: Naranja por defecto */
+        .btn-dl {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            font-weight: 900;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            background: var(--or);
+            color: #000;
+            border: none;
+        }
+
+        /* Hover Tema Claro -> Azul Oscuro */
+        [data-theme="light"] .btn-dl:hover {
+            background: var(--db);
+            color: var(--cr);
+            transform: translateY(-2px);
+        }
+
+        /* Hover Tema Oscuro -> Blanco */
+        [data-theme="dark"] .btn-dl:hover {
+            background: var(--white);
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+        /* ESTACIÓN DE ESCUCHA */
+        .player-intro {
+            margin-top: 8rem;
+            margin-bottom: 3rem;
+        }
+
+        .player-intro h2 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .player-intro p {
+            font-size: 1.1rem;
+            font-weight: 600;
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+
+        .player-box {
+            background: var(--bg);
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .player-top {
+            display: flex;
+            flex-wrap: wrap;
+            background: var(--surface);
+        }
+
+        .player-sidebar {
+            width: 300px;
+            padding: 2rem;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .p-tab {
+            padding: 1.2rem 1.5rem;
+            text-align: left;
+            background: transparent;
+            border: none;
+            border-radius: 15px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            color: var(--text);
+            text-transform: uppercase;
+            cursor: pointer;
             transition: 0.3s;
         }
-        .download-row:hover { padding-left: 20px; color: var(--or); }
-        .download-row h4 { font-size: 2rem; margin: 0; font-weight: 700; }
-        .dl-link { color: var(--cr); text-decoration: none; border: 1px solid var(--cr); padding: 10px 30px; border-radius: 40px; font-weight: 700; font-size: 0.8rem; }
-        .dl-link:hover { background: var(--or); border-color: var(--or); color: var(--db); }
 
-        /* --- PLAYER: PRO COMPONENT --- */
-        .audio-showroom {
-            background: rgba(0,0,0,0.2); padding: 60px; border-radius: 2px;
-            display: grid; grid-template-columns: 1.5fr 1fr; gap: 80px; align-items: start;
+        .p-tab:hover {
+            background: var(--glass);
         }
-        .track-list { list-style: none; padding: 0; margin: 0; }
-        .track-list li {
-            padding: 20px; border-radius: 4px; cursor: pointer; display: flex; 
-            justify-content: space-between; margin-bottom: 10px; background: rgba(255,255,255,0.05);
+
+        .p-tab.active {
+            background: var(--or);
+            color: #000;
+        }
+
+        .player-tracks {
+            flex-grow: 1;
+            padding: 2rem 3rem;
+            min-width: 300px;
+        }
+
+        .track-list {
+            display: none;
+        }
+
+        .track-list.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .track-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid var(--glass);
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: var(--text);
+            transition: 0.2s;
+        }
+
+        .track-row:hover,
+        .track-row.playing {
+            color: var(--or);
+            border-bottom-color: var(--or);
+        }
+
+        .player-bar {
+            background: var(--text);
+            padding: 2rem 3rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .play-btn {
+            width: 60px;
+            height: 60px;
+            background: var(--or);
+            border: none;
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.3s;
+            flex-shrink: 0;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 149, 28, 0.3);
+        }
+
+        .play-btn svg {
+            width: 24px;
+            fill: #000;
+        }
+
+        .play-info {
+            flex-grow: 1;
+        }
+
+        .play-title {
+            color: var(--bg);
+            font-weight: 900;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .progress-rail {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--or);
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        /* TECH & RESONA */
+        .resona-card {
+            background: var(--db);
+            color: var(--cr);
+            border-radius: 50px;
+            padding: 5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        [data-theme="dark"] .resona-card {
+            border: none;
+        }
+
+        /* Cero bordes en modo oscuro */
+        .resona-card h2 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 900;
+            letter-spacing: -2px;
+        }
+
+        .resona-card p {
+            font-size: 1.4rem;
+            font-weight: 500;
+            max-width: 900px;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        /* Efecto Highlight en links */
+        .highlight-link {
+            color: var(--or);
+            font-weight: 900;
+            font-size: 1.2rem;
+            text-decoration: none;
+            border-bottom: 2px solid var(--or);
+            align-self: flex-start;
             transition: 0.3s;
         }
-        .track-list li:hover, .track-list li.active { background: var(--or); color: var(--db); font-weight: 700; }
 
-        .pro-player { position: sticky; top: 150px; text-align: center; }
-        .orb {
-            width: 200px; height: 200px; background: var(--or); border-radius: 50%;
-            margin: 0 auto 40px; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 50px rgba(255, 149, 28, 0.4); cursor: pointer;
+        .highlight-link:hover {
+            background: var(--or);
+            color: #000;
+            padding: 0 10px;
+            border-radius: 4px;
+            border-bottom: 2px solid transparent;
         }
-        .orb svg { width: 50px; fill: var(--db); }
 
-        /* --- FOOTER --- */
-        footer { padding: 150px 5%; background: var(--db); color: var(--cr); text-align: center; }
-        .contact-large { 
-            font-size: clamp(2rem, 8vw, 6rem); font-weight: 900; color: var(--or); 
-            text-decoration: none; display: block; margin: 50px 0; transition: 0.5s;
+        /* ACCESO */
+        .access-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
-        .contact-large:hover { opacity: 0.7; transform: skewX(-10deg); }
+
+        .access-card {
+            padding: 3rem;
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .access-card h3 {
+            font-size: 2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            color: var(--or);
+        }
+
+        /* LANZAMIENTO A TODO LO LARGO Y SUAVIZADO */
+        .launch-strip {
+            background: var(--or);
+            padding: 6rem 5%;
+            text-align: center;
+            width: 100%;
+            color: #2B2B2B;
+            /* Negro suavizado / gris acentuado */
+        }
+
+        .launch-strip h2 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            letter-spacing: -3px;
+            line-height: 1;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            color: inherit;
+        }
+
+        .launch-strip p {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: inherit;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .f-brand {
+            font-size: 2.2rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        .f-links {
+            text-align: right;
+        }
+
+        .f-copy {
+            margin-top: 1rem;
+            font-weight: 700;
+            opacity: 0.5;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
         @media (max-width: 900px) {
-            .bento-item { grid-column: span 12; }
-            .audio-showroom { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 4rem; }
+            .nav-links {
+                display: none;
+            }
+
+            .grid-split {
+                grid-template-columns: 1fr;
+            }
+
+            .grid-4 {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .player-sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+
+            footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .f-links {
+                text-align: left;
+            }
         }
     </style>
 </head>
+
 <body>
 
-<nav class="navbar">
-    <div class="logo-text">PARLANT<span>I</span>A</div>
-    <div class="ui-controls">
-        <button class="btn-action" onclick="toggleLang()">ES / EN</button>
-        <button class="btn-action" onclick="toggleTheme()">MODE</button>
-    </div>
-</nav>
-
-<div id="app">
-    <header class="hero" id="hero-section"></header>
-
-    <section id="concept-section"></section>
-
-    <section id="catalog-section"></section>
-
-    <section class="marti-section" id="marti-section"></section>
-
-    <section id="stack-section"></section>
-
-    <section id="access-section"></section>
-</div>
-
-<footer id="footer-section"></footer>
-
-<audio id="core-audio"></audio>
-
-<script>
-/**
- * --- DATA LAYER: TEXT VARIABLES ---
- * Centralizamos todo el contenido para facilitar ediciones y traducciones.
- */
-const CONTENT = {
-    es: {
-        hero_h1: "PARLANT<span>I</span>A",
-        hero_sub: "La convergencia definitiva entre la preservación literaria y el procesamiento neuronal de audio. No solo creamos audiolibros; desarrollamos una infraestructura sonora para el conocimiento.",
-        
-        concept_label: "El Manifiesto",
-        concept_h2: "Redefiniendo la escucha técnica y cultural.",
-        concept_p1: "Parlantia nace en Syalia S.R.L. como una respuesta a la necesidad de contenidos audibles de alta precisión. Integramos modelos de lenguaje avanzados para asegurar que cada matiz, pausa e intención del autor sea preservada.",
-        concept_p2: "Nuestro ecosistema permite una transición fluida entre la lectura tradicional y el consumo auditivo profesional, optimizando la retención y la accesibilidad.",
-
-        catalog_label: "Diversidad de Formatos",
-        catalog_h2: "Un catálogo multiforme.",
-        cat_1_t: "Clásicos Universales", cat_1_d: "La herencia literaria del mundo re-imaginada a través de voces sintéticas de alta fidelidad.",
-        cat_2_t: "Noticiarios Dinámicos", cat_2_d: "Síntesis de actualidad producidas en tiempo real para un consumo informativo ágil.",
-        cat_3_t: "IA-Native Content", cat_3_d: "Nuevas fronteras narrativas donde la IA actúa como co-creadora del guion y la atmósfera sonora.",
-        cat_4_t: "Podcasts & Diálogos", cat_4_d: "Espacios de análisis técnico y cultural con una postproducción automatizada de nivel premium.",
-        cat_5_t: "Literatura Técnica", cat_5_d: "Tratados, manuales y libros especializados optimizados para el aprendizaje continuo.",
-        cat_6_t: "Lírica & Relatos", cat_6_d: "Formatos breves donde la interpretación de la voz es el centro de la experiencia.",
-
-        marti_label: "Lanzamiento Exclusivo",
-        marti_h2: "Colección José Martí.",
-        marti_sub: "Acceso libre de costo. Digitalización humana de la obra del Maestro.",
-        marti_play_h3: "Estación de Escucha",
-
-        stack_label: "Ingeniería de Audio",
-        stack_h2: "Powered by Resona.",
-        stack_p: "La excelencia de Parlantia reside en Resona, nuestra herramienta propietaria de producción. Resona no solo 'lee' texto; analiza la semántica, detecta emociones y ajusta la cadencia vocal basándose en el contexto del contenido. Es la IA al servicio de la sensibilidad humana.",
-
-        access_label: "Soberanía de Acceso",
-        access_h2: "Modelos de Interacción.",
-        acc_1_t: "Acceso Abierto", acc_1_d: "Obras de dominio público y colecciones fundacionales disponibles para toda la comunidad sin costo.",
-        acc_2_t: "Suscripción por Cupos", acc_2_d: "Modelo de membresía flexible. Accede a un volumen determinado de productos según tus necesidades por periodo.",
-        acc_3_t: "Pago por Producto", acc_3_d: "Adquisición individual de contenidos exclusivos, técnicos o de alta especialización (Lifetime access).",
-
-        footer_h2: "¿Construimos el futuro?",
-        footer_sub: "Lanzamiento oficial programada para 2026. Contacta con nuestro equipo técnico.",
-    },
-    en: {
-        hero_h1: "PARLANT<span>I</span>A",
-        hero_sub: "The ultimate convergence between literary preservation and neural audio processing. We don't just create audiobooks; we build a sound infrastructure for knowledge.",
-        
-        concept_label: "The Manifesto",
-        concept_h2: "Redefining technical and cultural listening.",
-        concept_p1: "Parlantia was born at Syalia S.R.L. as a response to the need for high-precision audible content. We integrate advanced language models to ensure every nuance, pause, and author intention is preserved.",
-        concept_p2: "Our ecosystem allows a smooth transition between traditional reading and professional auditory consumption, optimizing retention and accessibility.",
-
-        catalog_label: "Format Diversity",
-        catalog_h2: "A multiform catalog.",
-        cat_1_t: "Universal Classics", cat_1_d: "The world's literary heritage re-imagined through high-fidelity synthetic voices.",
-        cat_2_t: "Dynamic News", cat_2_d: "Current affairs summaries produced in real-time for agile information consumption.",
-        cat_3_t: "AI-Native Content", cat_3_d: "New narrative frontiers where AI acts as a co-creator of the script and atmosphere.",
-        cat_4_t: "Podcasts & Dialogues", cat_4_d: "Technical and cultural analysis spaces with premium-level automated post-production.",
-        cat_5_t: "Technical Literature", cat_5_d: "Treatises, manuals, and specialized books optimized for continuous learning.",
-        cat_6_t: "Lyrics & Stories", cat_6_d: "Short formats where voice interpretation is the heart of the experience.",
-
-        marti_label: "Exclusive Launch",
-        marti_h2: "José Martí Collection.",
-        marti_sub: "Free access. Human digitization of the Master's work.",
-        marti_play_h3: "Listening Station",
-
-        stack_label: "Audio Engineering",
-        stack_h2: "Powered by Resona.",
-        stack_p: "Parlantia's excellence lies in Resona, our proprietary production tool. Resona doesn't just 'read' text; it analyzes semantics, detects emotions, and adjusts vocal cadence based on content context. It is AI at the service of human sensitivity.",
-
-        access_label: "Access Sovereignty",
-        access_h2: "Interaction Models.",
-        acc_1_t: "Open Access", acc_1_d: "Public domain works and foundational collections available to the community at no cost.",
-        acc_2_t: "Quota Subscription", acc_2_d: "Flexible membership model. Access a defined volume of products according to your needs per period.",
-        acc_3_t: "Pay per Product", acc_3_d: "Individual acquisition of exclusive, technical, or highly specialized content (Lifetime access).",
-
-        footer_h2: "Shall we build the future?",
-        footer_sub: "Official launch scheduled for 2026. Contact our technical team.",
-    }
-};
-
-let currentLang = 'es';
-
-function render() {
-    const d = CONTENT[currentLang];
-    
-    // HERO
-    document.getElementById('hero-section').innerHTML = `
-        <h1>${d.hero_h1}</h1>
-        <p class="sub">${d.hero_sub}</p>
-    `;
-
-    // CONCEPT
-    document.getElementById('concept-section').innerHTML = `
-        <span class="label">${d.concept_label}</span>
-        <h2 class="section-header">${d.concept_h2}</h2>
-        <div class="bento" style="display:flex; gap:60px;">
-            <p style="flex:1; font-size:1.5rem;">${d.concept_p1}</p>
-            <p style="flex:1; font-size:1.5rem; opacity:0.6;">${d.concept_p2}</p>
+    <nav>
+        <a href="#" class="logo">
+            <img src="./images/logo-light.png" alt="Parlantia" class="logo-img logo-light">
+            <img src="./images/logo-dark.png" alt="Parlantia" class="logo-img logo-dark">
+        </a>
+        <div class="nav-links">
+            <a href="#ecosistema" data-es="Ecosistema" data-en="Ecosystem">Ecosistema</a>
+            <a href="#coleccion" data-es="Colección" data-en="Collection">Colección</a>
+            <a href="#resona" data-es="Tecnología" data-en="Technology">Tecnología</a>
+            <a href="#acceso" data-es="Acceso" data-en="Access">Acceso</a>
         </div>
-    `;
-
-    // CATALOG (Bento Grid)
-    document.getElementById('catalog-section').innerHTML = `
-        <span class="label">${d.catalog_label}</span>
-        <h2 class="section-header">${d.catalog_h2}</h2>
-        <div class="bento">
-            <div class="bento-item"><h3>${d.cat_1_t}</h3><p>${d.cat_1_d}</p></div>
-            <div class="bento-item"><h3>${d.cat_2_t}</h3><p>${d.cat_2_d}</p></div>
-            <div class="bento-item"><h3>${d.cat_3_t}</h3><p>${d.cat_3_d}</p></div>
-            <div class="bento-item"><h3>${d.cat_4_t}</h3><p>${d.cat_4_d}</p></div>
-            <div class="bento-item"><h3>${d.cat_5_t}</h3><p>${d.cat_5_d}</p></div>
-            <div class="bento-item"><h3>${d.cat_6_t}</h3><p>${d.cat_6_d}</p></div>
+        <div class="nav-actions">
+            <button class="btn-ui" onclick="toggleLang()" id="langBtn">EN</button>
+            <button class="btn-ui" onclick="toggleTheme()" id="themeBtn">DARK</button>
         </div>
-    `;
+    </nav>
 
-    // MARTI (The Downloads and Player)
-    document.getElementById('marti-section').innerHTML = `
-        <span class="label">${d.marti_label}</span>
-        <h2 class="section-header" style="color:var(--or)">${d.marti_h2}</h2>
-        <p style="font-size:1.8rem; margin-bottom:60px;">${d.marti_sub}</p>
-        
-        <div class="download-list">
-            <div class="download-row"><h4>La Edad de Oro</h4><a href="mp3/oro_full.mp3" class="dl-link" download>DOWNLOAD FULL MP3</a></div>
-            <div class="download-row"><h4>Ismaelillo</h4><a href="mp3/ism_full.mp3" class="dl-link" download>DOWNLOAD FULL MP3</a></div>
-            <div class="download-row"><h4>Versos Sencillos</h4><a href="mp3/ver_full.mp3" class="dl-link" download>DOWNLOAD FULL MP3</a></div>
-            <div class="download-row"><h4>Nuestra América</h4><a href="mp3/ame_full.mp3" class="dl-link" download>DOWNLOAD FULL MP3</a></div>
-        </div>
+    <header class="hero container">
+        <h1 id="h-title" data-es="Para los que quieren<br><span>escuchar</span>"
+            data-en="For those who<br>want to <span>listen.</span>">Para los que quieren<br><span>escuchar</span></h1>
+        <p id="h-sub"
+            data-es="El ecosistema definitivo donde encontrar las letras hechas voz. Un catálogo en constante expansión donde cada texto es interpretado y producido íntegramente por nuestra propia IA."
+            data-en="The definitive ecosystem to find words turned into voice. A constantly expanding catalog where every text is interpreted and produced entirely by our own AI.">
+            El ecosistema definitivo donde encontrar las letras hechas voz. Un catálogo en constante expansión donde
+            cada texto es interpretado y producido íntegramente por nuestra propia IA.</p>
+    </header>
 
-        <div class="audio-showroom">
-            <div>
-                <h3>${d.marti_play_h3}</h3>
-                <ul class="track-list" id="playlist">
-                    <li onclick="play('mp3/oro1.mp3', this)"><span>Edad de Oro - Fragmento I</span> <span>03:20</span></li>
-                    <li onclick="play('mp3/oro2.mp3', this)"><span>Edad de Oro - Fragmento II</span> <span>02:45</span></li>
-                    <li onclick="play('mp3/ism1.mp3', this)"><span>Ismaelillo - Muestra Lírica</span> <span>01:50</span></li>
-                    <li onclick="play('mp3/ame.mp3', this)"><span>Nuestra América - Obra Completa</span> <span>18:10</span></li>
-                </ul>
+    <section id="ecosistema" class="container">
+        <h2 class="section-title" data-es="Ecosistema" data-en="Ecosystem">Ecosistema</h2>
+        <div class="cat-grid">
+            <div class="cat-card">
+                <h3 data-es="Audiolibros" data-en="Audiobooks">Audiolibros</h3>
+                <p data-es="La literatura universal interpretada con voces de alta fidelidad que respetan la intención original del autor."
+                    data-en="World literature interpreted with high-fidelity voices that respect the author's original intent.">
+                    La literatura universal interpretada con voces de alta fidelidad que respetan la intención original
+                    del autor.</p>
             </div>
-            <div class="pro-player">
-                <div class="orb" id="play-btn" onclick="toggleAudio()">
-                    <svg viewBox="0 0 24 24" id="play-icon"><path d="M8 5v14l11-7z"/></svg>
+            <div class="cat-card">
+                <h3 data-es="Noticiarios" data-en="News">Noticiarios</h3>
+                <p data-es="Síntesis de actualidad generadas en tiempo real para mantenerte informado sin detener tu día."
+                    data-en="Real-time news synthesis to keep you informed without stopping your day.">Síntesis de
+                    actualidad generadas en tiempo real para mantenerte informado sin detener tu día.</p>
+            </div>
+            <div class="cat-card">
+                <h3 data-es="Contenido IA" data-en="AI Content">Contenido IA</h3>
+                <p data-es="Nuevas fronteras narrativas donde la inteligencia artificial es la arquitecta del sonido y el guion."
+                    data-en="New narrative frontiers where AI is the architect of sound and script.">Nuevas fronteras
+                    narrativas donde la inteligencia artificial es la arquitecta del sonido y el guion.</p>
+            </div>
+            <div class="cat-card">
+                <h3 data-es="Podcasts" data-en="Podcasts">Podcasts</h3>
+                <p data-es="Análisis y entrevistas con una postproducción automatizada de nivel premium."
+                    data-en="Analysis and interviews with premium level automated post-production.">Análisis y
+                    entrevistas con una postproducción automatizada de nivel premium.</p>
+            </div>
+            <div class="cat-card">
+                <h3 data-es="Libros Técnicos" data-en="Technical Books">Libros Técnicos</h3>
+                <p data-es="Tratados y manuales complejos estructurados para facilitar el aprendizaje continuo a través del oído."
+                    data-en="Complex treatises and manuals structured to facilitate continuous learning through hearing.">
+                    Tratados y manuales complejos estructurados para facilitar el aprendizaje continuo a través del
+                    oído.</p>
+            </div>
+            <div class="cat-card">
+                <h3 data-es="Poesía" data-en="Poetry">Poesía</h3>
+                <p data-es="Piezas breves donde la IA captura la métrica, la pausa y la sensibilidad lírica."
+                    data-en="Short pieces where AI captures meter, pause, and lyrical sensitivity.">Piezas breves donde
+                    la IA captura la métrica, la pausa y la sensibilidad lírica.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="coleccion" class="container">
+        <div class="marti-wrapper">
+            <div class="marti-left">
+                <h2 data-es="Colección<br>José Martí" data-en="José Martí<br>Collection">Colección<br>José Martí</h2>
+                <p data-es="Como demostración técnica de nuestra plataforma, abrimos el acceso de forma completamente libre de costo a la obra del Maestro."
+                    data-en="As a technical demonstration of our platform capacities, we open access completely free to part of the Master's work.">
+                    Como demostración de las capacidades de nuestra plataforma, abrimos el acceso de forma completamente
+                    libre a parte de la obra del Maestro.</p>
+            </div>
+
+            <div class="marti-right">
+                <div class="dl-group">
+                    <span class="dl-label" data-es="La Edad de Oro" data-en="La Edad de Oro">La Edad de Oro</span>
+                    <div class="grid-4">
+                        <a href="./audiobooks/La_Edad_de_Oro_-_Volumen_I-MONO-64k.m4b"
+                            download="La_Edad_de_Oro_-_Volumen_I-MONO-64k.m4b" class="btn-dl" data-es="VOLUMEN 1"
+                            data-en="VOLUME 1">VOLUMEN 1</a>
+                        <a href="./audiobooks/La_Edad_de_Oro_-_Volumen_II-MONO-64k.m4b"
+                            download="La_Edad_de_Oro_-_Volumen_II-MONO-64k.m4b" class="btn-dl" data-es="VOLUMEN 2"
+                            data-en="VOLUME 2">VOLUMEN 2</a>
+                        <a href="./audiobooks/La_Edad_de_Oro_-_Volumen_III-MONO-64k.m4b"
+                            download="La_Edad_de_Oro_-_Volumen_III-MONO-64k.m4b" class="btn-dl" data-es="VOLUMEN 3"
+                            data-en="VOLUME 3">VOLUMEN 3</a>
+                        <a href="./audiobooks/La_Edad_de_Oro_-_Volumen_IV-MONO-64k.m4b"
+                            download="La_Edad_de_Oro_-_Volumen_IV-MONO-64k.m4b" class="btn-dl" data-es="VOLUMEN 4"
+                            data-en="VOLUME 4">VOLUMEN 4</a>
+                    </div>
                 </div>
-                <h4 id="current-track-name">Select track</h4>
-                <div style="width:100%; height:2px; background:rgba(255,255,255,0.1); margin-top:20px;">
-                    <div id="progress" style="width:0%; height:100%; background:var(--or); transition:0.1s;"></div>
+
+                <div class="grid-split">
+                    <div class="dl-group">
+                        <span class="dl-label" data-es="Ismaelillo" data-en="Ismaelillo">Ismaelillo</span>
+                        <a href="./audiobooks/Ismaelillo-MONO-64k.m4b" download="Ismaelillo-MONO-64k.m4b" class="btn-dl"
+                            data-es="DESCARGAR OBRA" data-en="DOWNLOAD WORK">DESCARGAR OBRA</a>
+                    </div>
+                    <div class="dl-group">
+                        <span class="dl-label" data-es="Versos Sencillos" data-en="Versos Sencillos">Versos
+                            Sencillos</span>
+                        <a href="./audiobooks/Versos_Sencillos-MONO-64k.m4b" download="Versos_Sencillos-MONO-64k.m4b"
+                            class="btn-dl" data-es="DESCARGAR OBRA" data-en="DOWNLOAD WORK">DESCARGAR OBRA</a>
+                    </div>
+                </div>
+
+                <div class="dl-group">
+                    <span class="dl-label" data-es="Nuestra América" data-en="Nuestra América">Nuestra América</span>
+                    <a href="./audiobooks/Nuestra_América-MONO-64k.m4b" download="Nuestra_América-MONO-64k.m4b"
+                        class="btn-dl" data-es="DESCARGAR ENSAYO ÍNTEGRO" data-en="DOWNLOAD FULL ESSAY">DESCARGAR ENSAYO
+                        ÍNTEGRO</a>
                 </div>
             </div>
         </div>
-    `;
 
-    // STACK (Resona)
-    document.getElementById('stack-section').innerHTML = `
-        <span class="label">${d.stack_label}</span>
-        <h2 class="section-header">${d.stack_h2}</h2>
-        <p style="font-size:2.5rem; font-weight:700; max-width:1000px;">${d.stack_p}</p>
-    `;
-
-    // ACCESS
-    document.getElementById('access-section').innerHTML = `
-        <span class="label">${d.access_label}</span>
-        <h2 class="section-header">${d.access_h2}</h2>
-        <div class="bento">
-            <div class="bento-item" style="grid-column:span 4;"><h3>${d.acc_1_t}</h3><p>${d.acc_1_d}</p></div>
-            <div class="bento-item" style="grid-column:span 4; border-color:var(--or);"><h3>${d.acc_2_t}</h3><p>${d.acc_2_d}</p></div>
-            <div class="bento-item" style="grid-column:span 4;"><h3>${d.acc_3_t}</h3><p>${d.acc_3_d}</p></div>
+        <div class="player-intro">
+            <h2 data-es="Estación de Escucha" data-en="Listening Station">Estación de Escucha</h2>
+            <p data-es="Comprueba la calidad interpretativa generada por nuestra IA en tiempo real."
+                data-en="Check the interpretive quality generated by our AI in real-time.">Comprueba la calidad
+                interpretativa generada por nuestra IA en tiempo real.</p>
         </div>
-    `;
 
-    // FOOTER
-    document.getElementById('footer-section').innerHTML = `
-        <h2 class="section-header" style="color:var(--or)">${d.footer_h2}</h2>
-        <p style="font-size:1.5rem;">${d.footer_sub}</p>
-        <a href="mailto:contact@syalia.com" class="contact-large">contact@syalia.com</a>
-        <p style="opacity:0.4; margin-top:100px;">© 2026 Parlantia Ecosystem. Developed by Syalia S.R.L. Havana, Cuba.</p>
-    `;
-}
+        <div class="player-box">
+            <div class="player-top">
+                <div class="player-sidebar">
+                    <button class="p-tab active" onclick="switchTab('oro', this)">LA EDAD DE ORO</button>
+                    <button class="p-tab" onclick="switchTab('ism', this)">ISMAELILLO</button>
+                    <button class="p-tab" onclick="switchTab('ver', this)">VERSOS SENCILLOS</button>
+                    <button class="p-tab" onclick="switchTab('ame', this)">NUESTRA AMÉRICA</button>
+                </div>
+                <div class="player-tracks">
+                    <div id="list-oro" class="track-list active">
+                        <div class="track-row"
+                            onclick="playTrack('Meñique', './audiobooks/04-LEDO-Meñique-MONO-64k.mp3', this)">
+                            <span>Meñique</span><span>32:14</span>
+                        </div>
+                        <div class="track-row"
+                            onclick="playTrack('Bebé y el Señor Don Pomposo', './audiobooks/08-LEDO-Bebé%20y%20el%20Señor%20Don%20Pomposo-MONO-64k.mp3', this)">
+                            <span>Bebé y el Señor Don Pomposo</span><span>07:56</span>
+                        </div>
+                        <div class="track-row"
+                            onclick="playTrack('Los Zapaticos de Rosa','./audiobooks/20-LEDO-Los%20Zapaticos%20de%20Rosa-MONO-64k.mp3', this)">
+                            <span>Los Zapaticos de Rosa</span><span>04:39</span>
+                        </div>
+                    </div>
+                    <div id="list-ism" class="track-list">
+                        <div class="track-row"
+                            onclick="playTrack('Príncipe Enano', './audiobooks/01-ISM-Príncipe_Enano-MONO-64k.mp3', this)">
+                            <span>Príncipe
+                                Enano</span><span>01:31</span>
+                        </div>
+                        <div class="track-row"
+                            onclick="playTrack('Mi Caballero','./audiobooks/04-ISM-Mi_Caballero-MONO-64k.mp3', this)">
+                            <span>Mi Caballero</span><span>00:20</span>
+                        </div>
+                    </div>
+                    <div id="list-ver" class="track-list">
+                        <div class="track-row"
+                            onclick="playTrack('Poema I (Yo soy un hombre sincero...)','./audiobooks/01-VS-Poema_I-MONO-64k.mp3', this)">
+                            <span>Poema I (Yo soy un hombre sincero...)</span><span>02:18</span>
+                        </div>
+                        <div class="track-row"
+                            onclick="playTrack('Poema V (Si ves un monte de espuma...)','./audiobooks/05-VS-Poema_V-MONO-64k.mp3', this)">
+                            <span>Poema V (Si ves un monte de espuma...)</span><span>00:31</span>
+                        </div>
+                        <div class="track-row"
+                            onclick="playTrack('Poema X (El alma trémula y sola...)','./audiobooks/10-VS-Poema_X-MONO-64k.mp3', this)">
+                            <span>Poema X (El alma trémula y sola...)</span><span>00:31</span>
+                        </div>
+                        <div class="track-row"
+                            onclick="playTrack('Poema XIX (El alma trémula y sola...)','./audiobooks/19-VS-Poema_XIX-MONO-64k.mp3', this)">
+                            <span>Poema XIX (Por tus ojos encendidos...)</span><span>00:25</span>
+                        </div>
+                    </div>
+                    <div id="list-ame" class="track-list">
+                        <div class="track-row"
+                            onclick="playTrack('Nuestra América', './audiobooks/Nuestra_América-MONO-64k.m4b', this)">
+                            <span>Ensayo
+                                Íntegro</span><span>21:58</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-// Lógica de UI
-function toggleLang() {
-    currentLang = currentLang === 'es' ? 'en' : 'es';
-    render();
-}
+            <div class="player-bar">
+                <button class="play-btn" id="playBtn" onclick="togglePlay()">
+                    <svg viewBox="0 0 24 24" id="playIcon">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </button>
+                <div class="play-info">
+                    <div class="play-title" id="nowPlaying" data-es="SELECCIONA UNA PISTA — MUESTRA GENERADA"
+                        data-en="SELECT A TRACK — GENERATED SAMPLE">SELECCIONA UNA PISTA — MUESTRA GENERADA</div>
+                    <div class="progress-rail">
+                        <div class="progress-fill" id="pBar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-function toggleTheme() {
-    const theme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', theme);
-}
+    <section id="resona" class="container">
+        <div class="resona-card">
+            <h2 data-es="Voces creadas en Resona,<br>Escuchadas en Parlantia"
+                data-en="Voices created in Resona,<br>Heard on Parlantia">Voces creadas en Resona,<br>Escuchadas en
+                Parlantia</h2>
+            <p data-es="Sin nuestra Plataforma de Inteligencia Artificial, este catálogo no existiría. Absolutamente todo lo que escuchas en Parlantia es generado, interpretado y producido por Resona: el motor de Voces generadas por IA de SYALIA que asegura sentimiemtos casi humanos en cada palabra."
+                data-en="Without our AI Platform, this catalog wouldn't exist. Absolutely everything you hear on Parlantia is generated, interpreted, and produced by Resona: the SYALIA AI voice engine that ensures almost human feelings in every word.">
+                Sin nuestra Plataforma de Inteligencia Artificial, este catálogo no existiría. Absolutamente todo lo que escuchas en Parlantia es generado, interpretado y producido por Resona: el motor de Voces generadas por IA de SYALIA que asegura sentimiemtos casi humanos en cada palabra.</p>
+            <a href="../resona/index.html" target="_blank" class="highlight-link"
+                data-es="DESCRUBRE RESONA &rarr;" data-en="DISCOVER RESONA &rarr;">DESCUBRE RESONA &rarr;</a>
+        </div>
+    </section>
 
-// Lógica de Audio
-const audio = document.getElementById('core-audio');
-function play(src, el) {
-    document.querySelectorAll('.track-list li').forEach(li => li.classList.remove('active'));
-    el.classList.add('active');
-    document.getElementById('current-track-name').innerText = el.querySelector('span').innerText;
-    audio.src = src;
-    audio.play();
-    document.getElementById('play-icon').innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
-}
+    <section id="acceso" class="container">
+        <h2 class="section-title" data-es="Modelos de Acceso" data-en="Access Models">Modelos de Acceso</h2>
+        <div class="access-grid">
+            <div class="access-card">
+                <h3 data-es="Abierto" data-en="Open">Abierto</h3>
+                <p data-es="Obras y Colecciones seleccionadas con acceso gratuito para toda nuestra comunidad."
+                    data-en="Selected Works and Collections with free access for our entire community.">
+                    Obras y Colecciones seleccionadas con acceso gratuito para toda nuestra comunidad.
+                </p>
+            </div>
+            <div class="access-card" style="background: var(--or); color: #000; border: none;">
+                <h3 style="color: #000;" data-es="Suscripción" data-en="Subscription">Suscripción</h3>
+                <p style="opacity: 0.8;"
+                    data-es="Créditos mensuales para canjear por los audios que decidas escuchar de de la plataforma."
+                    data-en="Monthly credits to redeem for the audios you decide to listen from the platform.">
+                    Créditos mensuales para canjear por los audios que decidas escuchar de la plataforma.</p>
+            </div>
+            <div class="access-card">
+                <h3 data-es="Directo" data-en="Direct">Directo</h3>
+                <p data-es="Pago único por textos exclusivos para conservarlos permanentemente."
+                    data-en="One-time payment for exclusive releases to keep them permanently.">
+                    Pago único por textos exclusivos para conservarlos
+                    permanentemente.</p>
+            </div>
+        </div>
+    </section>
 
-function toggleAudio() {
-    if (audio.paused) {
-        audio.play();
-        document.getElementById('play-icon').innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
-    } else {
-        audio.pause();
-        document.getElementById('play-icon').innerHTML = '<path d="M8 5v14l11-7z"/>';
-    }
-}
+    <section class="launch-strip">
+        <h2 data-es="LANZAMIENTO<br>PRONTO EN 2026" data-en="LAUNCHING<br>SOON IN 2026">LANZAMIENTO<br>PRONTO EN 2026</h2>
+        <p data-es="EL DESPLIEGUE TOTAL DEL ECOSISTEMA." data-en="THE TOTAL DEPLOYMENT OF THE ECOSYSTEM.">EL DESPLIEGUE
+            TOTAL DEL ECOSISTEMA.</p>
+    </section>
 
-audio.ontimeupdate = () => {
-    const pct = (audio.currentTime / audio.duration) * 100;
-    document.getElementById('progress').style.width = pct + '%';
-};
+    <footer>
+        <a href="#" class="f-brand">
+            <img src="./images/monochrome-light.png" alt="Parlantia" class="f-logo-img logo-light">
+            <img src="./images/monochrome-dark.png" alt="Parlantia" class="f-logo-img logo-dark">
+        </a>
+        <div class="f-links">
+            <a href="https://syalia.com" target="_blank" class="highlight-link">SYALIA.COM</a>
+            <p class="f-copy" data-es="© 2026 SYALIA. Todos los derechos reservados."
+                data-en="© 2026 SYALIA. All rights reserved.">© 2026 SYALIA. Todos los derechos reservados.</p>
+        </div>
+    </footer>
 
-// Init
-render();
-</script>
+    <audio id="motorAudio"></audio>
+    <script>
+        // === ESTE ES EL NUEVO BLOQUE QUE DEBES PEGAR ===
+        const motorAudio = document.getElementById('motorAudio');
+        let isPlaying = false;
+        let currentLang = 'es';
 
+        function toggleTheme() {
+            const h = document.documentElement;
+            const isDark = h.getAttribute('data-theme') === 'dark';
+            h.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            document.getElementById('themeBtn').innerText = isDark ? 'DARK' : 'LIGHT';
+        }
+
+        function toggleLang() {
+            const btn = document.getElementById('langBtn');
+            currentLang = currentLang === 'es' ? 'en' : 'es';
+            btn.innerText = currentLang === 'es' ? 'EN' : 'ES';
+
+            document.querySelectorAll('[data-es]').forEach(el => {
+                el.innerHTML = el.getAttribute(currentLang === 'es' ? 'data-es' : 'data-en');
+            });
+
+            const nowPlaying = document.getElementById('nowPlaying');
+            if (nowPlaying.innerText.includes("SELECCIONA") || nowPlaying.innerText.includes("SELECT")) {
+                nowPlaying.innerText = currentLang === 'es' ? "SELECCIONA UNA PISTA — MUESTRA GENERADA" : "SELECT A TRACK — GENERATED SAMPLE";
+            }
+        }
+
+        function switchTab(id, btn) {
+            document.querySelectorAll('.p-tab').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.track-list').forEach(l => l.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('list-' + id).classList.add('active');
+        }
+
+        function playTrack(name, rutaArchivo, el, isFull = false) {
+            document.querySelectorAll('.track-row').forEach(r => r.classList.remove('playing'));
+            el.classList.add('playing');
+
+            let cleanName = name.replace(/^[0-9]+\.\s*/, '').toUpperCase();
+            let suffix = currentLang === 'es' ? " — MUESTRA GENERADA" : " — GENERATED SAMPLE";
+            if (isFull) {
+                suffix = currentLang === 'es' ? " — OBRA COMPLETA" : " — FULL WORK";
+            }
+            document.getElementById('nowPlaying').innerText = cleanName + suffix;
+
+            motorAudio.src = rutaArchivo;
+            motorAudio.play();
+
+            isPlaying = true;
+            document.getElementById('playIcon').innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="#000"/>';
+        }
+
+        function togglePlay() {
+            const currentText = document.getElementById('nowPlaying').innerText;
+            if (currentText.includes("SELECCIONA") || currentText.includes("SELECT")) return;
+
+            if (isPlaying) {
+                motorAudio.pause();
+                isPlaying = false;
+                document.getElementById('playIcon').innerHTML = '<path d="M8 5v14l11-7z" fill="#000"/>';
+            } else {
+                motorAudio.play();
+                isPlaying = true;
+                document.getElementById('playIcon').innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="#000"/>';
+            }
+        }
+
+        motorAudio.addEventListener('timeupdate', () => {
+            let barra = document.getElementById('pBar');
+            if (motorAudio.duration) {
+                let porcentaje = (motorAudio.currentTime / motorAudio.duration) * 100;
+                barra.style.width = porcentaje + '%';
+            }
+        });
+
+        motorAudio.addEventListener('ended', () => {
+            isPlaying = false;
+            document.getElementById('playIcon').innerHTML = '<path d="M8 5v14l11-7z" fill="#000"/>';
+            document.getElementById('pBar').style.width = '0%';
+        });
+        // ===============================================
+    </script>
 </body>
+
 </html>
