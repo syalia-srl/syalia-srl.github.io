@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parlantia | High-Fidelity Audio Ecosystem</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --db: #1F1A5A; --or: #FF951C; --cr: #F1EFE7; --wt: #FFFFFF;
+            --bg: var(--cr); --tx: var(--db); --accent: var(--or);
+            --glass: rgba(255, 255, 255, 0.8);
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        [data-theme="dark"] {
+            --bg: #0D0B26; --tx: var(--cr); --glass: rgba(31, 26, 90, 0.8); --wt: #1F1A5A;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--tx);
+            margin: 0; transition: var(--transition); line-height: 1.4;
+        }
+
+        /* --- UI FRAMEWORK --- */
+        .navbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 30px 5%; position: fixed; width: 90%; top: 0; z-index: 1000;
+        }
+        .logo-text { font-weight: 900; font-size: 1.8rem; letter-spacing: -2px; }
+        .logo-text span { color: var(--or); }
+
+        .ui-controls { display: flex; gap: 10px; }
+        .btn-action {
+            background: var(--tx); color: var(--bg); border: none; padding: 12px 24px;
+            border-radius: 0; font-weight: 700; cursor: pointer; text-transform: uppercase;
+            font-size: 0.7rem; letter-spacing: 1px; transition: var(--transition);
+        }
+        .btn-action:hover { background: var(--or); color: var(--db); }
+
+        /* --- HERO: TYPOGRAPHIC IMPACT --- */
+        .hero {
+            height: 100vh; display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 0 5% 100px 5%; box-sizing: border-box;
+        }
+        .hero h1 { 
+            font-size: clamp(4rem, 15vw, 12rem); font-weight: 900; line-height: 0.85; 
+            margin: 0; letter-spacing: -0.05em; text-transform: uppercase;
+        }
+        .hero .sub { max-width: 800px; margin-top: 40px; font-size: 1.4rem; font-weight: 300; }
+
+        /* --- SECTION LAYOUT --- */
+        section { padding: 150px 5%; border-top: 1px solid rgba(31, 26, 90, 0.1); }
+        .label { color: var(--or); font-weight: 700; text-transform: uppercase; font-size: 0.9rem; margin-bottom: 20px; display: block; }
+        .section-header { font-size: 4rem; font-weight: 900; margin-bottom: 60px; line-height: 1; }
+
+        /* --- BENTO GRID: CONTENTS --- */
+        .bento { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
+        .bento-item { 
+            grid-column: span 4; background: var(--wt); padding: 50px; 
+            border: 1px solid rgba(31, 26, 90, 0.05); transition: var(--transition);
+        }
+        .bento-item:hover { border-color: var(--or); transform: translateY(-10px); }
+        .bento-item h3 { font-size: 1.8rem; margin: 0 0 20px 0; font-weight: 700; }
+        .bento-item p { font-size: 1rem; opacity: 0.8; font-weight: 400; }
+
+        /* --- MARTÍ COLLECTION: THE CORE --- */
+        .marti-section { background: var(--db); color: var(--cr); }
+        .download-list { margin-bottom: 80px; }
+        .download-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 30px 0; border-bottom: 1px solid rgba(241, 239, 231, 0.1);
+            transition: 0.3s;
+        }
+        .download-row:hover { padding-left: 20px; color: var(--or); }
+        .download-row h4 { font-size: 2rem; margin: 0; font-weight: 700; }
+        .dl-link { color: var(--cr); text-decoration: none; border: 1px solid var(--cr); padding: 10px 30px; border-radius: 40px; font-weight: 700; font-size: 0.8rem; }
+        .dl-link:hover { background: var(--or); border-color: var(--or); color: var(--db); }
+
+        /* --- PLAYER: PRO COMPONENT --- */
+        .audio-showroom {
+            background: rgba(0,0,0,0.2); padding: 60px; border-radius: 2px;
+            display: grid; grid-template-columns: 1.5fr 1fr; gap: 80px; align-items: start;
+        }
+        .track-list { list-style: none; padding: 0; margin: 0; }
+        .track-list li {
+            padding: 20px; border-radius: 4px; cursor: pointer; display: flex; 
+            justify-content: space-between; margin-bottom: 10px; background: rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+        .track-list li:hover, .track-list li.active { background: var(--or); color: var(--db); font-weight: 700; }
+
+        .pro-player { position: sticky; top: 150px; text-align: center; }
+        .orb {
+            width: 200px; height: 200px; background: var(--or); border-radius: 50%;
+            margin: 0 auto 40px; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 50px rgba(255, 149, 28, 0.4); cursor: pointer;
+        }
+        .orb svg { width: 50px; fill: var(--db); }
+
+        /* --- FOOTER --- */
+        footer { padding: 150px 5%; background: var(--db); color: var(--cr); text-align: center; }
+        .contact-large { 
+            font-size: clamp(2rem, 8vw, 6rem); font-weight: 900; color: var(--or); 
+            text-decoration: none; display: block; margin: 50px 0; transition: 0.5s;
+        }
+        .contact-large:hover { opacity: 0.7; transform: skewX(-10deg); }
+
+        @media (max-width: 900px) {
+            .bento-item { grid-column: span 12; }
+            .audio-showroom { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 4rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo-text">PARLANT<span>I</span>A</div>
+    <div class="ui-controls">
+        <button class="btn-action" onclick="toggleLang()">ES / EN</button>
+        <button class="btn-action" onclick="toggleTheme()">MODE</button>
+    </div>
+</nav>
+
+<div id="app">
+    <header class="hero" id="hero-section"></header>
+
+    <section id="concept-section"></section>
+
+    <section id="catalog-section"></section>
+
+    <section class="marti-section" id="marti-section"></section>
+
+    <section id="stack-section"></section>
+
+    <section id="access-section"></section>
+</div>
+
+<footer id="footer-section"></footer>
+
+<audio id="core-audio"></audio>
+
+<script>
+/**
+ * --- DATA LAYER: TEXT VARIABLES ---
+ * Centralizamos todo el contenido para facilitar ediciones y traducciones.
+ */
+const CONTENT = {
+    es: {
+        hero_h1: "PARLANT<span>I</span>A",
+        hero_sub: "La convergencia definitiva entre la preservación literaria y el procesamiento neuronal de audio. No solo creamos audiolibros; desarrollamos una infraestructura sonora para el conocimiento.",
+        
+        concept_label: "El Manifiesto",
+        concept_h2: "Redefiniendo la escucha técnica y cultural.",
+        concept_p1: "Parlantia nace en Syalia S.R.L. como una respuesta a la necesidad de contenidos audibles de alta precisión. Integramos modelos de lenguaje avanzados para asegurar que cada matiz, pausa e intención del autor sea preservada.",
+        concept_p2: "Nuestro ecosistema permite una transición fluida entre la lectura tradicional y el consumo auditivo profesional, optimizando la retención y la accesibilidad.",
+
+        catalog_label: "Diversidad de Formatos",
+        catalog_h2: "Un catálogo multiforme.",
+        cat_1_t: "Clásicos Universales", cat_1_d: "La herencia literaria del mundo re-imaginada a través de voces sintéticas de alta fidelidad.",
+        cat_2_t: "Noticiarios Dinámicos", cat_2_d: "Síntesis de actualidad producidas en tiempo real para un consumo informativo ágil.",
+        cat_3_t: "IA-Native Content", cat_3_d: "Nuevas fronteras narrativas donde la IA actúa como co-creadora del guion y la atmósfera sonora.",
+        cat_4_t: "Podcasts & Diálogos", cat_4_d: "Espacios de análisis técnico y cultural con una postproducción automatizada de nivel premium.",
+        cat_5_t: "Literatura Técnica", cat_5_d: "Tratados, manuales y libros especializados optimizados para el aprendizaje continuo.",
+        cat_6_t: "Lírica & Relatos", cat_6_d: "Formatos breves donde la interpretación de la voz es el centro de la experiencia.",
+
+        marti_label: "Lanzamiento Exclusivo",
+        marti_h2: "Colección José Martí.",
+        marti_sub: "Acceso libre de costo. Digitalización humana de la obra del Maestro.",
+        marti_play_h3: "Estación de Escucha",
+
+        stack_label: "Ingeniería de Audio",
+        stack_h2: "Powered by Resona.",
+        stack_p: "La excelencia de Parlantia reside en Resona, nuestra herramienta propietaria de producción. Resona no solo 'lee' texto; analiza la semántica, detecta emociones y ajusta la cadencia vocal basándose en el contexto del contenido. Es la IA al servicio de la sensibilidad humana.",
+
+        access_label: "Soberanía de Acceso",
+        access_h2: "Modelos de Interacción.",
+        acc_1_t: "Acceso Abierto", acc_1_d: "Obras de dominio público y colecciones fundacionales disponibles para toda la comunidad sin costo.",
+        acc_2_t: "Suscripción por Cupos", acc_2_d: "Modelo de membresía flexible. Accede a un volumen determinado de productos según tus necesidades por periodo.",
+        acc_3_t: "Pago por Producto", acc_3_d: "Adquisición individual de contenidos exclusivos, técnicos o de alta especialización (Lifetime access).",
+
+        footer_h2: "¿Construimos el futuro?",
+        footer_sub: "Lanzamiento oficial programada para 2026. Contacta con nuestro equipo técnico.",
+    },
+    en: {
+        hero_h1: "PARLANT<span>I</span>A",
+        hero_sub: "The ultimate convergence between literary preservation and neural audio processing. We don't just create audiobooks; we build a sound infrastructure for knowledge.",
+        
+        concept_label: "The Manifesto",
+        concept_h2: "Redefining technical and cultural listening.",
+        concept_p1: "Parlantia was born at Syalia S.R.L. as a response to the need for high-precision audible content. We integrate advanced language models to ensure every nuance, pause, and author intention is preserved.",
+        concept_p2: "Our ecosystem allows a smooth transition between traditional reading and professional auditory consumption, optimizing retention and accessibility.",
+
+        catalog_label: "Format Diversity",
+        catalog_h2: "A multiform catalog.",
+        cat_1_t: "Universal Classics", cat_1_d: "The world's literary heritage re-imagined through high-fidelity synthetic voices.",
+        cat_2_t: "Dynamic News", cat_2_d: "Current affairs summaries produced in real-time for agile information consumption.",
+        cat_3_t: "AI-Native Content", cat_3_d: "New narrative frontiers where AI acts as a co-creator of the script and atmosphere.",
+        cat_4_t: "Podcasts & Dialogues", cat_4_d: "Technical and cultural analysis spaces with premium-level automated post-production.",
+        cat_5_t: "Technical Literature", cat_5_d: "Treatises, manuals, and specialized books optimized for continuous learning.",
+        cat_6_t: "Lyrics & Stories", cat_6_d: "Short formats where voice interpretation is the heart of the experience.",
+
+        marti_label: "Exclusive Launch",
+        marti_h2: "José Martí Collection.",
+        marti_sub: "Free access. Human digitization of the Master's work.",
+        marti_play_h3: "Listening Station",
+
+        stack_label: "Audio Engineering",
+        stack_h2: "Powered by Resona.",
+        stack_p: "Parlantia's excellence lies in Resona, our proprietary production tool. Resona doesn't just 'read' text; it analyzes semantics, detects emotions, and adjusts vocal cadence based on content context. It is AI at the service of human sensitivity.",
+
+        access_label: "Access Sovereignty",
+        access_h2: "Interaction Models.",
+        acc_1_t: "Open Access", acc_1_d: "Public domain works and foundational collections available to the community at no cost.",
+        acc_2_t: "Quota Subscription", acc_2_d: "Flexible membership model. Access a defined volume of products according to your needs per period.",
+        acc_3_t: "Pay per Product", acc_3_d: "Individual acquisition of exclusive, technical, or highly specialized content (Lifetime access).",
+
+        footer_h2: "Shall we build the future?",
+        footer_sub: "Official launch scheduled for 2026. Contact our technical team.",
+    }
+};
+
+let currentLang = 'es';
+
+function render() {
+    const d = CONTENT[currentLang];
+    
+    // HERO
+    document.getElementById('hero-section').innerHTML = `
+        <h1>${d.hero_h1}</h1>
+        <p class="sub">${d.hero_sub}</p>
+    `;
+
+    // CONCEPT
+    document.getElementById('concept-section').innerHTML = `
+        <span class="label">${d.concept_label}</span>
+        <h2 class="section-header">${d.concept_h2}</h2>
+        <div class="bento" style="display:flex; gap:60px;">
+            <p style="flex:1; font-size:1.5rem;">${d.concept_p1}</p>
+            <p style="flex:1; font-size:1.5rem; opacity:0.6;">${d.concept_p2}</p>
+        </div>
+    `;
+
+    // CATALOG (Bento Grid)
+    document.getElementById('catalog-section').innerHTML = `
+        <span class="label">${d.catalog_label}</span>
+        <h2 class="section-header">${d.catalog_h2}</h2>
+        <div class="bento">
+            <div class="bento-item"><h3>${d.cat_1_t}</h3><p>${d.cat_1_d}</p></div>
+            <div class="bento-item"><h3>${d.cat_2_t}</h3><p>${d.cat_2_d}</p></div>
+            <div class="bento-item"><h3>${d.cat_3_t}</h3><p>${d.cat_3_d}</p></div>
+            <div class="bento-item"><h3>${d.cat_4_t}</h3><p>${d.cat_4_d}</p></div>
+            <div class="bento-item"><h3>${d.cat_5_t}</h3><p>${d.cat_5_d}</p></div>
+            <div class="bento-item"><h3>${d.cat_6_t}</h3><p>${d.cat_6_d}</p></div>
+        </div>
+    `;
+
+    // MARTI (The Downloads and Player)
+    document.getElementById('marti-section').innerHTML = `
+        <span class="label">${d.marti_label}</span>
+        <h2 class="section-header" style="color:var(--or)">${d.marti_h2}</h2>
+        <p style="font-size:1.8rem; margin-bottom:60px;">${d.marti_sub}</p>
+        
+        <div class="download-list">
+            <div class="download-row"><h4>La Edad de Oro</h4><a href="mp3/oro_full.mp3" class="dl-link" download>DOWNLOAD FULL MP3</a></div>
+            <div class="download-row"><h4>Ismaelillo</h4><a href="mp3/ism_full.mp3" class="dl-link" download>DOWNLOAD FULL MP3</a></div>
+            <div class="download-row"><h4>Versos Sencillos</h4><a href="mp3/ver_full.mp3" class="dl-link" download>DOWNLOAD FULL MP3</a></div>
+            <div class="download-row"><h4>Nuestra América</h4><a href="mp3/ame_full.mp3" class="dl-link" download>DOWNLOAD FULL MP3</a></div>
+        </div>
+
+        <div class="audio-showroom">
+            <div>
+                <h3>${d.marti_play_h3}</h3>
+                <ul class="track-list" id="playlist">
+                    <li onclick="play('mp3/oro1.mp3', this)"><span>Edad de Oro - Fragmento I</span> <span>03:20</span></li>
+                    <li onclick="play('mp3/oro2.mp3', this)"><span>Edad de Oro - Fragmento II</span> <span>02:45</span></li>
+                    <li onclick="play('mp3/ism1.mp3', this)"><span>Ismaelillo - Muestra Lírica</span> <span>01:50</span></li>
+                    <li onclick="play('mp3/ame.mp3', this)"><span>Nuestra América - Obra Completa</span> <span>18:10</span></li>
+                </ul>
+            </div>
+            <div class="pro-player">
+                <div class="orb" id="play-btn" onclick="toggleAudio()">
+                    <svg viewBox="0 0 24 24" id="play-icon"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+                <h4 id="current-track-name">Select track</h4>
+                <div style="width:100%; height:2px; background:rgba(255,255,255,0.1); margin-top:20px;">
+                    <div id="progress" style="width:0%; height:100%; background:var(--or); transition:0.1s;"></div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // STACK (Resona)
+    document.getElementById('stack-section').innerHTML = `
+        <span class="label">${d.stack_label}</span>
+        <h2 class="section-header">${d.stack_h2}</h2>
+        <p style="font-size:2.5rem; font-weight:700; max-width:1000px;">${d.stack_p}</p>
+    `;
+
+    // ACCESS
+    document.getElementById('access-section').innerHTML = `
+        <span class="label">${d.access_label}</span>
+        <h2 class="section-header">${d.access_h2}</h2>
+        <div class="bento">
+            <div class="bento-item" style="grid-column:span 4;"><h3>${d.acc_1_t}</h3><p>${d.acc_1_d}</p></div>
+            <div class="bento-item" style="grid-column:span 4; border-color:var(--or);"><h3>${d.acc_2_t}</h3><p>${d.acc_2_d}</p></div>
+            <div class="bento-item" style="grid-column:span 4;"><h3>${d.acc_3_t}</h3><p>${d.acc_3_d}</p></div>
+        </div>
+    `;
+
+    // FOOTER
+    document.getElementById('footer-section').innerHTML = `
+        <h2 class="section-header" style="color:var(--or)">${d.footer_h2}</h2>
+        <p style="font-size:1.5rem;">${d.footer_sub}</p>
+        <a href="mailto:contact@syalia.com" class="contact-large">contact@syalia.com</a>
+        <p style="opacity:0.4; margin-top:100px;">© 2026 Parlantia Ecosystem. Developed by Syalia S.R.L. Havana, Cuba.</p>
+    `;
+}
+
+// Lógica de UI
+function toggleLang() {
+    currentLang = currentLang === 'es' ? 'en' : 'es';
+    render();
+}
+
+function toggleTheme() {
+    const theme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+}
+
+// Lógica de Audio
+const audio = document.getElementById('core-audio');
+function play(src, el) {
+    document.querySelectorAll('.track-list li').forEach(li => li.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('current-track-name').innerText = el.querySelector('span').innerText;
+    audio.src = src;
+    audio.play();
+    document.getElementById('play-icon').innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+}
+
+function toggleAudio() {
+    if (audio.paused) {
+        audio.play();
+        document.getElementById('play-icon').innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+    } else {
+        audio.pause();
+        document.getElementById('play-icon').innerHTML = '<path d="M8 5v14l11-7z"/>';
+    }
+}
+
+audio.ontimeupdate = () => {
+    const pct = (audio.currentTime / audio.duration) * 100;
+    document.getElementById('progress').style.width = pct + '%';
+};
+
+// Init
+render();
+</script>
+
+</body>
+</html>
