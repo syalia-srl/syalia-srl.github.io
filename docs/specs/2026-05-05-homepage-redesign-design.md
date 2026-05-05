@@ -9,7 +9,7 @@ status: approved-for-planning
 
 ## Goal
 
-Take `syalia.com`'s front page from a generic Tailwind-template look to a confident, dark-first, AI-product-suite showcase that puts the six SYALIA products at the center and feels slick rather than corporate. Out of scope for this spec: full restyle of product sub-pages.
+Take `syalia.com` from a generic Tailwind-template look to a confident, dark-first, AI-product-suite showcase that puts the six SYALIA products at the center and feels slick rather than corporate. Scope: front page, all six product sub-pages, and a new dedicated `/team/` page — all sharing one visual system.
 
 ## Decisions locked in brainstorming
 
@@ -22,6 +22,9 @@ Take `syalia.com`'s front page from a generic Tailwind-template look to a confid
 | Scroll motion | IntersectionObserver-driven fade+slide reveals on first viewport entry. No scroll-pinned sequences (defer that). |
 | Hero motion | Three slowly drifting blurred blobs + radial-masked grid. Pure CSS keyframes, GPU-friendly. |
 | Build setup | Stay on the **Tailwind CDN** approach used today. No build step. Custom Tailwind config remains inline in `<script>`. |
+| Surfaces in scope | Front page, all six product sub-pages (full restyle to a shared template), new dedicated `/team/` page. |
+| Trust strip | Real client logos (9 available in `img/clients/`) in an auto-scrolling marquee. Hover the strip → slow to ~25%. Hover an individual logo → it lights up while siblings dim. |
+| Team | New `/team/` page with one block per cofounder (3 today). Photo + bio + "Selected work" + "Connect" links. Homepage `#team` becomes a teaser linking out. |
 
 ## Visual system
 
@@ -77,9 +80,38 @@ Sticky, `backdrop-blur-xl`, hairline bottom border at white/5.
 - Background: three drifting blurred blobs (mix-blend `screen`) + radial-masked grid + subtle SVG noise overlay at 4% opacity.
 - Bottom 32px: gradient fade to `ink-950` so the section doesn't end on a hard edge.
 
-### 3. Trust strip
+### 3. Trust strip (real client logos)
 
-Single auto-scrolling marquee, opacity 70%, edge-masked. Contents: industries SYALIA serves (placeholder list — swap to client logos when available). 40s linear loop.
+Single auto-scrolling marquee of partner / client logos, edge-masked left and right with a `linear-gradient(to right, transparent, black 8%, black 92%, transparent)` mask.
+
+Logos available today (in `img/clients/`):
+
+| File | Brand |
+|---|---|
+| `dofleini-logo.svg` | Dofleini |
+| `logo-cognivium.png` | Cognivium |
+| `logo-deepdata.png` | DeepData |
+| `logo-fundacion.png` | Fundación |
+| `logo-glacial.png` | Glacial |
+| `logo-gplsi.png` | GPLSI |
+| `logo-matcom.png` | MatCom |
+| `logo-postdataclub.png` | PostData Club |
+| `logo-tecnomatica.png` | Tecnomatica |
+
+Render the list **twice in sequence** inside one track so the `translateX(-50%)` keyframe loop is seamless (track is 200% width of the visible content; resetting to 0 looks identical to the midpoint).
+
+Logo treatment:
+- Height 36px, `object-contain`, white-tinted via `filter: brightness(0) invert(1)` (so SVG/PNG colors normalize to monochrome on the dark background).
+- Default state: `opacity: 0.55`, `filter: brightness(0) invert(1)`.
+- Per-logo hover: `opacity: 1`, drop the brightness filter (logo regains its original color), `transform: translateY(-2px) scale(1.02)`. 250ms ease-out.
+
+Marquee animation:
+- Track keyframe `marqueeX` runs `translateX(0 → -50%)` over **40s** linear.
+- On `mouseenter` of the **strip wrapper** (not individual logos), animation duration is overridden to **160s** via `animationDuration: '160s'` (4× slowdown — no jump because the keyframes preserve current position when duration changes).
+- On `mouseleave`, restore to 40s.
+- `prefers-reduced-motion: reduce` short-circuits to no animation; logos are simply laid out and the strip is statically displayed (no truncation — the mask still applies).
+
+Section header is light: a single small uppercase line above the strip, e.g., `TRUSTED BY` or `WORKING WITH`. Final wording: `WORKING WITH` (more peer-tone, less brag).
 
 ### 4. Products (the centerpiece)
 
@@ -97,7 +129,7 @@ Single auto-scrolling marquee, opacity 70%, edge-masked. Contents: industries SY
   - **Peek paragraph** (hidden by default): two-sentence description, fades in + slides up 8px on hover.
   - **Bottom row:** "Explore →" in product accent color + mono category tag (`conversation`, `research`, `vision`, `data`, `audio`, `media`).
   - **Card is `<a>`** linking to the product sub-page.
-  - **CSS:** `view-transition-name: card-<slug>` for the morph into sub-page on click.
+  - **CSS:** `view-transition-name: card-<slug>` is set on the **`<h3>` title element inside the card** (not on the whole card), so the morph is a text-to-text headline transition — cleaner than morphing a whole card with mixed contents into a heading.
 - Card content table (final copy):
 
 | Slug | Title | Baseline | Peek (full) | Tag |
@@ -125,8 +157,8 @@ Three big numbered horizontal rows, separated by `border-t border-white/10`:
 
 7/5 split:
 - Left: amber eyebrow `THE TEAM` + display headline "Researchers, engineers, / and a deep love of the work."
-- Right: founding paragraph + amber link "Meet the team →".
-- No team photos on the home page (defer to a sub-page).
+- Right: founding paragraph + amber link `Meet the team →` linking to `/team/`.
+- No team photos on the home page; the dedicated `/team/` page is where they live.
 
 ### 7. Contact
 
@@ -140,6 +172,92 @@ Single centered call:
 ### 8. Footer
 
 Lean: brand mark left, four social/blog links right, hairline top border. No multi-column site map.
+
+## Product sub-page template
+
+All six product sub-pages share a single template. The only per-page differences are:
+
+- Accent color (`--c`): emerald / violet / teal / orange / lime / orange — same colors as the homepage card glyph chip.
+- Glyph (Material Icons name).
+- Hero copy: title, tagline, 2–4 sentence pitch.
+- 3 feature bullets (icon + title + 1-line description).
+- 1–2 alternating "spotlight" sections (image/illustration + headline + paragraph).
+- CTA copy.
+
+### Sub-page sections
+
+1. **Top bar** — identical component to homepage. Active link highlight on `Products`.
+2. **Hero**
+   - Eyebrow: `<sup-script>← back to all products</sup-script>` link in muted ink-300, then accent rule + `PRODUCT — <slug>`.
+   - Title: display 6xl–8xl, single line preferred. Color: white. **`view-transition-name: card-<slug>`** on the `<h1>` element so the morph from the homepage card lands here.
+   - Tagline: ink-300, ~30 words.
+   - Two CTAs (primary in accent color; secondary ghost).
+   - Decorative right-side element: oversized glyph (Material icon at 18rem), accent-color/8 fill, masked by gradient. Intentionally still — no animation; the page motion comes from the view transition itself.
+3. **Feature row** — three columns, each: icon chip (same chip-style as homepage card) + display 2xl headline + ink-300 1-line description.
+4. **Spotlight A** — alternating two-column. Image left, copy right. Image is either a real product screenshot/animation when available, or an SVG composition built from the existing `assets/*.svg` library. Copy: small accent eyebrow, display 4xl headline, ink-300 paragraph, optional bullet list.
+5. **Spotlight B** — second alternating row, image right / copy left.
+6. **CTA block** — identical structure to homepage `Contact` section but adapted: headline addresses the product directly ("Bring `<Product>` to your team."), primary CTA uses product accent color.
+7. **Footer** — identical to homepage.
+
+### Per-product copy (English; ES TBD)
+
+Hero / feature / spotlight copy will be drafted from current sub-page content (already exists for each product) and tightened to the new register. Existing copy is the source of truth for technical claims; tone gets adjusted, not facts. **Drafts will be inlined in the implementation plan, one per sub-page, for Alex's review before the rewrite lands.**
+
+### Out-of-the-box assets per product
+
+| Slug | Accent | Glyph | Existing asset hints |
+|---|---|---|---|
+| superbot | `#10b981` (emerald) | `chat_bubble_outline` | `superbot.png` exists in `img/` |
+| voxpopuli | `#8b5cf6` (violet) | `insights` | `voxpopuli.png` exists in `img/` |
+| clipper | `#14b8a6` (teal) | `image_search` | none — generate from `assets/cards.svg` |
+| beaver | `#f97316` (orange) | `dns` | none — generate from `assets/data.svg` |
+| resona | `#84cc16` (lime) | `graphic_eq` | none — abstract waveform composition |
+| parlantia | `#fb923c` (orange-300) | `menu_book` | use `assets/pdf/` covers if appropriate |
+
+### View-transition pairing rules
+
+For each `<slug>`, the homepage card's **title `<h3>`** and the sub-page hero's **title `<h1>`** must declare matching `view-transition-name: card-<slug>`. Names must be unique on each page. The browser morphs the small `<h3>` into the huge `<h1>` — text-to-text, clean. The rest of the card (icon chip, peek text) fades out with the page; the rest of the sub-page hero fades in.
+
+If both pages declare the same name, the transition works on hard navigation (not just within an SPA shell). No JS required beyond the browser's built-in cross-document view transition support — which Chromium implements on multi-page navigations as of 2024 and is gated by a single `<meta name="view-transition" content="same-origin">` opt-in tag.
+
+## Team page (`/team/`)
+
+A new page. The homepage `#team` section becomes a teaser linking here.
+
+### Layout
+
+1. **Top bar** — identical component, `Team` link active.
+2. **Hero**
+   - Eyebrow: `THE TEAM` with amber accent rule.
+   - Display headline: "Three people. / One curious obsession." (line 2 in `ink-300`). ES variant TBD.
+   - Tagline: 2-line founding-story line. Sources existing copy from current home page.
+3. **Three cofounder blocks** — vertically stacked, full-width per block, `border-t border-white/8` between blocks, generous py-24.
+4. **Closing CTA** — single line "Want to work with us?" + amber pill `hello@syalia.com`.
+5. **Footer** — identical to homepage.
+
+### Cofounder block structure
+
+Each block is a 12-column grid:
+
+- **Cols 1–4 (left):**
+  - Photo: square frame, `aspect-square`, rounded-2xl, `object-cover`, fixed width ~280px on desktop, full width on mobile. Subtle `ring-1 ring-white/10`. **No** heavy color ring.
+  - Below photo: small line `COFOUNDER — <ROLE>` in mono, accent amber.
+- **Cols 5–12 (right):**
+  - Display 4xl name with degree (e.g., "Yudivián Almeida Cruz, Ph.D.")
+  - Display 2xl tagline (1 sentence — to be provided by Alex). ink-300.
+  - Bio paragraphs (2–3 paragraphs, ink-200). ~150–200 words.
+  - **Selected work** — heading `SELECTED WORK` in mono uppercase + amber rule, then a vertical list of items. Each item: title (ink-100) on first line, supporting line (publication / venue / year, ink-400) on second line, optional external link arrow on the right. Designed for ~5–10 items per cofounder.
+  - **Connect** — heading `CONNECT` in mono uppercase + amber rule, then inline pills/icons for: email, LinkedIn, Google Scholar, GitHub, X/Twitter, personal site (whichever apply per cofounder).
+
+### Three cofounders (data already in repo)
+
+| Photo | Name | Role |
+|---|---|---|
+| `img/team/1.jpg` | Yudivián Almeida Cruz, Ph.D. | Cofounder — CEO |
+| `img/team/2.jpg` | Suilan Estévez Velarde, Ph.D. | Cofounder — COO |
+| `img/team/3.jpg` | Alejandro Piad Morffis, Ph.D. | Cofounder — CTO |
+
+Bio paragraphs, taglines, "Selected work" lists, and "Connect" links **will be supplied by Alex separately** and inserted into the rendered template. The implementation will include a clearly-marked `<!-- BIO: ... -->` comment block per cofounder showing where each piece goes.
 
 ## Interactions
 
@@ -184,34 +302,40 @@ Edge cases:
 
 ## File-level changes
 
-- `index.html` — full rewrite. ~430 lines. Self-contained markup + inline Tailwind config + inline custom CSS + inline language/theme JS.
-- Each of `superbot/index.html`, `voxpopuli/index.html`, `clipper/index.html`, `beaver/index.html`, `resona/index.html`, `parlantia/index.html` — minimal touchups: add `view-transition-name: card-<slug>` to the hero element. **No visual restyle in this spec.**
-- `js/custom.js` — review for staleness; if used only for the old language toggle, replace with the new staggered swap module. If wider, keep as-is and add the new code separately.
-- `img/` and `assets/` unchanged.
+- `index.html` — full rewrite. ~450 lines. Self-contained markup + inline Tailwind config + inline custom CSS + inline language/transition JS.
+- Each of `superbot/index.html`, `voxpopuli/index.html`, `clipper/index.html`, `beaver/index.html`, `resona/index.html`, `parlantia/index.html` — full rewrite per the **product sub-page template** above.
+- New: `team/index.html` — built per the **team page** spec.
+- `js/custom.js` — replaced by inline JS in each page (view transitions and language swap are page-local). The file is deleted unless it carries logic worth keeping (audit in implementation plan).
+- `assets/shared.css` (new, optional) — if duplication of inline `<style>` blocks across 8 pages becomes painful, factor the shared system rules into one stylesheet. Decide during implementation; not required up front.
+- `img/` and `assets/` unchanged on disk; new compositions for sub-page hero illustrations may be added under `assets/products/` if needed.
 
 ## Acceptance criteria
 
-1. Front-page renders with the new dark visual system on Chrome (latest), Firefox (latest), Safari 18+.
-2. Hovering a product card reveals the peek paragraph and applies the accent glow.
-3. Clicking a product card navigates to its sub-page; on Chromium browsers, a smooth view transition occurs.
-4. EN/ES toggle swaps every translatable element with the staggered fade-up transition; choice persists across reloads via `localStorage`.
-5. All sections animate in once on first scroll into view.
-6. With `prefers-reduced-motion: reduce`, no animations run.
-7. No console errors. No broken links. No broken images.
-8. Lighthouse score ≥ 90 for Performance and Accessibility on the homepage.
+1. Front page, all six product sub-pages, and the team page render with the new dark visual system on Chrome (latest), Firefox (latest), Safari 18+.
+2. Hovering a product card on the homepage reveals the peek paragraph and applies the accent glow.
+3. Clicking a product card navigates to its sub-page; on Chromium browsers, a smooth view transition morphs the card into the sub-page hero.
+4. The trust strip auto-scrolls; hovering the strip slows to ~25% speed, leaving restores; per-logo hover de-saturates the rest and lights up the hovered logo.
+5. EN/ES toggle swaps every translatable element on every page with the staggered fade-up transition; choice persists across reloads via `localStorage`.
+6. All sections animate in once on first scroll into view.
+7. The team page renders three cofounder blocks at full layout fidelity using the supplied photos; bio / selected-work / connect content is loaded from the markup Alex provides.
+8. With `prefers-reduced-motion: reduce`, no animations run anywhere.
+9. No console errors. No broken links. No broken images.
+10. Lighthouse score ≥ 90 for Performance and Accessibility on the homepage and the team page.
 
 ## Out of scope (explicit)
 
-- Sub-page restyle (only the view-transition annotation lands).
-- Real client logos on the trust strip (placeholder labels until logos are provided).
 - Mobile hamburger menu redesign — preserve existing pattern, restyle only.
 - A `prefers-color-scheme: light` mode — site is dark-only.
 - Build pipeline / Tailwind compilation — stay on CDN.
-- Replacing the placeholder stats (6 / 2018 / 12+ / ∞) with real numbers — Alex confirms separately.
+- Blog (`blog.syalia.com`) — separate property, no changes.
+- Server-side rendering / Jekyll resurrection — site stays static HTML.
+- Backend / forms — `Talk to us` CTAs remain `mailto:hello@syalia.com` until further notice.
 
-## Open items requiring Alex's call before implementation
+## Open items requiring Alex's input before / during implementation
 
-1. Confirm or replace the four hero stats.
-2. Confirm hero copy: "We don't sell artificial intelligence. We build it." — keep as-is, soften, or rewrite?
-3. Provide ES translations for the new product peek copy and the new section/eyebrow strings (or accept light-touch translations and review).
-4. Provide industries (or logos) for the trust strip.
+1. **Hero stats** — confirm or replace the four numbers (6 / 2018 / 12+ / ∞).
+2. **Hero headline** — keep "We don't sell artificial intelligence. We build it.", soften, or rewrite?
+3. **ES translations** — provide for new copy, or accept light-touch translations for review.
+4. **Sub-page copy drafts** — Alex reviews drafts (one per product) inline in the implementation plan before they ship.
+5. **Cofounder content** — for each of the three cofounders: 1-line tagline, 2–3 bio paragraphs, "Selected work" list (~5–10 items each), "Connect" links. Can be supplied incrementally; placeholders ship until provided.
+6. **Trust-strip section header** — confirm `WORKING WITH` or propose alternative.
