@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="view-transition" content="same-origin">
+    <title>Alejandro Piad Morffis — SYALIA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+            },
+            colors: {
+              ink: { 100:'#e9ecf5',200:'#cfd5e6',300:'#a3aece',400:'#6e7ba0',500:'#475070',600:'#2e3450',700:'#1c2138',800:'#11152a',900:'#0a0d1f',950:'#05071a' },
+              syalia: { 300:'#86b3da',400:'#5b8fc4',500:'#3e72ad',600:'#5281a3',700:'#3d6584' },
+              accent: { 300:'#fcd34d',400:'#fbbf24',500:'#f59e0b' },
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/shared.css">
+</head>
+
+<body class="antialiased min-h-screen">
+
+    <!-- Top bar -->
+    <nav class="sticky top-0 z-50 backdrop-blur-xl bg-ink-950/60 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-syalia-400 to-syalia-700 flex items-center justify-center shadow-lg shadow-syalia-500/30">
+                    <span class="display font-bold text-white">S</span>
+                </div>
+                <span class="display font-semibold tracking-tight text-lg">SYALIA</span>
+            </a>
+            <div class="hidden md:flex items-center gap-8 text-sm">
+                <a href="/#products" class="text-ink-300 hover:text-white transition" data-i18n data-en="Products" data-es="Productos">Products</a>
+                <a href="/#services" class="text-ink-300 hover:text-white transition" data-i18n data-en="Services" data-es="Servicios">Services</a>
+                <a href="/team/" class="text-white font-medium" data-i18n data-en="Team" data-es="Equipo">Team</a>
+                <a href="https://blog.syalia.com" class="text-ink-300 hover:text-white transition" data-i18n data-en="Blog" data-es="Blog">Blog</a>
+            </div>
+            <div class="flex items-center gap-3">
+                <button id="lang-toggle" class="text-xs font-medium px-3 py-1.5 rounded-full border border-white/10 hover:border-white/30 transition">EN&nbsp;/&nbsp;ES</button>
+                <a href="/#contact" class="hidden md:inline-flex items-center gap-1.5 text-sm font-semibold text-ink-950 bg-accent-400 hover:bg-accent-300 px-4 py-2 rounded-full transition">
+                    <span data-i18n data-en="Talk to us" data-es="Hablemos">Talk to us</span>
+                    <span class="material-icons text-sm">arrow_outward</span>
+                </a>
+                <button class="navbar-burger md:hidden w-9 h-9 rounded-full border border-white/10 hover:border-white/30 transition flex items-center justify-center" aria-label="Open menu">
+                    <span class="material-icons text-base">menu</span>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile drawer -->
+        <div class="navbar-menu hidden fixed inset-0 z-[60] md:hidden">
+            <div class="navbar-backdrop absolute inset-0 bg-ink-950/80 backdrop-blur-sm"></div>
+            <div class="absolute right-0 top-0 h-full w-80 max-w-full bg-ink-900 border-l border-white/10 p-6 flex flex-col gap-4 overflow-y-auto">
+                <div class="flex items-center justify-between mb-6">
+                    <span class="display font-semibold tracking-tight text-lg">SYALIA</span>
+                    <button class="navbar-close w-9 h-9 rounded-full border border-white/10 flex items-center justify-center" aria-label="Close menu">
+                        <span class="material-icons text-base">close</span>
+                    </button>
+                </div>
+                <a href="/#products" class="text-ink-200 hover:text-white text-lg py-2 border-b border-white/5" data-i18n data-en="Products" data-es="Productos">Products</a>
+                <a href="/#services" class="text-ink-200 hover:text-white text-lg py-2 border-b border-white/5" data-i18n data-en="Services" data-es="Servicios">Services</a>
+                <a href="/team/" class="text-ink-200 hover:text-white text-lg py-2 border-b border-white/5" data-i18n data-en="Team" data-es="Equipo">Team</a>
+                <a href="https://blog.syalia.com" class="text-ink-200 hover:text-white text-lg py-2 border-b border-white/5" data-i18n data-en="Blog" data-es="Blog">Blog</a>
+                <button id="lang-toggle-mobile" class="text-left text-ink-300 hover:text-white text-base py-2 mt-4">EN  /  ES</button>
+                <a href="/#contact" class="mt-4 inline-flex items-center justify-center gap-1.5 text-sm font-semibold text-ink-950 bg-accent-400 hover:bg-accent-300 px-4 py-3 rounded-full transition">
+                    <span data-i18n data-en="Talk to us" data-es="Hablemos">Talk to us</span>
+                    <span class="material-icons text-sm">arrow_outward</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-6">
+        <a href="/team/" class="inline-flex items-center gap-2 text-sm text-ink-300 hover:text-white transition">
+            <span class="material-icons text-base">arrow_back</span>
+            <span data-i18n data-en="Back to team" data-es="[ES: Back to team]">Back to team</span>
+        </a>
+    </div>
+
+    <!-- Main CV grid -->
+    <main class="max-w-7xl mx-auto px-6 lg:px-10 pb-32">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+
+            <!-- LEFT SIDEBAR -->
+            <aside class="lg:col-span-4 lg:sticky lg:top-24 reveal">
+                <!-- Photo -->
+                <div class="aspect-square w-full max-w-[320px] rounded-2xl overflow-hidden ring-1 ring-white/10">
+                    <img src="/img/team/3.jpg" alt="Alejandro Piad Morffis" class="w-full h-full object-cover">
+                </div>
+
+                <!-- Role + Name -->
+                <p class="mt-6 text-xs font-mono uppercase tracking-[0.25em] text-accent-400" data-i18n data-en="Cofounder — CTO" data-es="[ES: Cofounder — CTO]">Cofounder — CTO</p>
+                <h1 class="display text-3xl font-bold mt-2">Alejandro Piad Morffis, <span class="text-ink-300">Ph.D.</span></h1>
+
+                <!-- Key positions -->
+                <div class="mt-10">
+                    <div class="flex items-center gap-3 mb-5">
+                        <span class="w-8 h-px bg-accent-400"></span>
+                        <span class="text-xs font-mono uppercase tracking-[0.25em] text-accent-400" data-i18n data-en="Key positions" data-es="[ES: Key positions]">Key positions</span>
+                    </div>
+                    <ul class="space-y-4">
+                        <li>
+                            <p class="text-sm font-medium text-ink-100" data-i18n data-en="Profesor Titular" data-es="[ES: Profesor Titular]">Profesor Titular</p>
+                            <p class="cv-meta" data-i18n data-en="MatCom, University of Havana — since September 2024" data-es="[ES: MatCom, University of Havana — since September 2024]">MatCom, University of Havana — since September 2024</p>
+                        </li>
+                        <li>
+                            <p class="text-sm font-medium text-ink-100" data-i18n data-en="Coordinator, Youth Council" data-es="[ES: Coordinator, Youth Council]">Coordinator, Youth Council</p>
+                            <p class="cv-meta" data-i18n data-en="Academy of Sciences of Cuba — since January 2025" data-es="[ES: Academy of Sciences of Cuba — since January 2025]">Academy of Sciences of Cuba — since January 2025</p>
+                        </li>
+                        <li>
+                            <p class="text-sm font-medium text-ink-100" data-i18n data-en="Vice President" data-es="[ES: Vice President]">Vice President</p>
+                            <p class="cv-meta" data-i18n data-en="Cuban Society of Mathematics and Computing — since September 2022" data-es="[ES: Cuban Society of Mathematics and Computing — since September 2022]">Cuban Society of Mathematics and Computing — since September 2022</p>
+                        </li>
+                        <li>
+                            <p class="text-sm font-medium text-ink-100" data-i18n data-en="Honorary Member" data-es="[ES: Honorary Member]">Honorary Member</p>
+                            <p class="cv-meta" data-i18n data-en="Cuban Society of Law and Informatics — since July 2025" data-es="[ES: Cuban Society of Law and Informatics — since July 2025]">Cuban Society of Law and Informatics — since July 2025</p>
+                        </li>
+                        <li>
+                            <p class="text-sm font-medium text-ink-100" data-i18n data-en="Member" data-es="[ES: Member]">Member</p>
+                            <p class="cv-meta" data-i18n data-en="Union of Informatics of Cuba — since 2016" data-es="[ES: Union of Informatics of Cuba — since 2016]">Union of Informatics of Cuba — since 2016</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Connect -->
+                <div class="mt-10">
+                    <div class="flex items-center gap-3 mb-5">
+                        <span class="w-8 h-px bg-accent-400"></span>
+                        <span class="text-xs font-mono uppercase tracking-[0.25em] text-accent-400" data-i18n data-en="Connect" data-es="[ES: Connect]">Connect</span>
+                    </div>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="mailto:apiad@matcom.uh.cu" class="inline-flex items-center gap-2 text-sm text-ink-200 px-4 py-2 rounded-full border border-white/15 hover:border-white/40 transition">
+                            <span class="material-icons text-base">mail</span>Email
+                        </a>
+                        <a href="https://scholar.google.com/citations?user=4P9BS6QAAAAJ&hl=en" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm text-ink-200 px-4 py-2 rounded-full border border-white/15 hover:border-white/40 transition">
+                            <span class="material-icons text-base">school</span>Scholar
+                        </a>
+                        <a href="https://orcid.org/0000-0001-9522-3239" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm text-ink-200 px-4 py-2 rounded-full border border-white/15 hover:border-white/40 transition">
+                            <span class="material-icons text-base">badge</span>ORCID
+                        </a>
+                        <a href="https://www.linkedin.com/in/apiad/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm text-ink-200 px-4 py-2 rounded-full border border-white/15 hover:border-white/40 transition">
+                            <span class="material-icons text-base">person</span>LinkedIn
+                        </a>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- RIGHT COLUMN -->
+            <div class="lg:col-span-8 reveal">
+
+                <!-- About -->
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="w-8 h-px bg-accent-400"></span>
+                    <span class="text-xs font-mono uppercase tracking-[0.25em] text-accent-400" data-i18n data-en="About" data-es="[ES: About]">About</span>
+                </div>
+                <p class="display text-2xl sm:text-3xl font-medium text-ink-200 leading-snug mb-10"
+                   data-i18n
+                   data-en="Researcher turning ideas into production AI — co-creator of AutoGOAL and Cecilia, technical lead of the SYALIA suite."
+                   data-es="[ES: Researcher turning ideas into production AI — co-creator of AutoGOAL and Cecilia, technical lead of the SYALIA suite.]">Researcher turning ideas into production AI — co-creator of AutoGOAL and Cecilia, technical lead of the SYALIA suite.</p>
+
+                <!-- Bio -->
+                <div class="cv-prose">
+                    <p data-i18n
+                       data-en="Alejandro is Profesor Titular (Full Professor) at the University of Havana's School of Mathematics and Computer Science, where he leads research at the intersection of natural language processing, knowledge discovery, and applied machine learning. He holds a PhD jointly awarded by the University of Havana and the University of Alicante, and has co-authored more than thirty peer-reviewed papers in venues including EMNLP, ACL, RANLP, and the Journal of Biomedical Informatics."
+                       data-es="[ES: Alejandro is Profesor Titular (Full Professor) at the University of Havana's School of Mathematics and Computer Science, where he leads research at the intersection of natural language processing, knowledge discovery, and applied machine learning. He holds a PhD jointly awarded by the University of Havana and the University of Alicante, and has co-authored more than thirty peer-reviewed papers in venues including EMNLP, ACL, RANLP, and the Journal of Biomedical Informatics.]">Alejandro is Profesor Titular (Full Professor) at the University of Havana's School of Mathematics and Computer Science, where he leads research at the intersection of natural language processing, knowledge discovery, and applied machine learning. He holds a PhD jointly awarded by the University of Havana and the University of Alicante, and has co-authored more than thirty peer-reviewed papers in venues including EMNLP, ACL, RANLP, and the Journal of Biomedical Informatics.</p>
+                    <p data-i18n
+                       data-en="Within SYALIA, Alejandro leads the technical direction of the product suite — the same research that earned national awards for COVID-19 modeling and eHealth knowledge discovery now powers production tools for clients across Cuba, Latin America, and Europe. He is co-creator of AutoGOAL (Cuba's flagship AutoML framework) and a core contributor to Cecilia, the Cuban Spanish language model."
+                       data-es="[ES: Within SYALIA, Alejandro leads the technical direction of the product suite — the same research that earned national awards for COVID-19 modeling and eHealth knowledge discovery now powers production tools for clients across Cuba, Latin America, and Europe. He is co-creator of AutoGOAL (Cuba's flagship AutoML framework) and a core contributor to Cecilia, the Cuban Spanish language model.]">Within SYALIA, Alejandro leads the technical direction of the product suite — the same research that earned national awards for COVID-19 modeling and eHealth knowledge discovery now powers production tools for clients across Cuba, Latin America, and Europe. He is co-creator of AutoGOAL (Cuba's flagship AutoML framework) and a core contributor to <em>Cecilia</em>, the Cuban Spanish language model.</p>
+                    <p data-i18n
+                       data-en="He served as Vice Dean of MatCom (2022–2025) and currently coordinates the Youth Council of the Cuban Academy of Sciences. He is Vice President of the Cuban Society of Mathematics and Computing, and was made Honorary Member of the Cuban Society of Law and Informatics in 2025. His teaching includes more than ten supervised undergraduate theses on knowledge graphs, multimedia generation with LLMs, and conversational agents."
+                       data-es="[ES: He served as Vice Dean of MatCom (2022–2025) and currently coordinates the Youth Council of the Cuban Academy of Sciences. He is Vice President of the Cuban Society of Mathematics and Computing, and was made Honorary Member of the Cuban Society of Law and Informatics in 2025. His teaching includes more than ten supervised undergraduate theses on knowledge graphs, multimedia generation with LLMs, and conversational agents.]">He served as Vice Dean of MatCom (2022–2025) and currently coordinates the Youth Council of the Cuban Academy of Sciences. He is Vice President of the Cuban Society of Mathematics and Computing, and was made Honorary Member of the Cuban Society of Law and Informatics in 2025. His teaching includes more than ten supervised undergraduate theses on knowledge graphs, multimedia generation with LLMs, and conversational agents.</p>
+                </div>
+
+                <!-- Career highlights -->
+                <div class="mt-16">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="w-8 h-px bg-accent-400"></span>
+                        <span class="text-xs font-mono uppercase tracking-[0.25em] text-accent-400" data-i18n data-en="Career highlights" data-es="[ES: Career highlights]">Career highlights</span>
+                    </div>
+                    <div>
+                        <div class="timeline-row">
+                            <span class="timeline-year" data-i18n data-en="2024 –" data-es="[ES: 2024 –]">2024 –</span>
+                            <div>
+                                <p class="text-sm font-medium text-ink-100" data-i18n data-en="Profesor Titular" data-es="[ES: Profesor Titular]">Profesor Titular</p>
+                                <p class="cv-meta" data-i18n data-en="MatCom UH" data-es="[ES: MatCom UH]">MatCom UH</p>
+                            </div>
+                        </div>
+                        <div class="timeline-row">
+                            <span class="timeline-year" data-i18n data-en="2025 –" data-es="[ES: 2025 –]">2025 –</span>
+                            <div>
+                                <p class="text-sm font-medium text-ink-100" data-i18n data-en="Coordinator, Youth Council" data-es="[ES: Coordinator, Youth Council]">Coordinator, Youth Council</p>
+                                <p class="cv-meta" data-i18n data-en="Academy of Sciences of Cuba" data-es="[ES: Academy of Sciences of Cuba]">Academy of Sciences of Cuba</p>
+                            </div>
+                        </div>
+                        <div class="timeline-row">
+                            <span class="timeline-year" data-i18n data-en="2022 –" data-es="[ES: 2022 –]">2022 –</span>
+                            <div>
+                                <p class="text-sm font-medium text-ink-100" data-i18n data-en="Vice President" data-es="[ES: Vice President]">Vice President</p>
+                                <p class="cv-meta" data-i18n data-en="Cuban Society of Mathematics and Computing" data-es="[ES: Cuban Society of Mathematics and Computing]">Cuban Society of Mathematics and Computing</p>
+                            </div>
+                        </div>
+                        <div class="timeline-row">
+                            <span class="timeline-year" data-i18n data-en="2022 – 2025" data-es="[ES: 2022 – 2025]">2022 – 2025</span>
+                            <div>
+                                <p class="text-sm font-medium text-ink-100" data-i18n data-en="Vice Dean (Vicedecano)" data-es="[ES: Vice Dean (Vicedecano)]">Vice Dean (Vicedecano)</p>
+                                <p class="cv-meta" data-i18n data-en="MatCom UH" data-es="[ES: MatCom UH]">MatCom UH</p>
+                            </div>
+                        </div>
+                        <div class="timeline-row">
+                            <span class="timeline-year" data-i18n data-en="2015 – 2022" data-es="[ES: 2015 – 2022]">2015 – 2022</span>
+                            <div>
+                                <p class="text-sm font-medium text-ink-100" data-i18n data-en="Profesor (Instructor)" data-es="[ES: Profesor (Instructor)]">Profesor (Instructor)</p>
+                                <p class="cv-meta" data-i18n data-en="MatCom UH" data-es="[ES: MatCom UH]">MatCom UH</p>
+                            </div>
+                        </div>
+                        <div class="timeline-row">
+                            <span class="timeline-year" data-i18n data-en="2013 – 2015" data-es="[ES: 2013 – 2015]">2013 – 2015</span>
+                            <div>
+                                <p class="text-sm font-medium text-ink-100" data-i18n data-en="Adiestrado" data-es="[ES: Adiestrado]">Adiestrado</p>
+                                <p class="cv-meta" data-i18n data-en="MatCom UH" data-es="[ES: MatCom UH]">MatCom UH</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Selected work -->
+                <div class="mt-16">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="w-8 h-px bg-accent-400"></span>
+                        <span class="text-xs font-mono uppercase tracking-[0.25em] text-accent-400" data-i18n data-en="Selected work" data-es="[ES: Selected work]">Selected work</span>
+                    </div>
+                    <div>
+                        <div class="work-row">
+                            <div>
+                                <p class="text-sm font-medium text-ink-100" data-i18n data-en="Applying Human-in-the-Loop to construct a dataset for determining content reliability to combat fake news" data-es="[ES: Applying Human-in-the-Loop to construct a dataset for determining content reliability to combat fake news]"><em>Applying Human-in-the-Loop to construct a dataset for determining content reliability to combat fake news</em></p>
+                                <p class="cv-meta" data-i18n data-en="Engineering Applications of AI, vol. 126, 2023" data-es="[ES: Engineering Applications of AI, vol. 126, 2023]">Engineering Applications of AI, vol. 126, 2023</p>
+                            </div>
+                            <span class="material-icons text-ink-400 text-base">arrow_outward</span>
+                        </div>
+                        <div class="work-row">
+                            <div>
+                                <p class="text-sm font-medium text-ink-100" data-i18n data-en="Exploiting discourse structure of traditional digital media to enhance automatic fake news detection" data-es="[ES: Exploiting discourse structure of traditional digital media to enhance automatic fake news detection]"><em>Exploiting discourse structure of traditional digital media to enhance automatic fake news detection</em></p>
+                                <p class="cv-meta" data-i18n data-en="Expert Systems with Applications, vol. 169, 2021" data-es="[ES: Expert Systems with Applications, vol. 169, 2021]">Expert Systems with Applications, vol. 169, 2021</p>
+                            </div>
+                            <span class="material-icons text-ink-400 text-base">arrow_outward</span>
+                        </div>
+                        <div class="work-row">
+                            <div>
+                                <p class="text-sm font-medium text-ink-100" data-i18n data-en="Automatic extension of corpora from intelligent ensembling of eHealth knowledge discovery systems outputs" data-es="[ES: Automatic extension of corpora from intelligent ensembling of eHealth knowledge discovery systems outputs]"><em>Automatic extension of corpora from intelligent ensembling of eHealth knowledge discovery systems outputs</em></p>
+                                <p class="cv-meta" data-i18n data-en="J. Biomedical Informatics, vol. 116, 2021" data-es="[ES: J. Biomedical Informatics, vol. 116, 2021]">J. Biomedical Informatics, vol. 116, 2021</p>
+                            </div>
+                            <span class="material-icons text-ink-400 text-base">arrow_outward</span>
+                        </div>
+                        <div class="work-row">
+                            <div>
+                                <p class="text-sm font-medium text-ink-100" data-i18n data-en="A computational ecosystem to support eHealth Knowledge Discovery technologies in Spanish" data-es="[ES: A computational ecosystem to support eHealth Knowledge Discovery technologies in Spanish]"><em>A computational ecosystem to support eHealth Knowledge Discovery technologies in Spanish</em></p>
+                                <p class="cv-meta" data-i18n data-en="J. Biomedical Informatics, vol. 109, 2020" data-es="[ES: J. Biomedical Informatics, vol. 109, 2020]">J. Biomedical Informatics, vol. 109, 2020</p>
+                            </div>
+                            <span class="material-icons text-ink-400 text-base">arrow_outward</span>
+                        </div>
+                        <div class="work-row">
+                            <div>
+                                <p class="text-sm font-medium text-ink-100" data-i18n data-en="Knowledge Discovery in COVID-19 Research Literature" data-es="[ES: Knowledge Discovery in COVID-19 Research Literature]"><em>Knowledge Discovery in COVID-19 Research Literature</em></p>
+                                <p class="cv-meta" data-i18n data-en="RANLP 2021" data-es="[ES: RANLP 2021]">RANLP 2021</p>
+                            </div>
+                            <span class="material-icons text-ink-400 text-base">arrow_outward</span>
+                        </div>
+                        <div class="work-row">
+                            <div>
+                                <p class="text-sm font-medium text-ink-100" data-i18n data-en="A General-Purpose Annotation Model for Knowledge Discovery: Case Study in Spanish Clinical Text" data-es="[ES: A General-Purpose Annotation Model for Knowledge Discovery: Case Study in Spanish Clinical Text]"><em>A General-Purpose Annotation Model for Knowledge Discovery: Case Study in Spanish Clinical Text</em></p>
+                                <p class="cv-meta" data-i18n data-en="2nd Clinical NLP Workshop, 2019" data-es="[ES: 2nd Clinical NLP Workshop, 2019]">2nd Clinical NLP Workshop, 2019</p>
+                            </div>
+                            <span class="material-icons text-ink-400 text-base">arrow_outward</span>
+                        </div>
+                        <div class="work-row">
+                            <div>
+                                <p class="text-sm font-medium text-ink-100" data-i18n data-en="Habilitando la Transformación Digital — Retos sociales de la transformación digital" data-es="[ES: Habilitando la Transformación Digital — Retos sociales de la transformación digital]"><em>Habilitando la Transformación Digital</em> — "Retos sociales de la transformación digital"</p>
+                                <p class="cv-meta" data-i18n data-en="Editorial UH, 2022 (book chapter)" data-es="[ES: Editorial UH, 2022 (book chapter)]">Editorial UH, 2022 (book chapter)</p>
+                            </div>
+                            <span class="material-icons text-ink-400 text-base">arrow_outward</span>
+                        </div>
+                        <div class="work-row">
+                            <div>
+                                <p class="text-sm font-medium text-ink-100" data-i18n data-en="Aplicaciones de la inteligencia artificial ante la COVID-19 en Cuba" data-es="[ES: Aplicaciones de la inteligencia artificial ante la COVID-19 en Cuba]"><em>Aplicaciones de la inteligencia artificial ante la COVID-19 en Cuba</em></p>
+                                <p class="cv-meta" data-i18n data-en="Editorial UH, 2020 (book chapter)" data-es="[ES: Editorial UH, 2020 (book chapter)]">Editorial UH, 2020 (book chapter)</p>
+                            </div>
+                            <span class="material-icons text-ink-400 text-base">arrow_outward</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Awards -->
+                <div class="mt-16">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="w-8 h-px bg-accent-400"></span>
+                        <span class="text-xs font-mono uppercase tracking-[0.25em] text-accent-400" data-i18n data-en="Awards" data-es="[ES: Awards]">Awards</span>
+                    </div>
+                    <div>
+                        <div class="timeline-row">
+                            <span class="timeline-year">2022</span>
+                            <div>
+                                <p class="text-sm font-medium text-ink-100" data-i18n data-en="National Award for Technological Innovation" data-es="[ES: National Award for Technological Innovation]">National Award for Technological Innovation</p>
+                                <p class="cv-meta" data-i18n data-en="CITMA (COVID-19 modeling)" data-es="[ES: CITMA (COVID-19 modeling)]">CITMA (COVID-19 modeling)</p>
+                            </div>
+                        </div>
+                        <div class="timeline-row">
+                            <span class="timeline-year">2021</span>
+                            <div>
+                                <p class="text-sm font-medium text-ink-100" data-i18n data-en="National Annual Award" data-es="[ES: National Annual Award]">National Annual Award</p>
+                                <p class="cv-meta" data-i18n data-en="Cuban Academy of Sciences (eHealth Knowledge Discovery)" data-es="[ES: Cuban Academy of Sciences (eHealth Knowledge Discovery)]">Cuban Academy of Sciences (eHealth Knowledge Discovery)</p>
+                            </div>
+                        </div>
+                        <div class="timeline-row">
+                            <span class="timeline-year">2021</span>
+                            <div>
+                                <p class="text-sm font-medium text-ink-100" data-i18n data-en="Provincial Award for Technological Innovation" data-es="[ES: Provincial Award for Technological Innovation]">Provincial Award for Technological Innovation</p>
+                                <p class="cv-meta" data-i18n data-en="CITMA (COVID-19 modeling)" data-es="[ES: CITMA (COVID-19 modeling)]">CITMA (COVID-19 modeling)</p>
+                            </div>
+                        </div>
+                        <div class="timeline-row">
+                            <span class="timeline-year">2020</span>
+                            <div>
+                                <p class="text-sm font-medium text-ink-100" data-i18n data-en="Special Award · Most Scientifically Relevant Work" data-es="[ES: Special Award · Most Scientifically Relevant Work]">Special Award · Most Scientifically Relevant Work</p>
+                                <p class="cv-meta" data-i18n data-en="CITMA" data-es="[ES: CITMA]">CITMA</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Public engagement -->
+                <div class="mt-16">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="w-8 h-px bg-accent-400"></span>
+                        <span class="text-xs font-mono uppercase tracking-[0.25em] text-accent-400" data-i18n data-en="Public engagement" data-es="[ES: Public engagement]">Public engagement</span>
+                    </div>
+                    <div class="cv-prose">
+                        <p data-i18n
+                           data-en="Alejandro co-organized the eHealth Knowledge Discovery Challenge at IberLEF / TASS (2018–2021), a flagship Spanish-language NLP shared task. He has supervised more than ten undergraduate theses on knowledge graphs, structured-multimedia generation with LLMs, and AI-driven storytelling for video games. As Vice Dean of MatCom (2022–2025), he led curriculum reform around AI and data science, and now coordinates the Youth Council of the Cuban Academy of Sciences."
+                           data-es="[ES: Alejandro co-organized the eHealth Knowledge Discovery Challenge at IberLEF / TASS (2018–2021), a flagship Spanish-language NLP shared task. He has supervised more than ten undergraduate theses on knowledge graphs, structured-multimedia generation with LLMs, and AI-driven storytelling for video games. As Vice Dean of MatCom (2022–2025), he led curriculum reform around AI and data science, and now coordinates the Youth Council of the Cuban Academy of Sciences.]">Alejandro co-organized the eHealth Knowledge Discovery Challenge at IberLEF / TASS (2018–2021), a flagship Spanish-language NLP shared task. He has supervised more than ten undergraduate theses on knowledge graphs, structured-multimedia generation with LLMs, and AI-driven storytelling for video games. As Vice Dean of MatCom (2022–2025), he led curriculum reform around AI and data science, and now coordinates the Youth Council of the Cuban Academy of Sciences.</p>
+                    </div>
+                </div>
+
+                <!-- Outro card -->
+                <section class="mt-16 p-6 rounded-2xl border border-white/10 bg-white/[0.02]">
+                    <div class="flex items-start justify-between gap-6 flex-wrap">
+                        <div>
+                            <p class="display text-lg font-medium" data-i18n data-en="Looking for the full bibliography?" data-es="[ES: Looking for the full bibliography?]">Looking for the full bibliography?</p>
+                            <p class="text-ink-300 text-sm mt-2" data-i18n data-en="Alejandro's complete publication record — over 30 peer-reviewed papers across NLP and AI venues — lives on Scholar and ORCID." data-es="[ES: Alejandro's complete publication record — over 30 peer-reviewed papers across NLP and AI venues — lives on Scholar and ORCID.]">Alejandro's complete publication record — over 30 peer-reviewed papers across NLP and AI venues — lives on Scholar and ORCID.</p>
+                        </div>
+                        <div class="flex gap-2 shrink-0">
+                            <a href="https://scholar.google.com/citations?user=4P9BS6QAAAAJ&hl=en" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm text-ink-200 px-4 py-2 rounded-full border border-white/15 hover:border-white/40 transition">
+                                <span class="material-icons text-base">school</span>Scholar
+                            </a>
+                            <a href="https://orcid.org/0000-0001-9522-3239" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm text-ink-200 px-4 py-2 rounded-full border border-white/15 hover:border-white/40 transition">
+                                <span class="material-icons text-base">badge</span>ORCID
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+            </div><!-- end right col -->
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-white/5 py-12">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10 flex flex-wrap items-center justify-between gap-6 text-sm text-ink-400">
+            <div class="flex items-center gap-3">
+                <div class="w-7 h-7 rounded-md bg-gradient-to-br from-syalia-400 to-syalia-700 flex items-center justify-center">
+                    <span class="display font-bold text-white text-sm">S</span>
+                </div>
+                <span class="display font-semibold text-ink-200">SYALIA</span>
+                <span class="text-ink-500">© 2026</span>
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="#" class="hover:text-white">Twitter</a>
+                <a href="#" class="hover:text-white">LinkedIn</a>
+                <a href="#" class="hover:text-white">GitHub</a>
+                <a href="https://blog.syalia.com" class="hover:text-white">Blog</a>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="/js/shell.js"></script>
+    <script>
+      document.getElementById('lang-toggle-mobile')?.addEventListener('click', () => {
+        document.getElementById('lang-toggle')?.click();
+      });
+    </script>
+</body>
+</html>
