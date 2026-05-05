@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="view-transition" content="same-origin">
+    <title>Team — SYALIA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+            },
+            colors: {
+              ink: { 100:'#e9ecf5',200:'#cfd5e6',300:'#a3aece',400:'#6e7ba0',500:'#475070',600:'#2e3450',700:'#1c2138',800:'#11152a',900:'#0a0d1f',950:'#05071a' },
+              syalia: { 300:'#86b3da',400:'#5b8fc4',500:'#3e72ad',600:'#5281a3',700:'#3d6584' },
+              accent: { 300:'#fcd34d',400:'#fbbf24',500:'#f59e0b' },
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/shared.css">
+</head>
+
+<body class="antialiased min-h-screen">
+
+    <!-- Top bar -->
+    <nav class="sticky top-0 z-50 backdrop-blur-xl bg-ink-950/60 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-syalia-400 to-syalia-700 flex items-center justify-center shadow-lg shadow-syalia-500/30">
+                    <span class="display font-bold text-white">S</span>
+                </div>
+                <span class="display font-semibold tracking-tight text-lg">SYALIA</span>
+            </a>
+            <div class="hidden md:flex items-center gap-8 text-sm">
+                <a href="/#products" class="text-ink-300 hover:text-white transition" data-i18n data-en="Products" data-es="Productos">Products</a>
+                <a href="/#services" class="text-ink-300 hover:text-white transition" data-i18n data-en="Services" data-es="Servicios">Services</a>
+                <a href="/team/" class="text-white font-medium" data-i18n data-en="Team" data-es="Equipo">Team</a>
+                <a href="https://blog.syalia.com" class="text-ink-300 hover:text-white transition" data-i18n data-en="Blog" data-es="Blog">Blog</a>
+            </div>
+            <div class="flex items-center gap-3">
+                <button id="lang-toggle" class="text-xs font-medium px-3 py-1.5 rounded-full border border-white/10 hover:border-white/30 transition">EN&nbsp;/&nbsp;ES</button>
+                <a href="/#contact" class="hidden md:inline-flex items-center gap-1.5 text-sm font-semibold text-ink-950 bg-accent-400 hover:bg-accent-300 px-4 py-2 rounded-full transition">
+                    <span data-i18n data-en="Talk to us" data-es="Hablemos">Talk to us</span>
+                    <span class="material-icons text-sm">arrow_outward</span>
+                </a>
+                <button class="navbar-burger md:hidden w-9 h-9 rounded-full border border-white/10 hover:border-white/30 transition flex items-center justify-center" aria-label="Open menu">
+                    <span class="material-icons text-base">menu</span>
+                </button>
+            </div>
+        </div>
+        <div class="navbar-menu hidden fixed inset-0 z-[60] md:hidden">
+            <div class="navbar-backdrop absolute inset-0 bg-ink-950/80 backdrop-blur-sm"></div>
+            <div class="absolute right-0 top-0 h-full w-80 max-w-full bg-ink-900 border-l border-white/10 p-6 flex flex-col gap-4 overflow-y-auto">
+                <div class="flex items-center justify-between mb-6">
+                    <span class="display font-semibold tracking-tight text-lg">SYALIA</span>
+                    <button class="navbar-close w-9 h-9 rounded-full border border-white/10 flex items-center justify-center" aria-label="Close menu">
+                        <span class="material-icons text-base">close</span>
+                    </button>
+                </div>
+                <a href="/#products" class="text-ink-200 hover:text-white text-lg py-2 border-b border-white/5" data-i18n data-en="Products" data-es="Productos">Products</a>
+                <a href="/#services" class="text-ink-200 hover:text-white text-lg py-2 border-b border-white/5" data-i18n data-en="Services" data-es="Servicios">Services</a>
+                <a href="/team/" class="text-ink-200 hover:text-white text-lg py-2 border-b border-white/5" data-i18n data-en="Team" data-es="Equipo">Team</a>
+                <a href="https://blog.syalia.com" class="text-ink-200 hover:text-white text-lg py-2 border-b border-white/5" data-i18n data-en="Blog" data-es="Blog">Blog</a>
+                <button id="lang-toggle-mobile" class="text-left text-ink-300 hover:text-white text-base py-2 mt-4">EN  /  ES</button>
+                <a href="/#contact" class="mt-4 inline-flex items-center justify-center gap-1.5 text-sm font-semibold text-ink-950 bg-accent-400 hover:bg-accent-300 px-4 py-3 rounded-full transition">
+                    <span data-i18n data-en="Talk to us" data-es="Hablemos">Talk to us</span>
+                    <span class="material-icons text-sm">arrow_outward</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="relative overflow-hidden noise pt-24 pb-32">
+        <div class="mesh">
+            <div class="blob blob-a w-[640px] h-[640px] -top-40 -left-40" style="background:#5281a3"></div>
+            <div class="blob blob-b w-[420px] h-[420px] top-20 right-0" style="background:#fbbf24; opacity:.4"></div>
+        </div>
+        <div class="absolute inset-0 grid-bg"></div>
+        <div class="relative max-w-5xl mx-auto px-6 lg:px-10">
+            <div class="flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-accent-400 mb-6 reveal">
+                <span class="w-8 h-px bg-accent-400"></span>
+                <span data-i18n data-en="The team" data-es="El equipo">The team</span>
+            </div>
+            <h1 class="display text-5xl sm:text-7xl font-bold leading-[0.95] reveal"
+                data-i18n
+                data-en-html='Three people. <span class="text-ink-300">One curious obsession.</span>'
+                data-es-html='Tres personas. <span class="text-ink-300">Una obsesión curiosa.</span>'>Three people. <span class="text-ink-300">One curious obsession.</span></h1>
+            <p class="mt-10 text-lg text-ink-300 max-w-2xl leading-relaxed reveal"
+                data-i18n
+                data-en="Founded in Havana in 2018 by computer-science professors and ML researchers, SYALIA has grown into a multidisciplinary studio shipping AI products to clients in Cuba, Latin America, and Europe."
+                data-es="Fundada en La Habana en 2018 por profesores de ciencias de la computación e investigadores de ML, SYALIA ha crecido hasta convertirse en un estudio multidisciplinario que entrega productos de IA a clientes en Cuba, Latinoamérica y Europa.">Founded in Havana in 2018 by computer-science professors and ML researchers, SYALIA has grown into a multidisciplinary studio shipping AI products to clients in Cuba, Latin America, and Europe.</p>
+        </div>
+    </header>
+
+    <!-- COFOUNDER 1: Yudivián Almeida Cruz -->
+    <section class="relative py-24 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+            <div class="lg:col-span-4 reveal">
+                <div class="aspect-square w-full max-w-[280px] rounded-2xl overflow-hidden ring-1 ring-white/10">
+                    <img src="/img/team/1.jpg" alt="Yudivián Almeida Cruz" class="w-full h-full object-cover">
+                </div>
+                <p class="mt-4 text-xs font-mono uppercase tracking-[0.25em] text-accent-400" data-i18n data-en="Cofounder — CEO" data-es="Cofundador — CEO">Cofounder — CEO</p>
+            </div>
+            <div class="lg:col-span-8 reveal">
+                <h2 class="display text-3xl sm:text-5xl font-bold">Yudivián Almeida Cruz, Ph.D.</h2>
+                <p class="display text-xl sm:text-2xl text-ink-300 mt-4" data-i18n data-en="[Tagline placeholder — to be supplied]" data-es="[Frase pendiente]">[Tagline placeholder — to be supplied]</p>
+                <div class="mt-8 space-y-4 text-ink-200 leading-relaxed">
+                    <!-- BIO: paragraphs (Alex to provide). Each paragraph as <p data-i18n data-en="..." data-es="...">...</p> -->
+                    <p data-i18n data-en="[Bio paragraph placeholder]" data-es="[Bio párrafo pendiente]">[Bio paragraph placeholder]</p>
+                </div>
+                <div class="mt-12">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="w-8 h-px bg-accent-400"></span>
+                        <span class="text-xs font-mono uppercase tracking-[0.25em] text-accent-400" data-i18n data-en="Selected work" data-es="Trabajo seleccionado">Selected work</span>
+                    </div>
+                    <ul class="space-y-3">
+                        <!-- WORK ITEMS — Alex to provide. Pattern:
+                          <li class="flex items-baseline justify-between gap-4 border-b border-white/5 pb-3">
+                            <span><span class="text-ink-100 font-medium">[Title]</span><br><span class="text-sm text-ink-400">[venue, year]</span></span>
+                            <a href="[url]" class="text-ink-400 hover:text-white"><span class="material-icons text-base">arrow_outward</span></a>
+                          </li>
+                        -->
+                    </ul>
+                </div>
+                <div class="mt-12">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="w-8 h-px bg-accent-400"></span>
+                        <span class="text-xs font-mono uppercase tracking-[0.25em] text-accent-400" data-i18n data-en="Connect" data-es="Contacto">Connect</span>
+                    </div>
+                    <div class="flex flex-wrap gap-3">
+                        <!-- CONNECT PILLS — Alex to provide. Pattern:
+                          <a href="[url]" class="inline-flex items-center gap-2 text-sm text-ink-200 px-4 py-2 rounded-full border border-white/15 hover:border-white/40 transition">
+                            <span class="material-icons text-base">[icon]</span>[label]
+                          </a>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COFOUNDER 2: Suilan Estévez Velarde -->
+    <section class="relative py-24 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+            <div class="lg:col-span-4 reveal">
+                <div class="aspect-square w-full max-w-[280px] rounded-2xl overflow-hidden ring-1 ring-white/10">
+                    <img src="/img/team/2.jpg" alt="Suilan Estévez Velarde" class="w-full h-full object-cover">
+                </div>
+                <p class="mt-4 text-xs font-mono uppercase tracking-[0.25em] text-accent-400" data-i18n data-en="Cofounder — COO" data-es="Cofundadora — COO">Cofounder — COO</p>
+            </div>
+            <div class="lg:col-span-8 reveal">
+                <h2 class="display text-3xl sm:text-5xl font-bold">Suilan Estévez Velarde, Ph.D.</h2>
+                <p class="display text-xl sm:text-2xl text-ink-300 mt-4" data-i18n data-en="[Tagline placeholder — to be supplied]" data-es="[Frase pendiente]">[Tagline placeholder — to be supplied]</p>
+                <div class="mt-8 space-y-4 text-ink-200 leading-relaxed">
+                    <p data-i18n data-en="[Bio paragraph placeholder]" data-es="[Bio párrafo pendiente]">[Bio paragraph placeholder]</p>
+                </div>
+                <div class="mt-12">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="w-8 h-px bg-accent-400"></span>
+                        <span class="text-xs font-mono uppercase tracking-[0.25em] text-accent-400" data-i18n data-en="Selected work" data-es="Trabajo seleccionado">Selected work</span>
+                    </div>
+                    <ul class="space-y-3">
+                        <!-- WORK ITEMS — Alex to provide. -->
+                    </ul>
+                </div>
+                <div class="mt-12">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="w-8 h-px bg-accent-400"></span>
+                        <span class="text-xs font-mono uppercase tracking-[0.25em] text-accent-400" data-i18n data-en="Connect" data-es="Contacto">Connect</span>
+                    </div>
+                    <div class="flex flex-wrap gap-3">
+                        <!-- CONNECT PILLS — Alex to provide. -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COFOUNDER 3: Alejandro Piad Morffis -->
+    <section class="relative py-24 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+            <div class="lg:col-span-4 reveal">
+                <div class="aspect-square w-full max-w-[280px] rounded-2xl overflow-hidden ring-1 ring-white/10">
+                    <img src="/img/team/3.jpg" alt="Alejandro Piad Morffis" class="w-full h-full object-cover">
+                </div>
+                <p class="mt-4 text-xs font-mono uppercase tracking-[0.25em] text-accent-400" data-i18n data-en="Cofounder — CTO" data-es="Cofundador — CTO">Cofounder — CTO</p>
+            </div>
+            <div class="lg:col-span-8 reveal">
+                <h2 class="display text-3xl sm:text-5xl font-bold">Alejandro Piad Morffis, Ph.D.</h2>
+                <p class="display text-xl sm:text-2xl text-ink-300 mt-4" data-i18n data-en="[Tagline placeholder — to be supplied]" data-es="[Frase pendiente]">[Tagline placeholder — to be supplied]</p>
+                <div class="mt-8 space-y-4 text-ink-200 leading-relaxed">
+                    <p data-i18n data-en="[Bio paragraph placeholder]" data-es="[Bio párrafo pendiente]">[Bio paragraph placeholder]</p>
+                </div>
+                <div class="mt-12">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="w-8 h-px bg-accent-400"></span>
+                        <span class="text-xs font-mono uppercase tracking-[0.25em] text-accent-400" data-i18n data-en="Selected work" data-es="Trabajo seleccionado">Selected work</span>
+                    </div>
+                    <ul class="space-y-3">
+                        <!-- WORK ITEMS — Alex to provide. -->
+                    </ul>
+                </div>
+                <div class="mt-12">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="w-8 h-px bg-accent-400"></span>
+                        <span class="text-xs font-mono uppercase tracking-[0.25em] text-accent-400" data-i18n data-en="Connect" data-es="Contacto">Connect</span>
+                    </div>
+                    <div class="flex flex-wrap gap-3">
+                        <!-- CONNECT PILLS — Alex to provide. -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CLOSING CTA -->
+    <section class="relative py-24 border-t border-white/5">
+        <div class="max-w-3xl mx-auto px-6 lg:px-10 text-center reveal">
+            <h2 class="display text-3xl sm:text-5xl font-bold" data-i18n data-en="Want to work with us?" data-es="¿Quieres trabajar con nosotros?">Want to work with us?</h2>
+            <a href="mailto:hello@syalia.com" class="mt-8 inline-flex items-center gap-2 bg-accent-400 hover:bg-accent-300 text-ink-950 font-semibold px-8 py-4 rounded-full transition">
+                hello@syalia.com
+                <span class="material-icons text-base">arrow_outward</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-white/5 py-12">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10 flex flex-wrap items-center justify-between gap-6 text-sm text-ink-400">
+            <div class="flex items-center gap-3">
+                <div class="w-7 h-7 rounded-md bg-gradient-to-br from-syalia-400 to-syalia-700 flex items-center justify-center">
+                    <span class="display font-bold text-white text-sm">S</span>
+                </div>
+                <span class="display font-semibold text-ink-200">SYALIA</span>
+                <span class="text-ink-500">© 2026</span>
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="#" class="hover:text-white">Twitter</a>
+                <a href="#" class="hover:text-white">LinkedIn</a>
+                <a href="#" class="hover:text-white">GitHub</a>
+                <a href="https://blog.syalia.com" class="hover:text-white">Blog</a>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="/js/shell.js"></script>
+    <script>
+      document.getElementById('lang-toggle-mobile')?.addEventListener('click', () => {
+        document.getElementById('lang-toggle')?.click();
+      });
+    </script>
+</body>
+</html>
