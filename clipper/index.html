@@ -1,253 +1,212 @@
 <!DOCTYPE html>
-<html lang="en" class="">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clipper - Image Semantic Search</title>
-    <!-- Tailwind CSS -->
+    <meta name="view-transition" content="same-origin">
+    <title>Clipper — SYALIA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#f0fdfa',
-                            100: '#ccfbf1',
-                            200: '#99f6e4',
-                            300: '#5eead4',
-                            400: '#2dd4bf',
-                            500: '#14b8a6',
-                            600: '#0d9488',
-                            700: '#0f766e',
-                            800: '#115e59',
-                            900: '#134e4a',
-                            950: '#042f2e',
-                        }
-                    }
-                }
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+            },
+            colors: {
+              ink: { 100:'#e9ecf5',200:'#cfd5e6',300:'#a3aece',400:'#6e7ba0',500:'#475070',600:'#2e3450',700:'#1c2138',800:'#11152a',900:'#0a0d1f',950:'#05071a' },
+              syalia: { 300:'#86b3da',400:'#5b8fc4',500:'#3e72ad',600:'#5281a3',700:'#3d6584' },
+              accent: { 300:'#fcd34d',400:'#fbbf24',500:'#f59e0b' },
             }
+          }
         }
+      }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <style>
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Inter', sans-serif; }
-        .toggle-checkbox:checked+.toggle-label { background-color: #14b8a6; }
-        .toggle-checkbox:checked+.toggle-label::after { transform: translateX(1rem); }
-        .toggle-label::after {
-            content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px;
-            border-radius: 9999px; background-color: white; transition: transform 0.2s ease-in-out;
-        }
-    </style>
-    <script>
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    </script>
+    <link rel="stylesheet" href="/assets/shared.css">
 </head>
 
-<body class="bg-white text-gray-800 dark:bg-gray-900 dark:text-gray-100 antialiased">
+<body class="antialiased min-h-screen">
 
-    <!-- Navigation -->
-    <nav class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex-shrink-0 flex items-center">
-                    <a href="https://syalia.com">
-                        <img class="h-10 w-auto rounded-full" src="../img/logo-blue-only-icon.png" alt="Syalia">
-                    </a>
-                    <span class="ml-3 font-bold text-xl hidden sm:block">Clipper</span>
+    <!-- Top bar -->
+    <nav class="sticky top-0 z-50 backdrop-blur-xl bg-ink-950/60 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-syalia-400 to-syalia-700 flex items-center justify-center shadow-lg shadow-syalia-500/30">
+                    <span class="display font-bold text-white">S</span>
                 </div>
-
-                <div class="hidden md:flex md:space-x-8 ml-10">
-                    <a href="#features" class="font-medium text-gray-600 dark:text-gray-300 hover:text-brand-600 transition-colors" data-lang="en">Features</a>
-                    <a href="#features" class="font-medium text-gray-600 dark:text-gray-300 hover:text-brand-600 transition-colors" data-lang="es" style="display: none;">Funciones</a>
-
-                    <a href="#use-cases" class="font-medium text-gray-600 dark:text-gray-300 hover:text-brand-600 transition-colors" data-lang="en">Use Cases</a>
-                    <a href="#use-cases" class="font-medium text-gray-600 dark:text-gray-300 hover:text-brand-600 transition-colors" data-lang="es" style="display: none;">Casos de Uso</a>
-
-                    <a href="#tech" class="font-medium text-gray-600 dark:text-gray-300 hover:text-brand-600 transition-colors" data-lang="en">Technology</a>
-                    <a href="#tech" class="font-medium text-gray-600 dark:text-gray-300 hover:text-brand-600 transition-colors" data-lang="es" style="display: none;">Tecnología</a>
-
-                    <a href="#security" class="font-medium text-gray-600 dark:text-gray-300 hover:text-brand-600 transition-colors" data-lang="en">Security</a>
-                    <a href="#security" class="font-medium text-gray-600 dark:text-gray-300 hover:text-brand-600 transition-colors" data-lang="es" style="display: none;">Seguridad</a>
-
-                    <a href="#faq" class="font-medium text-gray-600 dark:text-gray-300 hover:text-brand-600 transition-colors" data-lang="en">FAQ</a>
-                    <a href="#faq" class="font-medium text-gray-600 dark:text-gray-300 hover:text-brand-600 transition-colors" data-lang="es" style="display: none;">Preguntas</a>
-                </div>
-
-                <div class="flex items-center space-x-4">
-                    <div class="flex items-center space-x-2">
-                        <span class="font-medium text-xs text-gray-500">EN</span>
-                        <div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
-                            <input type="checkbox" name="language-toggle" id="language-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer opacity-0"/>
-                            <label for="language-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 dark:bg-gray-600 cursor-pointer w-10 relative after:w-5 after:h-5"></label>
-                        </div>
-                        <span class="font-medium text-xs text-gray-500">ES</span>
-                    </div>
-
-                    <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 rounded-full p-1">
-                        <span class="material-icons" id="theme-icon">light_mode</span>
-                    </button>
-
-                    <button id="mobile-menu-button" class="md:hidden text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 rounded-full p-1">
-                        <span class="material-icons" id="mobile-menu-icon">menu</span>
+                <span class="display font-semibold tracking-tight text-lg">SYALIA</span>
+            </a>
+            <div class="hidden md:flex items-center gap-8 text-sm">
+                <a href="/#products" class="text-white font-medium" data-i18n data-en="Products" data-es="Productos">Products</a>
+                <a href="/#services" class="text-ink-300 hover:text-white transition" data-i18n data-en="Services" data-es="Servicios">Services</a>
+                <a href="/team/" class="text-ink-300 hover:text-white transition" data-i18n data-en="Team" data-es="Equipo">Team</a>
+                <a href="https://blog.syalia.com" class="text-ink-300 hover:text-white transition" data-i18n data-en="Blog" data-es="Blog">Blog</a>
+            </div>
+            <div class="flex items-center gap-3">
+                <button id="lang-toggle" class="text-xs font-medium px-3 py-1.5 rounded-full border border-white/10 hover:border-white/30 transition">EN&nbsp;/&nbsp;ES</button>
+                <a href="#contact" class="hidden md:inline-flex items-center gap-1.5 text-sm font-semibold text-ink-950 bg-accent-400 hover:bg-accent-300 px-4 py-2 rounded-full transition">
+                    <span data-i18n data-en="Talk to us" data-es="Hablemos">Talk to us</span>
+                    <span class="material-icons text-sm">arrow_outward</span>
+                </a>
+                <button class="navbar-burger md:hidden w-9 h-9 rounded-full border border-white/10 hover:border-white/30 transition flex items-center justify-center" aria-label="Open menu">
+                    <span class="material-icons text-base">menu</span>
+                </button>
+            </div>
+        </div>
+        <div class="navbar-menu hidden fixed inset-0 z-[60] md:hidden">
+            <div class="navbar-backdrop absolute inset-0 bg-ink-950/80 backdrop-blur-sm"></div>
+            <div class="absolute right-0 top-0 h-full w-80 max-w-full bg-ink-900 border-l border-white/10 p-6 flex flex-col gap-4 overflow-y-auto">
+                <div class="flex items-center justify-between mb-6">
+                    <span class="display font-semibold tracking-tight text-lg">SYALIA</span>
+                    <button class="navbar-close w-9 h-9 rounded-full border border-white/10 flex items-center justify-center" aria-label="Close menu">
+                        <span class="material-icons text-base">close</span>
                     </button>
                 </div>
+                <a href="/#products" class="text-ink-200 hover:text-white text-lg py-2 border-b border-white/5" data-i18n data-en="Products" data-es="Productos">Products</a>
+                <a href="/#services" class="text-ink-200 hover:text-white text-lg py-2 border-b border-white/5" data-i18n data-en="Services" data-es="Servicios">Services</a>
+                <a href="/team/" class="text-ink-200 hover:text-white text-lg py-2 border-b border-white/5" data-i18n data-en="Team" data-es="Equipo">Team</a>
+                <a href="https://blog.syalia.com" class="text-ink-200 hover:text-white text-lg py-2 border-b border-white/5" data-i18n data-en="Blog" data-es="Blog">Blog</a>
+                <button id="lang-toggle-mobile" class="text-left text-ink-300 hover:text-white text-base py-2 mt-4">EN  /  ES</button>
+                <a href="#contact" class="mt-4 inline-flex items-center justify-center gap-1.5 text-sm font-semibold text-ink-950 bg-accent-400 hover:bg-accent-300 px-4 py-3 rounded-full transition">
+                    <span data-i18n data-en="Talk to us" data-es="Hablemos">Talk to us</span>
+                    <span class="material-icons text-sm">arrow_outward</span>
+                </a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero -->
-    <header class="relative bg-white dark:bg-gray-900 overflow-hidden pt-16 pb-24 sm:pt-24 sm:pb-32">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-12 relative z-10">
-            <div class="md:w-1/2">
-                <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6 text-gray-900 dark:text-white">
-                    <span data-lang="en">Find Images with Natural Language</span>
-                    <span data-lang="es" style="display: none;">Busca Imágenes con Lenguaje Natural</span>
-                </h1>
-                <p class="text-xl text-gray-600 dark:text-gray-300 mb-10 leading-relaxed">
-                    <span data-lang="en">State-of-the-art semantic search for your visual datasets. Search by concepts, objects, and emotions instead of manual tags.</span>
-                    <span data-lang="es" style="display: none;">Búsqueda semántica de vanguardia para tus conjuntos de datos visuales. Busca por conceptos, objetos y emociones.</span>
-                </p>
-                <div class="flex flex-wrap gap-4">
-                    <a href="mailto:contact@syalia.com" class="bg-brand-600 text-white hover:bg-brand-700 font-bold px-8 py-4 rounded-full shadow-xl transition transform hover:-translate-y-1">
-                        <span data-lang="en">Request a Demo</span>
-                        <span data-lang="es" style="display: none;">Solicitar Demo</span>
-                    </a>
+    <!-- HERO -->
+    <header class="relative overflow-hidden noise pt-24 pb-32">
+        <div class="mesh">
+            <div class="blob blob-a w-[640px] h-[640px] -top-40 -left-40" style="background:#14b8a6; opacity:.5"></div>
+            <div class="blob blob-b w-[420px] h-[420px] top-20 right-0" style="background:#5281a3"></div>
+        </div>
+        <div class="absolute inset-0 grid-bg"></div>
+        <div class="relative max-w-7xl mx-auto px-6 lg:px-10">
+            <a href="/#products" class="text-sm text-ink-300 hover:text-white inline-flex items-center gap-2 mb-12 reveal">
+                <span class="material-icons text-base">arrow_back</span>
+                <span data-i18n data-en="All products" data-es="Todos los productos">All products</span>
+            </a>
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-7 reveal">
+                    <div class="flex items-center gap-2 text-xs uppercase tracking-[0.25em] mb-6" style="color:#14b8a6">
+                        <span class="w-8 h-px" style="background:#14b8a6"></span>
+                        <span data-i18n data-en="Product — clipper" data-es="Producto — clipper">Product — clipper</span>
+                    </div>
+                    <h1 class="display text-6xl sm:text-8xl font-bold leading-[0.95]" style="view-transition-name: card-clipper;">Clipper</h1>
+                    <p class="mt-8 text-xl text-ink-300 max-w-xl leading-relaxed" data-i18n data-en="Find visual assets by what they show, not what they&#39;re tagged. Plain-language search across your media library." data-es="Encuentra imágenes por lo que muestran, no por sus etiquetas. Búsqueda en lenguaje natural sobre tu biblioteca multimedia.">Find visual assets by what they show, not what they&#39;re tagged. Plain-language search across your media library.</p>
+                    <div class="mt-10 flex flex-wrap gap-4">
+                        <a href="#contact" class="inline-flex items-center gap-2 font-semibold px-6 py-3.5 rounded-full text-ink-950 transition" style="background:#14b8a6" data-i18n data-en="Talk to us about Clipper" data-es="Hablemos de Clipper">Talk to us about Clipper</a>
+                    </div>
                 </div>
-            </div>
-            <div class="md:w-1/2">
-                <img src="clipper.png" alt="Clipper Semantic Search" class="w-full rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-800">
+                <div class="lg:col-span-5 reveal flex justify-center lg:justify-end">
+                    <span class="material-icons" style="font-size:18rem; color:#14b8a6; opacity:.18">image_search</span>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Features -->
-    <section id="features" class="py-24 bg-gray-50 dark:bg-gray-800/50 text-center">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl sm:text-4xl font-bold mb-16" data-lang="en">Intelligent Visual Search</h2>
-            <h2 class="text-3xl sm:text-4xl font-bold mb-16" data-lang="es" style="display: none;">Búsqueda Visual Inteligente</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-left">
-                <div class="p-8 rounded-3xl bg-white dark:bg-gray-900 shadow-sm">
-                    <div class="w-16 h-16 bg-brand-500 rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-brand-500/20">
-                        <span class="material-icons text-3xl">auto_awesome</span>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4" data-lang="en">Advanced Embeddings</h3>
-                    <p class="text-gray-600 dark:text-gray-300">Uses Google's state-of-the-art SigLIP-2 model to turn images and text queries into rich vector embeddings.</p>
+    <!-- 3-UP FEATURES -->
+    <section class="relative py-24 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10 grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div class="reveal">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(20,184,166,.15); border:1px solid rgba(20,184,166,.3); color:#14b8a6">
+                    <span class="material-icons">search</span>
                 </div>
-                <div class="p-8 rounded-3xl bg-white dark:bg-gray-900 shadow-sm">
-                    <div class="w-16 h-16 bg-brand-500 rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-brand-500/20">
-                        <span class="material-icons text-3xl">bolt</span>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4" data-lang="en">Millisecond Latency</h3>
-                    <p class="text-gray-600 dark:text-gray-300">Optimized search architecture ensures sub-second response times even for datasets with millions of images.</p>
+                <h3 class="display text-2xl font-bold mb-3" data-i18n data-en="Search like you talk" data-es="Busca como hablas">Search like you talk</h3>
+                <p class="text-ink-300 leading-relaxed" data-i18n data-en="&quot;A red bicycle in a courtyard&quot; — Clipper finds it, even if no one tagged it." data-es="&quot;Una bicicleta roja en un patio&quot; — Clipper la encuentra, aunque nadie la haya etiquetado.">"A red bicycle in a courtyard" — Clipper finds it, even if no one tagged it.</p>
+            </div>
+            <div class="reveal">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(20,184,166,.15); border:1px solid rgba(20,184,166,.3); color:#14b8a6">
+                    <span class="material-icons">filter_alt</span>
                 </div>
-                <div class="p-8 rounded-3xl bg-white dark:bg-gray-900 shadow-sm">
-                    <div class="w-16 h-16 bg-brand-500 rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-brand-500/20">
-                        <span class="material-icons text-3xl">security</span>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4" data-lang="en">Privacy First</h3>
-                    <p class="text-gray-600 dark:text-gray-300">Runs entirely on your infrastructure. Your assets and models never leave your private network.</p>
+                <h3 class="display text-2xl font-bold mb-3" data-i18n data-en="Filter by anything" data-es="Filtra por lo que sea">Filter by anything</h3>
+                <p class="text-ink-300 leading-relaxed" data-i18n data-en="Combine semantic search with traditional metadata: date, author, format, dimensions, custom fields." data-es="Combina búsqueda semántica con metadatos tradicionales: fecha, autor, formato, dimensiones, campos personalizados.">Combine semantic search with traditional metadata: date, author, format, dimensions, custom fields.</p>
+            </div>
+            <div class="reveal">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(20,184,166,.15); border:1px solid rgba(20,184,166,.3); color:#14b8a6">
+                    <span class="material-icons">cloud_done</span>
+                </div>
+                <h3 class="display text-2xl font-bold mb-3" data-i18n data-en="Drops into your stack" data-es="Encaja en tu stack">Drops into your stack</h3>
+                <p class="text-ink-300 leading-relaxed" data-i18n data-en="Index your existing media library, S3 bucket, or DAM. No re-ingestion, no migration." data-es="Indexa tu biblioteca actual, bucket S3 o DAM. Sin re-ingestión, sin migración.">Index your existing media library, S3 bucket, or DAM. No re-ingestion, no migration.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SPOTLIGHT A — image left, copy right -->
+    <section class="relative py-24 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-5 reveal">
+                <div class="aspect-square rounded-3xl flex items-center justify-center" style="background:linear-gradient(135deg, rgba(20,184,166,.1), rgba(20,184,166,.02)); border:1px solid rgba(20,184,166,.2)">
+                    <span class="material-icons" style="font-size:14rem; color:#14b8a6; opacity:.5">visibility</span>
+                </div>
+            </div>
+            <div class="lg:col-span-7 reveal">
+                <div class="text-xs uppercase tracking-[0.25em] mb-4" style="color:#14b8a6" data-i18n data-en="Spotlight" data-es="En foco">Spotlight</div>
+                <h2 class="display text-4xl sm:text-5xl font-bold leading-[1.05] mb-6" data-i18n data-en="Tags lie. Pixels don&#39;t." data-es="Las etiquetas mienten. Los píxeles no.">Tags lie. Pixels don&#39;t.</h2>
+                <p class="text-lg text-ink-300 leading-relaxed" data-i18n data-en="Tag-based search assumes someone described every asset correctly when it was uploaded. They didn&#39;t. Clipper looks at what&#39;s actually in the image and answers based on that." data-es="La búsqueda por etiquetas asume que alguien describió cada activo correctamente al subirlo. No fue así. Clipper mira lo que realmente hay en la imagen y responde sobre esa base.">Tag-based search assumes someone described every asset correctly when it was uploaded. They didn&#39;t. Clipper looks at what&#39;s actually in the image and answers based on that.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SPOTLIGHT B — copy left, image right -->
+    <section class="relative py-24 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-7 reveal">
+                <div class="text-xs uppercase tracking-[0.25em] mb-4" style="color:#14b8a6" data-i18n data-en="Workflow" data-es="Flujo de trabajo">Workflow</div>
+                <h2 class="display text-4xl sm:text-5xl font-bold leading-[1.05] mb-6" data-i18n data-en="One bar. One sentence. The asset." data-es="Una barra. Una frase. El activo.">One bar. One sentence. The asset.</h2>
+                <p class="text-lg text-ink-300 leading-relaxed" data-i18n data-en="Type in plain language. Get back ranked results. Pick the one. Move on with your day." data-es="Escribe en lenguaje natural. Recibe resultados rankeados. Elige uno. Sigue con tu día.">Type in plain language. Get back ranked results. Pick the one. Move on with your day.</p>
+            </div>
+            <div class="lg:col-span-5 reveal">
+                <div class="aspect-square rounded-3xl flex items-center justify-center" style="background:linear-gradient(135deg, rgba(20,184,166,.1), rgba(20,184,166,.02)); border:1px solid rgba(20,184,166,.2)">
+                    <span class="material-icons" style="font-size:14rem; color:#14b8a6; opacity:.5">bolt</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Use Cases -->
-    <section id="use-cases" class="py-24 bg-white dark:bg-gray-900">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl sm:text-4xl font-bold text-center mb-16" data-lang="en">Industry Vertical Solutions</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="bg-gray-50 dark:bg-gray-800 p-8 rounded-3xl border border-transparent hover:border-brand-500 transition-colors">
-                    <span class="material-icons text-brand-500 text-3xl mb-4">shopping_cart</span>
-                    <h4 class="font-bold mb-2">E-Commerce</h4>
-                    <p class="text-sm text-gray-600 dark:text-gray-300">Find products by visual similarity. Users can search with photos of items they want.</p>
-                </div>
-                <div class="bg-gray-50 dark:bg-gray-800 p-8 rounded-3xl border border-transparent hover:border-brand-500 transition-colors">
-                    <span class="material-icons text-brand-500 text-3xl mb-4">camera_alt</span>
-                    <h4 class="font-bold mb-2">Asset Management</h4>
-                    <p class="text-sm text-gray-600 dark:text-gray-300">Search massive stock libraries and brand-approved images by complex, abstract concepts.</p>
-                </div>
-                <div class="bg-gray-50 dark:bg-gray-800 p-8 rounded-3xl border border-transparent hover:border-brand-500 transition-colors">
-                    <span class="material-icons text-brand-500 text-3xl mb-4">palette</span>
-                    <h4 class="font-bold mb-2">Creative & Design</h4>
-                    <p class="text-sm text-gray-600 dark:text-gray-300">Find inspiration based on mood boards. Discover existing art with a similar style or palette.</p>
-                </div>
-                <div class="bg-gray-50 dark:bg-gray-800 p-8 rounded-3xl border border-transparent hover:border-brand-500 transition-colors">
-                    <span class="material-icons text-brand-500 text-3xl mb-4">biotech</span>
-                    <h4 class="font-bold mb-2">Technical Search</h4>
-                    <p class="text-sm text-gray-600 dark:text-gray-300">Identify medical images, technical diagrams, or mechanical components from a capture.</p>
-                </div>
+    <!-- CTA -->
+    <section id="contact" class="relative py-32 border-t border-white/5">
+        <div class="max-w-5xl mx-auto px-6 lg:px-10 text-center reveal">
+            <h2 class="display text-4xl sm:text-7xl font-bold leading-[0.95]" data-i18n data-en="Bring Clipper to your library." data-es="Lleva Clipper a tu biblioteca.">Bring Clipper to your library.</h2>
+            <div class="mt-12 flex flex-wrap items-center justify-center gap-4">
+                <a href="mailto:hello@syalia.com" class="inline-flex items-center gap-2 font-semibold px-8 py-4 rounded-full text-ink-950 transition" style="background:#14b8a6">
+                    hello@syalia.com
+                    <span class="material-icons text-base">arrow_outward</span>
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Technology -->
-    <section id="tech" class="py-24 bg-gray-50 dark:bg-gray-800/50">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl sm:text-4xl font-bold text-center mb-16" data-lang="en">The Technology Stack</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div class="space-y-8">
-                    <div class="flex gap-4">
-                        <div class="flex-shrink-0 w-12 h-12 bg-brand-100 dark:bg-brand-900/30 rounded-xl flex items-center justify-center text-brand-600">
-                            <span class="material-icons">auto_awesome</span>
-                        </div>
-                        <div>
-                            <h4 class="text-xl font-bold">SigLIP-2 Embeddings</h4>
-                            <p class="text-gray-600 dark:text-gray-300">Google's state-of-the-art model for deep visual-textual understanding.</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-4">
-                        <div class="flex-shrink-0 w-12 h-12 bg-brand-100 dark:bg-brand-900/30 rounded-xl flex items-center justify-center text-brand-600">
-                            <span class="material-icons">storage</span>
-                        </div>
-                        <div>
-                            <h4 class="text-xl font-bold">BeaverDB Powered</h4>
-                            <p class="text-gray-600 dark:text-gray-300">Efficient vector storage and high-speed retrieval using BeaverDB's optimized core.</p>
-                        </div>
-                    </div>
+    <!-- FOOTER -->
+    <footer class="border-t border-white/5 py-12">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10 flex flex-wrap items-center justify-between gap-6 text-sm text-ink-400">
+            <div class="flex items-center gap-3">
+                <div class="w-7 h-7 rounded-md bg-gradient-to-br from-syalia-400 to-syalia-700 flex items-center justify-center">
+                    <span class="display font-bold text-white text-sm">S</span>
                 </div>
-                <div class="bg-white dark:bg-gray-900 p-8 rounded-3xl shadow-xl text-center">
-                    <span class="material-icons text-brand-500 text-5xl mb-4">desktop_windows</span>
-                    <h4 class="text-2xl font-bold mb-4">Streamlit Experience</h4>
-                    <p class="text-gray-600 dark:text-gray-300">The entire platform is managed through a clean, interactive Streamlit UI.</p>
-                </div>
+                <span class="display font-semibold text-ink-200">SYALIA</span>
+                <span class="text-ink-500">© 2026</span>
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="#" class="hover:text-white">Twitter</a>
+                <a href="#" class="hover:text-white">LinkedIn</a>
+                <a href="#" class="hover:text-white">GitHub</a>
+                <a href="https://blog.syalia.com" class="hover:text-white">Blog</a>
             </div>
         </div>
-    </section>
-
-    <footer class="bg-gray-900 text-gray-400 py-12 text-center">
-        <p>&copy; 2026 SYALIA S.R.L. All rights reserved.</p>
     </footer>
 
+    <script type="module" src="/js/shell.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const langToggle = document.getElementById('language-toggle');
-            const enElements = document.querySelectorAll('[data-lang="en"]');
-            const esElements = document.querySelectorAll('[data-lang="es"]');
-            function updateLanguage() {
-                const isSpanish = langToggle.checked;
-                enElements.forEach(el => el.style.display = isSpanish ? 'none' : '');
-                esElements.forEach(el => el.style.display = isSpanish ? '' : 'none');
-            }
-            langToggle.addEventListener('change', updateLanguage);
-            updateLanguage();
-
-            const themeToggle = document.getElementById('theme-toggle');
-            const themeIcon = document.getElementById('theme-icon');
-            themeToggle.addEventListener('click', () => {
-                const isDark = document.documentElement.classList.toggle('dark');
-                localStorage.theme = isDark ? 'dark' : 'light';
-                themeIcon.textContent = isDark ? 'dark_mode' : 'light_mode';
-            });
-        });
+      document.getElementById('lang-toggle-mobile')?.addEventListener('click', () => {
+        document.getElementById('lang-toggle')?.click();
+      });
     </script>
 </body>
 </html>
