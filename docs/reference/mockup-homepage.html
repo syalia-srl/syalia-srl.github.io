@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYALIA — AI, Data Science & Business Analytics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        ink: {
+                            50:  '#f6f7fb',
+                            100: '#e9ecf5',
+                            200: '#cfd5e6',
+                            300: '#a3aece',
+                            400: '#6e7ba0',
+                            500: '#475070',
+                            600: '#2e3450',
+                            700: '#1c2138',
+                            800: '#11152a',
+                            900: '#0a0d1f',
+                            950: '#05071a',
+                        },
+                        syalia: {
+                            50:  '#eef6fc',
+                            100: '#d9eaf6',
+                            200: '#b6d3eb',
+                            300: '#86b3da',
+                            400: '#5b8fc4',
+                            500: '#3e72ad',
+                            600: '#5281a3',
+                            700: '#3d6584',
+                            800: '#2d4d68',
+                            900: '#1f3550',
+                        },
+                        accent: {
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    },
+                    keyframes: {
+                        drift: {
+                            '0%,100%': { transform: 'translate(0,0) scale(1)' },
+                            '33%':     { transform: 'translate(40px,-30px) scale(1.1)' },
+                            '66%':     { transform: 'translate(-30px,20px) scale(0.95)' },
+                        },
+                        spin12: {
+                            '0%':   { transform: 'rotate(0deg)' },
+                            '100%': { transform: 'rotate(360deg)' },
+                        },
+                        marqueeX: {
+                            '0%':   { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        }
+                    },
+                    animation: {
+                        drift:    'drift 18s ease-in-out infinite',
+                        drift2:   'drift 24s ease-in-out infinite reverse',
+                        spin12:   'spin12 60s linear infinite',
+                        marquee:  'marqueeX 40s linear infinite',
+                    },
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: #05071a;
+            color: #e9ecf5;
+        }
+        html:not(.dark) body {
+            background: #fafbff;
+            color: #11152a;
+        }
+        .display { font-family: 'Space Grotesk', system-ui, sans-serif; letter-spacing: -0.02em; }
+
+        /* hero mesh */
+        .mesh {
+            position: absolute; inset: -10%; pointer-events: none;
+            filter: blur(80px); opacity: .85;
+        }
+        .blob { position: absolute; border-radius: 9999px; mix-blend-mode: screen; }
+        html:not(.dark) .blob { mix-blend-mode: multiply; opacity: .35; }
+
+        .grid-bg {
+            background-image:
+              linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+            background-size: 56px 56px;
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black 30%, transparent 80%);
+        }
+        html:not(.dark) .grid-bg {
+            background-image:
+              linear-gradient(to right, rgba(0,0,0,0.06) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(0,0,0,0.06) 1px, transparent 1px);
+        }
+
+        /* product card */
+        .card {
+            position: relative;
+            border-radius: 1.5rem;
+            background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.08);
+            overflow: hidden;
+            transition: transform .5s cubic-bezier(.2,.8,.2,1), border-color .4s, background .4s;
+            cursor: pointer;
+        }
+        html:not(.dark) .card {
+            background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.005));
+            border: 1px solid rgba(0,0,0,0.08);
+        }
+        .card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.18); }
+        html:not(.dark) .card:hover { border-color: rgba(0,0,0,0.18); }
+        .card .glow {
+            position: absolute; inset: -40%;
+            background: radial-gradient(circle at 30% 20%, var(--c, #5281a3) 0%, transparent 60%);
+            opacity: 0; transition: opacity .5s ease;
+            pointer-events: none;
+        }
+        .card:hover .glow { opacity: .35; }
+        .card .peek {
+            opacity: 0; transform: translateY(8px);
+            transition: opacity .35s ease, transform .35s cubic-bezier(.2,.8,.2,1);
+            transition-delay: .05s;
+        }
+        .card:hover .peek { opacity: 1; transform: translateY(0); }
+        .card .baseline {
+            transition: transform .35s cubic-bezier(.2,.8,.2,1), opacity .25s;
+        }
+        .card:hover .baseline { transform: translateY(-6px); opacity: .6; }
+
+        /* Reveal-on-scroll */
+        .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1); }
+        .reveal.in { opacity: 1; transform: translateY(0); }
+
+        /* View transition annotations (real implementation) */
+        @supports (view-transition-name: card) {
+            ::view-transition-old(root),
+            ::view-transition-new(root) {
+                animation-duration: .6s;
+                animation-timing-function: cubic-bezier(.2,.8,.2,1);
+            }
+        }
+
+        /* Marquee for client logos */
+        .marquee-track { display: flex; width: max-content; gap: 4rem; animation: marqueeX 40s linear infinite; }
+        .marquee-mask {
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        /* Subtle noise overlay (optional, comment out if too busy) */
+        .noise::after {
+            content: ""; position: absolute; inset: 0; pointer-events: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
+            opacity: .04; mix-blend-mode: overlay;
+        }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen">
+
+    <!-- Top bar -->
+    <nav class="sticky top-0 z-50 backdrop-blur-xl bg-ink-950/60 dark:bg-ink-950/60 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-syalia-400 to-syalia-700 flex items-center justify-center shadow-lg shadow-syalia-500/30">
+                    <span class="display font-bold text-white">S</span>
+                </div>
+                <span class="display font-semibold tracking-tight text-lg">SYALIA</span>
+            </a>
+            <div class="hidden md:flex items-center gap-8 text-sm">
+                <a href="#products" class="text-ink-300 hover:text-white transition">Products</a>
+                <a href="#services" class="text-ink-300 hover:text-white transition">Services</a>
+                <a href="#team" class="text-ink-300 hover:text-white transition">Team</a>
+                <a href="https://blog.syalia.com" class="text-ink-300 hover:text-white transition">Blog</a>
+            </div>
+            <div class="flex items-center gap-3">
+                <button id="lang-toggle" class="text-xs font-medium px-3 py-1.5 rounded-full border border-white/10 hover:border-white/30 transition">EN&nbsp;/&nbsp;ES</button>
+                <button id="theme-toggle" class="w-9 h-9 rounded-full border border-white/10 hover:border-white/30 transition flex items-center justify-center">
+                    <span class="material-icons text-base" id="theme-icon">light_mode</span>
+                </button>
+                <a href="#contact" class="hidden md:inline-flex items-center gap-1.5 text-sm font-semibold text-ink-950 bg-accent-400 hover:bg-accent-300 px-4 py-2 rounded-full transition">
+                    Talk to us
+                    <span class="material-icons text-sm">arrow_outward</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="relative overflow-hidden noise">
+        <div class="mesh">
+            <div class="blob w-[640px] h-[640px] -top-40 -left-40 animate-drift" style="background:#5281a3"></div>
+            <div class="blob w-[520px] h-[520px] top-20 right-0 animate-drift2" style="background:#3e72ad"></div>
+            <div class="blob w-[480px] h-[480px] bottom-0 left-1/3 animate-drift" style="background:#f59e0b; opacity:.55"></div>
+        </div>
+        <div class="absolute inset-0 grid-bg"></div>
+
+        <div class="relative max-w-7xl mx-auto px-6 lg:px-10 pt-28 pb-32 lg:pt-40 lg:pb-44">
+            <div class="flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-ink-300 mb-8 reveal">
+                <span class="w-8 h-px bg-accent-400"></span>
+                A Cuban AI lab — building the next decade
+            </div>
+            <h1 class="display font-bold leading-[0.95] reveal">
+                <span class="block text-5xl sm:text-7xl lg:text-8xl">We don't sell</span>
+                <span class="block text-5xl sm:text-7xl lg:text-8xl">
+                    <span class="bg-gradient-to-r from-syalia-300 via-white to-accent-300 bg-clip-text text-transparent">artificial intelligence.</span>
+                </span>
+                <span class="block text-5xl sm:text-7xl lg:text-8xl mt-2 text-ink-200">We build it.</span>
+            </h1>
+            <p class="mt-10 max-w-2xl text-lg sm:text-xl text-ink-300 leading-relaxed reveal">
+                A research-driven studio shipping production AI products across voice, vision, language, and data — for the companies that need to move first.
+            </p>
+            <div class="mt-12 flex flex-wrap items-center gap-4 reveal">
+                <a href="#products" class="group inline-flex items-center gap-2 bg-white text-ink-950 font-semibold px-6 py-3.5 rounded-full hover:bg-accent-300 transition">
+                    See the product suite
+                    <span class="material-icons text-base group-hover:translate-x-0.5 transition">arrow_forward</span>
+                </a>
+                <a href="#contact" class="inline-flex items-center gap-2 text-ink-100 font-semibold px-6 py-3.5 rounded-full border border-white/15 hover:border-white/40 transition backdrop-blur">
+                    Start a conversation
+                </a>
+            </div>
+
+            <!-- meta strip -->
+            <div class="mt-24 grid grid-cols-2 sm:grid-cols-4 gap-y-8 gap-x-8 text-sm reveal">
+                <div>
+                    <div class="display text-3xl font-bold text-white">6</div>
+                    <div class="text-ink-300 mt-1">Production AI products</div>
+                </div>
+                <div>
+                    <div class="display text-3xl font-bold text-white">2018</div>
+                    <div class="text-ink-300 mt-1">Founded in Havana</div>
+                </div>
+                <div>
+                    <div class="display text-3xl font-bold text-white">12+</div>
+                    <div class="text-ink-300 mt-1">Researchers & engineers</div>
+                </div>
+                <div>
+                    <div class="display text-3xl font-bold text-white">∞</div>
+                    <div class="text-ink-300 mt-1">Curiosity</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- bottom fade -->
+        <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-ink-950 pointer-events-none"></div>
+    </header>
+
+    <!-- TRUST STRIP / clients marquee -->
+    <section class="relative py-12 border-y border-white/5">
+        <p class="text-center text-xs uppercase tracking-[0.3em] text-ink-400 mb-8">Trusted by teams across</p>
+        <div class="marquee-mask overflow-hidden">
+            <div class="marquee-track items-center opacity-70">
+                <span class="display text-2xl text-ink-300">Universities</span>
+                <span class="display text-2xl text-ink-300">Newsrooms</span>
+                <span class="display text-2xl text-ink-300">Healthcare</span>
+                <span class="display text-2xl text-ink-300">Government</span>
+                <span class="display text-2xl text-ink-300">Publishers</span>
+                <span class="display text-2xl text-ink-300">Startups</span>
+                <span class="display text-2xl text-ink-300">Universities</span>
+                <span class="display text-2xl text-ink-300">Newsrooms</span>
+                <span class="display text-2xl text-ink-300">Healthcare</span>
+                <span class="display text-2xl text-ink-300">Government</span>
+                <span class="display text-2xl text-ink-300">Publishers</span>
+                <span class="display text-2xl text-ink-300">Startups</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="products" class="relative py-32">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10">
+            <div class="flex items-end justify-between flex-wrap gap-6 mb-16 reveal">
+                <div>
+                    <div class="flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-accent-400 mb-4">
+                        <span class="w-8 h-px bg-accent-400"></span>
+                        The Suite
+                    </div>
+                    <h2 class="display text-4xl sm:text-6xl font-bold leading-[1.0]">Six products. <br/><span class="text-ink-300">One research engine.</span></h2>
+                </div>
+                <p class="max-w-md text-lg text-ink-300 leading-relaxed">
+                    Each product is a self-contained tool, but they share the same models, infrastructure, and obsession with shipping.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Superbot -->
+                <a href="/superbot" class="card group p-8 flex flex-col min-h-[320px]" style="--c:#10b981; view-transition-name: card-superbot;">
+                    <div class="glow"></div>
+                    <div class="relative flex items-start justify-between">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                            <span class="material-icons">chat_bubble_outline</span>
+                        </div>
+                        <span class="text-xs font-mono text-ink-400 group-hover:text-ink-200 transition">01</span>
+                    </div>
+                    <h3 class="display text-3xl font-bold mt-8">Superbot</h3>
+                    <p class="baseline text-sm text-ink-300 mt-2">Enterprise AI assistants</p>
+                    <p class="peek text-sm text-ink-200 mt-4 leading-relaxed">
+                        Multilingual, context-aware conversation engines. Drop into any product, fine-tuned to your domain, integrable with your stack.
+                    </p>
+                    <div class="mt-auto pt-8 flex items-center justify-between text-sm font-semibold">
+                        <span class="text-emerald-400">Explore →</span>
+                        <span class="text-ink-400 font-mono text-xs">conversation</span>
+                    </div>
+                </a>
+
+                <!-- VoxPopuli -->
+                <a href="/voxpopuli" class="card group p-8 flex flex-col min-h-[320px]" style="--c:#8b5cf6; view-transition-name: card-voxpopuli;">
+                    <div class="glow"></div>
+                    <div class="relative flex items-start justify-between">
+                        <div class="w-12 h-12 rounded-xl bg-violet-500/15 border border-violet-500/30 flex items-center justify-center text-violet-400">
+                            <span class="material-icons">insights</span>
+                        </div>
+                        <span class="text-xs font-mono text-ink-400 group-hover:text-ink-200 transition">02</span>
+                    </div>
+                    <h3 class="display text-3xl font-bold mt-8">VoxPopuli</h3>
+                    <p class="baseline text-sm text-ink-300 mt-2">Qualitative → quantitative</p>
+                    <p class="peek text-sm text-ink-200 mt-4 leading-relaxed">
+                        AI-assisted survey design and analysis. Turn open-ended responses into clean insights without losing nuance.
+                    </p>
+                    <div class="mt-auto pt-8 flex items-center justify-between text-sm font-semibold">
+                        <span class="text-violet-400">Explore →</span>
+                        <span class="text-ink-400 font-mono text-xs">research</span>
+                    </div>
+                </a>
+
+                <!-- Clipper -->
+                <a href="/clipper" class="card group p-8 flex flex-col min-h-[320px]" style="--c:#14b8a6; view-transition-name: card-clipper;">
+                    <div class="glow"></div>
+                    <div class="relative flex items-start justify-between">
+                        <div class="w-12 h-12 rounded-xl bg-teal-500/15 border border-teal-500/30 flex items-center justify-center text-teal-400">
+                            <span class="material-icons">image_search</span>
+                        </div>
+                        <span class="text-xs font-mono text-ink-400 group-hover:text-ink-200 transition">03</span>
+                    </div>
+                    <h3 class="display text-3xl font-bold mt-8">Clipper</h3>
+                    <p class="baseline text-sm text-ink-300 mt-2">Semantic image search</p>
+                    <p class="peek text-sm text-ink-200 mt-4 leading-relaxed">
+                        Find visual assets by what they show, not what they're tagged. Plain-language search across your media library.
+                    </p>
+                    <div class="mt-auto pt-8 flex items-center justify-between text-sm font-semibold">
+                        <span class="text-teal-400">Explore →</span>
+                        <span class="text-ink-400 font-mono text-xs">vision</span>
+                    </div>
+                </a>
+
+                <!-- Beaver -->
+                <a href="/beaver" class="card group p-8 flex flex-col min-h-[320px]" style="--c:#f97316; view-transition-name: card-beaver;">
+                    <div class="glow"></div>
+                    <div class="relative flex items-start justify-between">
+                        <div class="w-12 h-12 rounded-xl bg-orange-500/15 border border-orange-500/30 flex items-center justify-center text-orange-400">
+                            <span class="material-icons">dns</span>
+                        </div>
+                        <span class="text-xs font-mono text-ink-400 group-hover:text-ink-200 transition">04</span>
+                    </div>
+                    <h3 class="display text-3xl font-bold mt-8">Beaver</h3>
+                    <p class="baseline text-sm text-ink-300 mt-2">Local-first AI database</p>
+                    <p class="peek text-sm text-ink-200 mt-4 leading-relaxed">
+                        Embedded database for relational, document, vector, graph, and event data. SQLite-fast. AI-native. Single file.
+                    </p>
+                    <div class="mt-auto pt-8 flex items-center justify-between text-sm font-semibold">
+                        <span class="text-orange-400">Explore →</span>
+                        <span class="text-ink-400 font-mono text-xs">data</span>
+                    </div>
+                </a>
+
+                <!-- Resona -->
+                <a href="/resona" class="card group p-8 flex flex-col min-h-[320px]" style="--c:#84cc16; view-transition-name: card-resona;">
+                    <div class="glow"></div>
+                    <div class="relative flex items-start justify-between">
+                        <div class="w-12 h-12 rounded-xl bg-lime-500/15 border border-lime-500/30 flex items-center justify-center text-lime-400">
+                            <span class="material-icons">graphic_eq</span>
+                        </div>
+                        <span class="text-xs font-mono text-ink-400 group-hover:text-ink-200 transition">05</span>
+                    </div>
+                    <h3 class="display text-3xl font-bold mt-8">Resona</h3>
+                    <p class="baseline text-sm text-ink-300 mt-2">Voice synthesis engine</p>
+                    <p class="peek text-sm text-ink-200 mt-4 leading-relaxed">
+                        Human-level precision for automated audio production, TTS, and synthetic voices. The engine behind Parlantia.
+                    </p>
+                    <div class="mt-auto pt-8 flex items-center justify-between text-sm font-semibold">
+                        <span class="text-lime-400">Explore →</span>
+                        <span class="text-ink-400 font-mono text-xs">audio</span>
+                    </div>
+                </a>
+
+                <!-- Parlantia -->
+                <a href="/parlantia" class="card group p-8 flex flex-col min-h-[320px]" style="--c:#fb923c; view-transition-name: card-parlantia;">
+                    <div class="glow"></div>
+                    <div class="relative flex items-start justify-between">
+                        <div class="w-12 h-12 rounded-xl bg-orange-400/15 border border-orange-400/30 flex items-center justify-center text-orange-300">
+                            <span class="material-icons">menu_book</span>
+                        </div>
+                        <span class="text-xs font-mono text-ink-400 group-hover:text-ink-200 transition">06</span>
+                    </div>
+                    <h3 class="display text-3xl font-bold mt-8">Parlantia</h3>
+                    <p class="baseline text-sm text-ink-300 mt-2">Letters turned to voice</p>
+                    <p class="peek text-sm text-ink-200 mt-4 leading-relaxed">
+                        An ever-growing catalog of AI-produced audiobooks and podcasts. Hear the world's text, narrated.
+                    </p>
+                    <div class="mt-auto pt-8 flex items-center justify-between text-sm font-semibold">
+                        <span class="text-orange-300">Explore →</span>
+                        <span class="text-ink-400 font-mono text-xs">media</span>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="relative py-32 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10">
+            <div class="mb-20 reveal">
+                <div class="flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-accent-400 mb-4">
+                    <span class="w-8 h-px bg-accent-400"></span>
+                    Services
+                </div>
+                <h2 class="display text-4xl sm:text-6xl font-bold leading-[1.0] max-w-3xl">
+                    Don't see your problem in a product? <span class="text-ink-300">We'll build it.</span>
+                </h2>
+            </div>
+
+            <div class="space-y-px">
+                <!-- service row -->
+                <div class="reveal grid grid-cols-1 md:grid-cols-12 gap-6 py-10 border-t border-white/10">
+                    <div class="md:col-span-2"><span class="display text-5xl font-bold text-ink-500">01</span></div>
+                    <div class="md:col-span-5">
+                        <h3 class="display text-2xl sm:text-3xl font-bold">AI & ML integration</h3>
+                    </div>
+                    <p class="md:col-span-5 text-ink-300 leading-relaxed">
+                        Custom solutions on state-of-the-art foundations. Fine-tune pretrained models or build from scratch on your data — vision, language, audio, multimodal.
+                    </p>
+                </div>
+                <div class="reveal grid grid-cols-1 md:grid-cols-12 gap-6 py-10 border-t border-white/10">
+                    <div class="md:col-span-2"><span class="display text-5xl font-bold text-ink-500">02</span></div>
+                    <div class="md:col-span-5">
+                        <h3 class="display text-2xl sm:text-3xl font-bold">Business intelligence platform</h3>
+                    </div>
+                    <p class="md:col-span-5 text-ink-300 leading-relaxed">
+                        Connect your data sources and unlock recommendations, churn prediction, market insight, and forecasting through a unified interface.
+                    </p>
+                </div>
+                <div class="reveal grid grid-cols-1 md:grid-cols-12 gap-6 py-10 border-t border-white/10 border-b">
+                    <div class="md:col-span-2"><span class="display text-5xl font-bold text-ink-500">03</span></div>
+                    <div class="md:col-span-5">
+                        <h3 class="display text-2xl sm:text-3xl font-bold">Data engineering & dashboards</h3>
+                    </div>
+                    <p class="md:col-span-5 text-ink-300 leading-relaxed">
+                        Organization-wide data lakes, custom dashboards, analytic tools that make your business legible — and decisions easier.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM teaser -->
+    <section id="team" class="relative py-32 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-end">
+                <div class="md:col-span-7 reveal">
+                    <div class="flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-accent-400 mb-4">
+                        <span class="w-8 h-px bg-accent-400"></span>
+                        The Team
+                    </div>
+                    <h2 class="display text-4xl sm:text-6xl font-bold leading-[1.0]">
+                        Researchers, engineers, <br/><span class="text-ink-300">and a deep love of the work.</span>
+                    </h2>
+                </div>
+                <div class="md:col-span-5 reveal">
+                    <p class="text-lg text-ink-300 leading-relaxed">
+                        Founded in Havana in 2018 by a team of computer-science professors and ML researchers, SYALIA has grown into a multidisciplinary studio shipping AI products to clients in Cuba, Latin America, and Europe.
+                    </p>
+                    <a href="#" class="mt-6 inline-flex items-center gap-2 text-accent-400 font-semibold hover:gap-3 transition-all">
+                        Meet the team <span class="material-icons text-base">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="relative py-32 border-t border-white/5">
+        <div class="max-w-5xl mx-auto px-6 lg:px-10 text-center reveal">
+            <div class="flex items-center justify-center gap-2 text-xs uppercase tracking-[0.25em] text-accent-400 mb-6">
+                <span class="w-8 h-px bg-accent-400"></span>
+                Let's build
+                <span class="w-8 h-px bg-accent-400"></span>
+            </div>
+            <h2 class="display text-4xl sm:text-7xl font-bold leading-[0.95]">
+                Got an AI problem <br/>worth solving?
+            </h2>
+            <p class="mt-8 text-lg text-ink-300 max-w-2xl mx-auto">
+                Tell us what you're trying to do. We'll tell you whether we can help, what it would take, and what it would cost — usually within a week.
+            </p>
+            <div class="mt-12 flex flex-wrap items-center justify-center gap-4">
+                <a href="mailto:hello@syalia.com" class="inline-flex items-center gap-2 bg-accent-400 hover:bg-accent-300 text-ink-950 font-semibold px-8 py-4 rounded-full transition">
+                    hello@syalia.com
+                    <span class="material-icons text-base">arrow_outward</span>
+                </a>
+                <a href="https://blog.syalia.com" class="inline-flex items-center gap-2 text-ink-100 font-semibold px-8 py-4 rounded-full border border-white/15 hover:border-white/40 transition">
+                    Read the blog
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-white/5 py-12">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10 flex flex-wrap items-center justify-between gap-6 text-sm text-ink-400">
+            <div class="flex items-center gap-3">
+                <div class="w-7 h-7 rounded-md bg-gradient-to-br from-syalia-400 to-syalia-700 flex items-center justify-center">
+                    <span class="display font-bold text-white text-sm">S</span>
+                </div>
+                <span class="display font-semibold text-ink-200">SYALIA</span>
+                <span class="text-ink-500">© 2026</span>
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="#" class="hover:text-white">Twitter</a>
+                <a href="#" class="hover:text-white">LinkedIn</a>
+                <a href="#" class="hover:text-white">GitHub</a>
+                <a href="https://blog.syalia.com" class="hover:text-white">Blog</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggle
+        const themeBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const setTheme = (mode) => {
+            document.documentElement.classList.toggle('dark', mode === 'dark');
+            themeIcon.textContent = mode === 'dark' ? 'light_mode' : 'dark_mode';
+        };
+        setTheme('dark');
+        themeBtn.addEventListener('click', () => {
+            const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+            setTheme(next);
+        });
+
+        // Reveal-on-scroll
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach((e) => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('in');
+                    io.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.12 });
+        document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+    </script>
+
+</body>
+</html>
