@@ -46,15 +46,15 @@
                 <span class="display font-semibold tracking-tight text-lg">SYALIA</span>
             </a>
             <div class="hidden md:flex items-center gap-8 text-sm">
-                <a href="#products" class="text-ink-300 hover:text-white transition">Products</a>
-                <a href="#services" class="text-ink-300 hover:text-white transition">Services</a>
-                <a href="/team/" class="text-ink-300 hover:text-white transition">Team</a>
-                <a href="https://blog.syalia.com" class="text-ink-300 hover:text-white transition">Blog</a>
+                <a href="#products" class="text-ink-300 hover:text-white transition" data-i18n data-en="Products" data-es="Productos">Products</a>
+                <a href="#services" class="text-ink-300 hover:text-white transition" data-i18n data-en="Services" data-es="Servicios">Services</a>
+                <a href="/team/" class="text-ink-300 hover:text-white transition" data-i18n data-en="Team" data-es="Equipo">Team</a>
+                <a href="https://blog.syalia.com" class="text-ink-300 hover:text-white transition" data-i18n data-en="Blog" data-es="Blog">Blog</a>
             </div>
             <div class="flex items-center gap-3">
                 <button id="lang-toggle" class="text-xs font-medium px-3 py-1.5 rounded-full border border-white/10 hover:border-white/30 transition">EN&nbsp;/&nbsp;ES</button>
                 <a href="#contact" class="hidden md:inline-flex items-center gap-1.5 text-sm font-semibold text-ink-950 bg-accent-400 hover:bg-accent-300 px-4 py-2 rounded-full transition">
-                    Talk to us
+                    <span data-i18n data-en="Talk to us" data-es="Hablemos">Talk to us</span>
                     <span class="material-icons text-sm">arrow_outward</span>
                 </a>
                 <!-- Mobile burger button (right side of nav controls cluster on mobile only) -->
@@ -74,13 +74,13 @@
                         <span class="material-icons text-base">close</span>
                     </button>
                 </div>
-                <a href="#products" class="text-ink-200 hover:text-white text-lg py-2 border-b border-white/5">Products</a>
-                <a href="#services" class="text-ink-200 hover:text-white text-lg py-2 border-b border-white/5">Services</a>
-                <a href="/team/" class="text-ink-200 hover:text-white text-lg py-2 border-b border-white/5">Team</a>
-                <a href="https://blog.syalia.com" class="text-ink-200 hover:text-white text-lg py-2 border-b border-white/5">Blog</a>
+                <a href="#products" class="text-ink-200 hover:text-white text-lg py-2 border-b border-white/5" data-i18n data-en="Products" data-es="Productos">Products</a>
+                <a href="#services" class="text-ink-200 hover:text-white text-lg py-2 border-b border-white/5" data-i18n data-en="Services" data-es="Servicios">Services</a>
+                <a href="/team/" class="text-ink-200 hover:text-white text-lg py-2 border-b border-white/5" data-i18n data-en="Team" data-es="Equipo">Team</a>
+                <a href="https://blog.syalia.com" class="text-ink-200 hover:text-white text-lg py-2 border-b border-white/5" data-i18n data-en="Blog" data-es="Blog">Blog</a>
                 <button id="lang-toggle-mobile" class="text-left text-ink-300 hover:text-white text-base py-2 mt-4">EN  /  ES</button>
                 <a href="#contact" class="mt-4 inline-flex items-center justify-center gap-1.5 text-sm font-semibold text-ink-950 bg-accent-400 hover:bg-accent-300 px-4 py-3 rounded-full transition">
-                    Talk to us
+                    <span data-i18n data-en="Talk to us" data-es="Hablemos">Talk to us</span>
                     <span class="material-icons text-sm">arrow_outward</span>
                 </a>
             </div>
@@ -99,24 +99,31 @@
         <div class="relative max-w-7xl mx-auto px-6 lg:px-10 pt-28 pb-32 lg:pt-40 lg:pb-44">
             <div class="flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-ink-300 mb-8 reveal">
                 <span class="w-8 h-px bg-accent-400"></span>
-                A Cuban AI lab — building the next decade
+                <span data-i18n data-en="A Cuban AI lab — building the next decade" data-es="Un laboratorio cubano de IA — construyendo la próxima década">A Cuban AI lab — building the next decade</span>
             </div>
-            <h1 class="display font-bold leading-[0.95] reveal">
+            <h1 class="display font-bold leading-[0.95] reveal"
+                data-i18n
+                data-en-html='<span class="block text-5xl sm:text-7xl lg:text-8xl">We don&#39;t sell</span><span class="block text-5xl sm:text-7xl lg:text-8xl"><span class="bg-gradient-to-r from-syalia-300 via-white to-accent-300 bg-clip-text text-transparent">artificial intelligence.</span></span><span class="block text-5xl sm:text-7xl lg:text-8xl mt-2 text-ink-200">We build it.</span>'
+                data-es-html='<span class="block text-5xl sm:text-7xl lg:text-8xl">No vendemos</span><span class="block text-5xl sm:text-7xl lg:text-8xl"><span class="bg-gradient-to-r from-syalia-300 via-white to-accent-300 bg-clip-text text-transparent">inteligencia artificial.</span></span><span class="block text-5xl sm:text-7xl lg:text-8xl mt-2 text-ink-200">La construimos.</span>'>
                 <span class="block text-5xl sm:text-7xl lg:text-8xl">We don't sell</span>
                 <span class="block text-5xl sm:text-7xl lg:text-8xl">
                     <span class="bg-gradient-to-r from-syalia-300 via-white to-accent-300 bg-clip-text text-transparent">artificial intelligence.</span>
                 </span>
                 <span class="block text-5xl sm:text-7xl lg:text-8xl mt-2 text-ink-200">We build it.</span>
             </h1>
-            <p class="mt-10 max-w-2xl text-lg sm:text-xl text-ink-300 leading-relaxed reveal">
+            <p class="mt-10 max-w-2xl text-lg sm:text-xl text-ink-300 leading-relaxed reveal"
+               data-i18n
+               data-en="A research-driven studio shipping production AI products across voice, vision, language, and data — for the companies that need to move first."
+               data-es="Un estudio impulsado por la investigación que produce productos de IA en voz, visión, lenguaje y datos — para las empresas que necesitan moverse primero.">
                 A research-driven studio shipping production AI products across voice, vision, language, and data — for the companies that need to move first.
             </p>
             <div class="mt-12 flex flex-wrap items-center gap-4 reveal">
                 <a href="#products" class="group inline-flex items-center gap-2 bg-white text-ink-950 font-semibold px-6 py-3.5 rounded-full hover:bg-accent-300 transition">
-                    See the product suite
+                    <span data-i18n data-en="See the product suite" data-es="Ver la suite">See the product suite</span>
                     <span class="material-icons text-base group-hover:translate-x-0.5 transition">arrow_forward</span>
                 </a>
-                <a href="#contact" class="inline-flex items-center gap-2 text-ink-100 font-semibold px-6 py-3.5 rounded-full border border-white/15 hover:border-white/40 transition backdrop-blur">
+                <a href="#contact" class="inline-flex items-center gap-2 text-ink-100 font-semibold px-6 py-3.5 rounded-full border border-white/15 hover:border-white/40 transition backdrop-blur"
+                   data-i18n data-en="Start a conversation" data-es="Iniciar conversación">
                     Start a conversation
                 </a>
             </div>
@@ -125,19 +132,19 @@
             <div class="mt-24 grid grid-cols-2 sm:grid-cols-4 gap-y-8 gap-x-8 text-sm reveal">
                 <div>
                     <div class="display text-3xl font-bold text-white">6</div>
-                    <div class="text-ink-300 mt-1">Production AI products</div>
+                    <div class="text-ink-300 mt-1" data-i18n data-en="Production AI products" data-es="Productos de IA en producción">Production AI products</div>
                 </div>
                 <div>
                     <div class="display text-3xl font-bold text-white">2018</div>
-                    <div class="text-ink-300 mt-1">Founded in Havana</div>
+                    <div class="text-ink-300 mt-1" data-i18n data-en="Founded in Havana" data-es="Fundada en La Habana">Founded in Havana</div>
                 </div>
                 <div>
                     <div class="display text-3xl font-bold text-white">12+</div>
-                    <div class="text-ink-300 mt-1">Researchers & engineers</div>
+                    <div class="text-ink-300 mt-1" data-i18n data-en="Researchers &amp; engineers" data-es="Investigadores e ingenieros">Researchers &amp; engineers</div>
                 </div>
                 <div>
                     <div class="display text-3xl font-bold text-white">∞</div>
-                    <div class="text-ink-300 mt-1">Curiosity</div>
+                    <div class="text-ink-300 mt-1" data-i18n data-en="Curiosity" data-es="Curiosidad">Curiosity</div>
                 </div>
             </div>
         </div>
@@ -148,7 +155,7 @@
 
     <!-- TRUST STRIP -->
     <section class="relative py-12 border-y border-white/5">
-        <p class="text-center text-xs uppercase tracking-[0.3em] text-ink-400 mb-8">Working with</p>
+        <p class="text-center text-xs uppercase tracking-[0.3em] text-ink-400 mb-8" data-i18n data-en="Working with" data-es="Colaboramos con">Working with</p>
         <div class="marquee-mask overflow-hidden">
             <div class="marquee-track opacity-90">
                 <!-- First copy -->
@@ -182,11 +189,17 @@
                 <div>
                     <div class="flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-accent-400 mb-4">
                         <span class="w-8 h-px bg-accent-400"></span>
-                        The Suite
+                        <span data-i18n data-en="The Suite" data-es="La Suite">The Suite</span>
                     </div>
-                    <h2 class="display text-4xl sm:text-6xl font-bold leading-[1.0]">Six products. <br/><span class="text-ink-300">One research engine.</span></h2>
+                    <h2 class="display text-4xl sm:text-6xl font-bold leading-[1.0]"
+                        data-i18n
+                        data-en-html='Six products. <br/><span class="text-ink-300">One research engine.</span>'
+                        data-es-html='Seis productos. <br/><span class="text-ink-300">Un solo motor de investigación.</span>'>Six products. <br/><span class="text-ink-300">One research engine.</span></h2>
                 </div>
-                <p class="max-w-md text-lg text-ink-300 leading-relaxed">
+                <p class="max-w-md text-lg text-ink-300 leading-relaxed"
+                   data-i18n
+                   data-en="Each product is a self-contained tool, but they share the same models, infrastructure, and obsession with shipping."
+                   data-es="Cada producto es una herramienta independiente, pero comparten modelos, infraestructura, y la misma obsesión por entregar.">
                     Each product is a self-contained tool, but they share the same models, infrastructure, and obsession with shipping.
                 </p>
             </div>
@@ -203,12 +216,15 @@
                         <span class="text-xs font-mono text-ink-400 group-hover:text-ink-200 transition">01</span>
                     </div>
                     <h3 class="display text-3xl font-bold mt-8" style="view-transition-name: card-superbot;">Superbot</h3>
-                    <p class="baseline text-sm text-ink-300 mt-2">Enterprise AI assistants</p>
-                    <p class="peek text-sm text-ink-200 mt-4 leading-relaxed">
+                    <p class="baseline text-sm text-ink-300 mt-2" data-i18n data-en="Enterprise AI assistants" data-es="Asistentes de IA empresariales">Enterprise AI assistants</p>
+                    <p class="peek text-sm text-ink-200 mt-4 leading-relaxed"
+                       data-i18n
+                       data-en="Multilingual, context-aware conversation engines. Drop into any product, fine-tuned to your domain, integrable with your stack."
+                       data-es="Motores de conversación multilingües y conscientes del contexto. Se integran en cualquier producto, ajustados a tu dominio, conectables a tu stack.">
                         Multilingual, context-aware conversation engines. Drop into any product, fine-tuned to your domain, integrable with your stack.
                     </p>
                     <div class="mt-auto pt-8 flex items-center justify-between text-sm font-semibold">
-                        <span class="text-emerald-400">Explore →</span>
+                        <span class="text-emerald-400" data-i18n data-en="Explore →" data-es="Explorar →">Explore →</span>
                         <span class="text-ink-400 font-mono text-xs">conversation</span>
                     </div>
                 </a>
@@ -223,12 +239,15 @@
                         <span class="text-xs font-mono text-ink-400 group-hover:text-ink-200 transition">02</span>
                     </div>
                     <h3 class="display text-3xl font-bold mt-8" style="view-transition-name: card-voxpopuli;">VoxPopuli</h3>
-                    <p class="baseline text-sm text-ink-300 mt-2">Qualitative → quantitative</p>
-                    <p class="peek text-sm text-ink-200 mt-4 leading-relaxed">
+                    <p class="baseline text-sm text-ink-300 mt-2" data-i18n data-en="Qualitative → quantitative" data-es="Cualitativo → cuantitativo">Qualitative → quantitative</p>
+                    <p class="peek text-sm text-ink-200 mt-4 leading-relaxed"
+                       data-i18n
+                       data-en="AI-assisted survey design and analysis. Turn open-ended responses into clean insights without losing nuance."
+                       data-es="Diseño y análisis de encuestas asistido por IA. Convierte respuestas abiertas en insights claros sin perder matices.">
                         AI-assisted survey design and analysis. Turn open-ended responses into clean insights without losing nuance.
                     </p>
                     <div class="mt-auto pt-8 flex items-center justify-between text-sm font-semibold">
-                        <span class="text-violet-400">Explore →</span>
+                        <span class="text-violet-400" data-i18n data-en="Explore →" data-es="Explorar →">Explore →</span>
                         <span class="text-ink-400 font-mono text-xs">research</span>
                     </div>
                 </a>
@@ -243,12 +262,15 @@
                         <span class="text-xs font-mono text-ink-400 group-hover:text-ink-200 transition">03</span>
                     </div>
                     <h3 class="display text-3xl font-bold mt-8" style="view-transition-name: card-clipper;">Clipper</h3>
-                    <p class="baseline text-sm text-ink-300 mt-2">Semantic image search</p>
-                    <p class="peek text-sm text-ink-200 mt-4 leading-relaxed">
+                    <p class="baseline text-sm text-ink-300 mt-2" data-i18n data-en="Semantic image search" data-es="Búsqueda semántica de imágenes">Semantic image search</p>
+                    <p class="peek text-sm text-ink-200 mt-4 leading-relaxed"
+                       data-i18n
+                       data-en="Find visual assets by what they show, not what they're tagged. Plain-language search across your media library."
+                       data-es="Encuentra imágenes por lo que muestran, no por sus etiquetas. Búsqueda en lenguaje natural sobre tu biblioteca multimedia.">
                         Find visual assets by what they show, not what they're tagged. Plain-language search across your media library.
                     </p>
                     <div class="mt-auto pt-8 flex items-center justify-between text-sm font-semibold">
-                        <span class="text-teal-400">Explore →</span>
+                        <span class="text-teal-400" data-i18n data-en="Explore →" data-es="Explorar →">Explore →</span>
                         <span class="text-ink-400 font-mono text-xs">vision</span>
                     </div>
                 </a>
@@ -263,12 +285,15 @@
                         <span class="text-xs font-mono text-ink-400 group-hover:text-ink-200 transition">04</span>
                     </div>
                     <h3 class="display text-3xl font-bold mt-8" style="view-transition-name: card-beaver;">Beaver</h3>
-                    <p class="baseline text-sm text-ink-300 mt-2">Local-first AI database</p>
-                    <p class="peek text-sm text-ink-200 mt-4 leading-relaxed">
+                    <p class="baseline text-sm text-ink-300 mt-2" data-i18n data-en="Local-first AI database" data-es="Base de datos local-first">Local-first AI database</p>
+                    <p class="peek text-sm text-ink-200 mt-4 leading-relaxed"
+                       data-i18n
+                       data-en="Embedded database for relational, document, vector, graph, and event data. SQLite-fast. AI-native. Single file."
+                       data-es="Base embebida para datos relacionales, documentales, vectoriales, de grafo y de eventos. Tan rápida como SQLite. AI-nativa. Un solo archivo.">
                         Embedded database for relational, document, vector, graph, and event data. SQLite-fast. AI-native. Single file.
                     </p>
                     <div class="mt-auto pt-8 flex items-center justify-between text-sm font-semibold">
-                        <span class="text-orange-400">Explore →</span>
+                        <span class="text-orange-400" data-i18n data-en="Explore →" data-es="Explorar →">Explore →</span>
                         <span class="text-ink-400 font-mono text-xs">data</span>
                     </div>
                 </a>
@@ -283,12 +308,15 @@
                         <span class="text-xs font-mono text-ink-400 group-hover:text-ink-200 transition">05</span>
                     </div>
                     <h3 class="display text-3xl font-bold mt-8" style="view-transition-name: card-resona;">Resona</h3>
-                    <p class="baseline text-sm text-ink-300 mt-2">Voice synthesis engine</p>
-                    <p class="peek text-sm text-ink-200 mt-4 leading-relaxed">
+                    <p class="baseline text-sm text-ink-300 mt-2" data-i18n data-en="Voice synthesis engine" data-es="Motor de síntesis de voz">Voice synthesis engine</p>
+                    <p class="peek text-sm text-ink-200 mt-4 leading-relaxed"
+                       data-i18n
+                       data-en="Human-level precision for automated audio production, TTS, and synthetic voices. The engine behind Parlantia."
+                       data-es="Precisión a nivel humano para producción automatizada de audio, TTS y voces sintéticas. El motor detrás de Parlantia.">
                         Human-level precision for automated audio production, TTS, and synthetic voices. The engine behind Parlantia.
                     </p>
                     <div class="mt-auto pt-8 flex items-center justify-between text-sm font-semibold">
-                        <span class="text-lime-400">Explore →</span>
+                        <span class="text-lime-400" data-i18n data-en="Explore →" data-es="Explorar →">Explore →</span>
                         <span class="text-ink-400 font-mono text-xs">audio</span>
                     </div>
                 </a>
@@ -303,12 +331,15 @@
                         <span class="text-xs font-mono text-ink-400 group-hover:text-ink-200 transition">06</span>
                     </div>
                     <h3 class="display text-3xl font-bold mt-8" style="view-transition-name: card-parlantia;">Parlantia</h3>
-                    <p class="baseline text-sm text-ink-300 mt-2">Letters turned to voice</p>
-                    <p class="peek text-sm text-ink-200 mt-4 leading-relaxed">
+                    <p class="baseline text-sm text-ink-300 mt-2" data-i18n data-en="Letters turned to voice" data-es="Las letras hechas voz">Letters turned to voice</p>
+                    <p class="peek text-sm text-ink-200 mt-4 leading-relaxed"
+                       data-i18n
+                       data-en="An ever-growing catalog of AI-produced audiobooks and podcasts. Hear the world's text, narrated."
+                       data-es="Un catálogo en expansión de audiolibros y podcasts producidos con IA. Escucha el texto del mundo, narrado.">
                         An ever-growing catalog of AI-produced audiobooks and podcasts. Hear the world's text, narrated.
                     </p>
                     <div class="mt-auto pt-8 flex items-center justify-between text-sm font-semibold">
-                        <span class="text-orange-300">Explore →</span>
+                        <span class="text-orange-300" data-i18n data-en="Explore →" data-es="Explorar →">Explore →</span>
                         <span class="text-ink-400 font-mono text-xs">media</span>
                     </div>
                 </a>
@@ -323,9 +354,12 @@
             <div class="mb-20 reveal">
                 <div class="flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-accent-400 mb-4">
                     <span class="w-8 h-px bg-accent-400"></span>
-                    Services
+                    <span data-i18n data-en="Services" data-es="Servicios">Services</span>
                 </div>
-                <h2 class="display text-4xl sm:text-6xl font-bold leading-[1.0] max-w-3xl">
+                <h2 class="display text-4xl sm:text-6xl font-bold leading-[1.0] max-w-3xl"
+                    data-i18n
+                    data-en-html='Don&#39;t see your problem in a product? <span class="text-ink-300">We&#39;ll build it.</span>'
+                    data-es-html='¿No ves tu problema en un producto? <span class="text-ink-300">Lo construimos.</span>'>
                     Don't see your problem in a product? <span class="text-ink-300">We'll build it.</span>
                 </h2>
             </div>
@@ -334,27 +368,36 @@
                 <div class="reveal grid grid-cols-1 md:grid-cols-12 gap-6 py-10 border-t border-white/10">
                     <div class="md:col-span-2"><span class="display text-5xl font-bold text-ink-500">01</span></div>
                     <div class="md:col-span-5">
-                        <h3 class="display text-2xl sm:text-3xl font-bold">AI & ML integration</h3>
+                        <h3 class="display text-2xl sm:text-3xl font-bold" data-i18n data-en="AI &amp; ML integration" data-es="Integración de IA y ML">AI &amp; ML integration</h3>
                     </div>
-                    <p class="md:col-span-5 text-ink-300 leading-relaxed">
+                    <p class="md:col-span-5 text-ink-300 leading-relaxed"
+                       data-i18n
+                       data-en="Custom solutions on state-of-the-art foundations. Fine-tune pretrained models or build from scratch on your data — vision, language, audio, multimodal."
+                       data-es="Soluciones a medida sobre tecnología de punta. Ajustamos modelos preentrenados o construimos desde cero sobre tus datos — visión, lenguaje, audio, multimodal.">
                         Custom solutions on state-of-the-art foundations. Fine-tune pretrained models or build from scratch on your data — vision, language, audio, multimodal.
                     </p>
                 </div>
                 <div class="reveal grid grid-cols-1 md:grid-cols-12 gap-6 py-10 border-t border-white/10">
                     <div class="md:col-span-2"><span class="display text-5xl font-bold text-ink-500">02</span></div>
                     <div class="md:col-span-5">
-                        <h3 class="display text-2xl sm:text-3xl font-bold">Business intelligence platform</h3>
+                        <h3 class="display text-2xl sm:text-3xl font-bold" data-i18n data-en="Business intelligence platform" data-es="Plataforma de business intelligence">Business intelligence platform</h3>
                     </div>
-                    <p class="md:col-span-5 text-ink-300 leading-relaxed">
+                    <p class="md:col-span-5 text-ink-300 leading-relaxed"
+                       data-i18n
+                       data-en="Connect your data sources and unlock recommendations, churn prediction, market insight, and forecasting through a unified interface."
+                       data-es="Conecta tus fuentes de datos y desbloquea recomendaciones, predicción de bajas, market insight, y pronósticos en una sola interfaz.">
                         Connect your data sources and unlock recommendations, churn prediction, market insight, and forecasting through a unified interface.
                     </p>
                 </div>
                 <div class="reveal grid grid-cols-1 md:grid-cols-12 gap-6 py-10 border-t border-white/10 border-b">
                     <div class="md:col-span-2"><span class="display text-5xl font-bold text-ink-500">03</span></div>
                     <div class="md:col-span-5">
-                        <h3 class="display text-2xl sm:text-3xl font-bold">Data engineering & dashboards</h3>
+                        <h3 class="display text-2xl sm:text-3xl font-bold" data-i18n data-en="Data engineering &amp; dashboards" data-es="Ingeniería de datos y dashboards">Data engineering &amp; dashboards</h3>
                     </div>
-                    <p class="md:col-span-5 text-ink-300 leading-relaxed">
+                    <p class="md:col-span-5 text-ink-300 leading-relaxed"
+                       data-i18n
+                       data-en="Organization-wide data lakes, custom dashboards, analytic tools that make your business legible — and decisions easier."
+                       data-es="Data lakes a nivel organización, dashboards personalizados, herramientas analíticas que hacen tu negocio legible — y las decisiones más fáciles.">
                         Organization-wide data lakes, custom dashboards, analytic tools that make your business legible — and decisions easier.
                     </p>
                 </div>
@@ -369,18 +412,24 @@
                 <div class="md:col-span-7 reveal">
                     <div class="flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-accent-400 mb-4">
                         <span class="w-8 h-px bg-accent-400"></span>
-                        The Team
+                        <span data-i18n data-en="The Team" data-es="El Equipo">The Team</span>
                     </div>
-                    <h2 class="display text-4xl sm:text-6xl font-bold leading-[1.0]">
+                    <h2 class="display text-4xl sm:text-6xl font-bold leading-[1.0]"
+                        data-i18n
+                        data-en-html='Researchers, engineers, <br/><span class="text-ink-300">and a deep love of the work.</span>'
+                        data-es-html='Investigadores, ingenieros, <br/><span class="text-ink-300">y un profundo amor por el trabajo.</span>'>
                         Researchers, engineers, <br/><span class="text-ink-300">and a deep love of the work.</span>
                     </h2>
                 </div>
                 <div class="md:col-span-5 reveal">
-                    <p class="text-lg text-ink-300 leading-relaxed">
+                    <p class="text-lg text-ink-300 leading-relaxed"
+                       data-i18n
+                       data-en="Founded in Havana in 2018 by a team of computer-science professors and ML researchers, SYALIA has grown into a multidisciplinary studio shipping AI products to clients in Cuba, Latin America, and Europe."
+                       data-es="Fundada en La Habana en 2018 por un equipo de profesores de ciencias de la computación e investigadores de ML, SYALIA es hoy un estudio multidisciplinario que entrega productos de IA a clientes en Cuba, Latinoamérica y Europa.">
                         Founded in Havana in 2018 by a team of computer-science professors and ML researchers, SYALIA has grown into a multidisciplinary studio shipping AI products to clients in Cuba, Latin America, and Europe.
                     </p>
                     <a href="/team/" class="mt-6 inline-flex items-center gap-2 text-accent-400 font-semibold hover:gap-3 transition-all">
-                        Meet the team <span class="material-icons text-base">arrow_forward</span>
+                        <span data-i18n data-en="Meet the team" data-es="Conoce al equipo">Meet the team</span> <span class="material-icons text-base">arrow_forward</span>
                     </a>
                 </div>
             </div>
@@ -392,13 +441,19 @@
         <div class="max-w-5xl mx-auto px-6 lg:px-10 text-center reveal">
             <div class="flex items-center justify-center gap-2 text-xs uppercase tracking-[0.25em] text-accent-400 mb-6">
                 <span class="w-8 h-px bg-accent-400"></span>
-                Let's build
+                <span data-i18n data-en="Let's build" data-es="Construyamos">Let's build</span>
                 <span class="w-8 h-px bg-accent-400"></span>
             </div>
-            <h2 class="display text-4xl sm:text-7xl font-bold leading-[0.95]">
+            <h2 class="display text-4xl sm:text-7xl font-bold leading-[0.95]"
+                data-i18n
+                data-en-html='Got an AI problem <br/>worth solving?'
+                data-es-html='¿Tienes un problema de IA <br/>que valga la pena resolver?'>
                 Got an AI problem <br/>worth solving?
             </h2>
-            <p class="mt-8 text-lg text-ink-300 max-w-2xl mx-auto">
+            <p class="mt-8 text-lg text-ink-300 max-w-2xl mx-auto"
+               data-i18n
+               data-en="Tell us what you're trying to do. We'll tell you whether we can help, what it would take, and what it would cost — usually within a week."
+               data-es="Cuéntanos qué quieres lograr. Te diremos si podemos ayudar, qué tomaría, y cuánto costaría — usualmente en menos de una semana.">
                 Tell us what you're trying to do. We'll tell you whether we can help, what it would take, and what it would cost — usually within a week.
             </p>
             <div class="mt-12 flex flex-wrap items-center justify-center gap-4">
@@ -406,7 +461,8 @@
                     hello@syalia.com
                     <span class="material-icons text-base">arrow_outward</span>
                 </a>
-                <a href="https://blog.syalia.com" class="inline-flex items-center gap-2 text-ink-100 font-semibold px-8 py-4 rounded-full border border-white/15 hover:border-white/40 transition">
+                <a href="https://blog.syalia.com" class="inline-flex items-center gap-2 text-ink-100 font-semibold px-8 py-4 rounded-full border border-white/15 hover:border-white/40 transition"
+                   data-i18n data-en="Read the blog" data-es="Lee el blog">
                     Read the blog
                 </a>
             </div>
