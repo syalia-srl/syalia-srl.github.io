@@ -153,6 +153,18 @@ body {
   opacity: .04; mix-blend-mode: overlay;
 }
 
+/* ---------- CV page helpers ---------- */
+.cv-prose       { font-size: 1.0625rem; line-height: 1.7; color: var(--ink-200); }
+.cv-prose p + p { margin-top: 1rem; }
+
+.timeline-row     { display: grid; grid-template-columns: 7rem 1fr; gap: 1.5rem; padding: 0.875rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); align-items: baseline; }
+.timeline-row:last-child { border-bottom: 0; }
+.timeline-year    { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 0.875rem; color: var(--ink-300); letter-spacing: 0.04em; }
+
+.work-row     { display: grid; grid-template-columns: 1fr auto; gap: 1.5rem; padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); align-items: baseline; }
+.work-row:last-child { border-bottom: 0; }
+.cv-meta      { font-size: 0.875rem; color: var(--ink-400); margin-top: 0.125rem; }
+
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
